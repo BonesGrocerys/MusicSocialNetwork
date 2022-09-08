@@ -36,12 +36,18 @@ public class MusicianRepository : IMusicianRepository
         return await _context.Musicians.FindAsync(id);
     }
 
+    public async Task<int> GetSubscribersCountAsync(int musicianId)
+    {
+        //return await _context.Subscriptions.Where(s => s.MusicianId == musicianId ).Count();
+        throw new NotImplementedException();
+    }
+
     public async Task UpdateAsync(Musician musician)
     {
         var  updatedMusician = await _context.Musicians.FindAsync(musician.Id);
         if (updatedMusician is not null)
         {
-            updatedMusician.Name = musician.Name;
+            updatedMusician.Nickname = musician.Nickname;
             updatedMusician.Email = musician.Email;
         }
         await _context.SaveChangesAsync();

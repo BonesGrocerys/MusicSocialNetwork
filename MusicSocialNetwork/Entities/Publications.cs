@@ -14,6 +14,7 @@ public class Publications
     public string PublicationsPhoto { get; set; }
     public int MusicianId { get; set; }
     public Musician Musician { get; set; }
+    
 
 }
 

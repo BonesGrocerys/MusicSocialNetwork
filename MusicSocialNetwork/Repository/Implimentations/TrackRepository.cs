@@ -35,7 +35,8 @@ public class TrackRepository : ITrackRepository
 
     public async Task<IEnumerable<Track>> GetByMusicanIdAsync(int musicanId)
     {
-        return await _context.Tracks.Where(t => t.MusicianId == musicanId).ToListAsync();
+        //return await _context.Tracks.Where(t => t.MusicianId == musicanId).ToListAsync();
+        throw new NotImplementedException();
     }
 
     public async Task ListenTrackAsync(int trackId)

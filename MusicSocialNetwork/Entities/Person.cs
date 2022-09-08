@@ -11,7 +11,13 @@ public class Person
     public string Login { get; set; }
     [Column("Password")]
     public string Password { get; set; }
+    [Column("Status")]
+    public string Status { get; set; }
 
     public List<Musician> Musicians { get; set; }
+    public List<Track> Tracks { get; set; }
+    public List<Subscriptions> SubscribeMusician { get; set; }
+    public List<AddedPlaylists> MyPlaylists { get; set; }
+    public List<Album> AddedAlbums { get; set; }
 }
 
