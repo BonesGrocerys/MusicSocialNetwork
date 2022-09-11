@@ -42,6 +42,16 @@ public class MusicianRepository : IMusicianRepository
         throw new NotImplementedException();
     }
 
+    public async Task GiveAccess(Musician musician)
+    {
+        var updatedMusician = await _context.Musicians.FindAsync(musician.Id);
+        if (updatedMusician is not null)
+        {
+            updatedMusician.PersonId = musician.PersonId;
+            
+        }
+    }
+
     public async Task UpdateAsync(Musician musician)
     {
         var  updatedMusician = await _context.Musicians.FindAsync(musician.Id);

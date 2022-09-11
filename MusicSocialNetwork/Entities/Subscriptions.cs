@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MusicSocialNetwork.Entities;
 
@@ -13,6 +14,8 @@ public class Subscriptions
     public Musician Musician { get; set; }
 
     public DateTime Date { get; set; }
+    [Column("role")]
+    public string Role { get; set; }
     
 }
 

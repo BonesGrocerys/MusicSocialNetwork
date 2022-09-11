@@ -9,6 +9,7 @@ public interface IMusicianRepository
     public Task<int> CreateAsync(Musician musician);
     public Task UpdateAsync(Musician musician);
     public Task DeleteAsync(int id);
+    public Task GiveAccess(Musician musician);
     public Task<int> GetSubscribersCountAsync(int MusicianId);
 }
 

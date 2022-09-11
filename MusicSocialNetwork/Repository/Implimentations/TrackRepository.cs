@@ -18,12 +18,19 @@ public class TrackRepository : ITrackRepository
         _context = context;
     }
 
-    public Task<int> CreateAsync(Track track)
+    public async Task<int> CreateAsync(Track track)
+    {
+        await _context.AddAsync(track);
+        await _context.SaveChangesAsync();
+        return track.Id;
+    }
+
+    public Task DeleteAsync(int id)
     {
         throw new NotImplementedException();
     }
 
-    public Task DeleteAsync(int id)
+    public Task<Track> GetAllTracksAsync()
     {
         throw new NotImplementedException();
     }
@@ -35,7 +42,7 @@ public class TrackRepository : ITrackRepository
 
     public async Task<IEnumerable<Track>> GetByMusicanIdAsync(int musicanId)
     {
-        //return await _context.Tracks.Where(t => t.MusicianId == musicanId).ToListAsync();
+        //return await _context.Tracks.Where(t => t.Musicians == musicanId).ToListAsync();
         throw new NotImplementedException();
     }
 
