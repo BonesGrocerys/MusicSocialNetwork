@@ -1,7 +1,4 @@
-﻿
-
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MusicSocialNetwork.Database;
 using MusicSocialNetwork.Entities;
 using MusicSocialNetwork.Repository.Interfaces;
@@ -30,9 +27,9 @@ public class TrackRepository : ITrackRepository
         throw new NotImplementedException();
     }
 
-    public Task<Track> GetAllTracksAsync()
+    public async Task<IEnumerable<Track>> GetAllTracksAsync()
     {
-        throw new NotImplementedException();
+        return await _context.Tracks.ToListAsync();
     }
 
     public async Task<Track> GetAsync(int id)
@@ -58,6 +55,6 @@ public class TrackRepository : ITrackRepository
         throw new NotImplementedException();
     }
 
-    
+
 }
 

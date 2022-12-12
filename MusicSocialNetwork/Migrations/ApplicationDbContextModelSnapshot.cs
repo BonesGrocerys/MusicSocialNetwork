@@ -52,6 +52,21 @@ namespace MusicSocialNetwork.Migrations
                     b.ToTable("AlbumMusician");
                 });
 
+            modelBuilder.Entity("AlbumPerson", b =>
+                {
+                    b.Property<int>("AddedAlbumsId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("PersonsId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("AddedAlbumsId", "PersonsId");
+
+                    b.HasIndex("PersonsId");
+
+                    b.ToTable("AlbumPerson");
+                });
+
             modelBuilder.Entity("MusicSocialNetwork.Entities.AddedPlaylists", b =>
                 {
                     b.Property<int>("Id")
@@ -75,6 +90,29 @@ namespace MusicSocialNetwork.Migrations
                     b.ToTable("AddedPlaylists");
                 });
 
+            modelBuilder.Entity("MusicSocialNetwork.Entities.AddedTracks", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("PersonId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TrackId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PersonId");
+
+                    b.HasIndex("TrackId");
+
+                    b.ToTable("AddedTracks");
+                });
+
             modelBuilder.Entity("MusicSocialNetwork.Entities.Album", b =>
                 {
                     b.Property<int>("Id")
@@ -87,9 +125,17 @@ namespace MusicSocialNetwork.Migrations
                         .HasColumnType("text")
                         .HasColumnName("album_title");
 
+                    b.Property<int>("AuditionsCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("auditions_count");
+
                     b.Property<DateOnly>("ReleaseDate")
                         .HasColumnType("date")
                         .HasColumnName("release_date");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("text")
+                        .HasColumnName("status");
 
                     b.HasKey("Id");
 
@@ -224,6 +270,10 @@ namespace MusicSocialNetwork.Migrations
                     b.Property<int>("PersonId")
                         .HasColumnType("integer");
 
+                    b.Property<string>("Role")
+                        .HasColumnType("text")
+                        .HasColumnName("role");
+
                     b.HasKey("id");
 
                     b.HasIndex("MusicianId");
@@ -261,21 +311,6 @@ namespace MusicSocialNetwork.Migrations
                     b.HasIndex("AlbumId");
 
                     b.ToTable("Tracks");
-                });
-
-            modelBuilder.Entity("PersonTrack", b =>
-                {
-                    b.Property<int>("PersonAddedTracksId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("TracksId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("PersonAddedTracksId", "TracksId");
-
-                    b.HasIndex("TracksId");
-
-                    b.ToTable("PersonTrack");
                 });
 
             modelBuilder.Entity("PlaylistsTrack", b =>
@@ -323,6 +358,21 @@ namespace MusicSocialNetwork.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("AlbumPerson", b =>
+                {
+                    b.HasOne("MusicSocialNetwork.Entities.Album", null)
+                        .WithMany()
+                        .HasForeignKey("AddedAlbumsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MusicSocialNetwork.Entities.Person", null)
+                        .WithMany()
+                        .HasForeignKey("PersonsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("MusicSocialNetwork.Entities.AddedPlaylists", b =>
                 {
                     b.HasOne("MusicSocialNetwork.Entities.Person", "Person")
@@ -340,6 +390,25 @@ namespace MusicSocialNetwork.Migrations
                     b.Navigation("Person");
 
                     b.Navigation("Playlists");
+                });
+
+            modelBuilder.Entity("MusicSocialNetwork.Entities.AddedTracks", b =>
+                {
+                    b.HasOne("MusicSocialNetwork.Entities.Person", "Person")
+                        .WithMany("MyTracks")
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MusicSocialNetwork.Entities.Track", "Track")
+                        .WithMany("PersonAddedTracks")
+                        .HasForeignKey("TrackId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Person");
+
+                    b.Navigation("Track");
                 });
 
             modelBuilder.Entity("MusicSocialNetwork.Entities.Musician", b =>
@@ -390,27 +459,12 @@ namespace MusicSocialNetwork.Migrations
             modelBuilder.Entity("MusicSocialNetwork.Entities.Track", b =>
                 {
                     b.HasOne("MusicSocialNetwork.Entities.Album", "Album")
-                        .WithMany("Tracks")
+                        .WithMany("TracksId")
                         .HasForeignKey("AlbumId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Album");
-                });
-
-            modelBuilder.Entity("PersonTrack", b =>
-                {
-                    b.HasOne("MusicSocialNetwork.Entities.Person", null)
-                        .WithMany()
-                        .HasForeignKey("PersonAddedTracksId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MusicSocialNetwork.Entities.Track", null)
-                        .WithMany()
-                        .HasForeignKey("TracksId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("PlaylistsTrack", b =>
@@ -430,7 +484,7 @@ namespace MusicSocialNetwork.Migrations
 
             modelBuilder.Entity("MusicSocialNetwork.Entities.Album", b =>
                 {
-                    b.Navigation("Tracks");
+                    b.Navigation("TracksId");
                 });
 
             modelBuilder.Entity("MusicSocialNetwork.Entities.Musician", b =>
@@ -446,6 +500,8 @@ namespace MusicSocialNetwork.Migrations
 
                     b.Navigation("MyPlaylists");
 
+                    b.Navigation("MyTracks");
+
                     b.Navigation("SubscribeMusician");
                 });
 
@@ -457,6 +513,8 @@ namespace MusicSocialNetwork.Migrations
             modelBuilder.Entity("MusicSocialNetwork.Entities.Track", b =>
                 {
                     b.Navigation("Musicians");
+
+                    b.Navigation("PersonAddedTracks");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using MusicSocialNetwork;
 using MusicSocialNetwork.Database;
 using MusicSocialNetwork.Repository.Implimentations;
 using MusicSocialNetwork.Repository.Interfaces;
@@ -15,7 +16,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(
     builder.Configuration.GetConnectionString("MusicSocialNetworkDb")));
 
-builder.Services.AddScoped<ITrackRepository, TrackRepository>();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+builder.Services.AddServices();
+builder.Services.AddRepositories();
 
 var app = builder.Build();
 
@@ -25,6 +29,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(builder => {
+    builder.AllowAnyOrigin();
+    builder.AllowAnyHeader();
+    builder.AllowAnyMethod();
+});
 
 app.UseHttpsRedirection();
 
