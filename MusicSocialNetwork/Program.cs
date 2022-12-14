@@ -21,6 +21,9 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddServices();
 builder.Services.AddRepositories();
 
+builder.Services.AddCors(options => options.AddDefaultPolicy(build =>
+build.AllowAnyOrigin()));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -29,6 +32,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+
 
 app.UseCors(builder => {
     builder.AllowAnyOrigin();

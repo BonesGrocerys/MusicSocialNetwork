@@ -44,17 +44,18 @@ public class TracksController : ControllerBase
     [HttpPost("create-track-file")]
     public async Task<IActionResult> CreateTracks([FromForm]AlbumCreateReqeust request)
     {
-        await _trackService.CreateTrackFile(request);
 
+        await _trackService.CreateTrackFile(request);
+        var test = Request;
         return Ok();
     }
 
-    [HttpGet("get-track-file/{id}")]
+    [HttpGet("get-track-file/{id}.mp3")]
     public async Task<IActionResult> GetTrackFile(int id)
     {
         var resp = await _trackService.GetTrackFileAsync(id);
 
-        return File(resp, "application/octet-stream", $"{id}.m4a");
+        return File(resp, "application/octet-stream", $"{id}.mp3");
     }
 
     [HttpGet("get-tracks")]

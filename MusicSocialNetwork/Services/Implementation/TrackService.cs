@@ -69,7 +69,7 @@ namespace MusicSocialNetwork.Services.Implementation
 
         public async  Task<Stream> GetTrackFileAsync(int id)
         {
-            var path = $"C:\\Users\\shpackyous\\Desktop\\{id}.m4a";
+            var path = $"C:\\Users\\Глеб\\Desktop\\Tracks\\{id}.mp3";
             var stream = File.OpenRead(path);
             return stream;
         }
