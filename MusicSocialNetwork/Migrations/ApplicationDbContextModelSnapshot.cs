@@ -129,6 +129,10 @@ namespace MusicSocialNetwork.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("auditions_count");
 
+                    b.Property<byte[]>("Cover")
+                        .HasColumnType("bytea")
+                        .HasColumnName("cover");
+
                     b.Property<DateOnly>("ReleaseDate")
                         .HasColumnType("date")
                         .HasColumnName("release_date");
@@ -459,7 +463,7 @@ namespace MusicSocialNetwork.Migrations
             modelBuilder.Entity("MusicSocialNetwork.Entities.Track", b =>
                 {
                     b.HasOne("MusicSocialNetwork.Entities.Album", "Album")
-                        .WithMany("TracksId")
+                        .WithMany("Tracks")
                         .HasForeignKey("AlbumId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -484,7 +488,7 @@ namespace MusicSocialNetwork.Migrations
 
             modelBuilder.Entity("MusicSocialNetwork.Entities.Album", b =>
                 {
-                    b.Navigation("TracksId");
+                    b.Navigation("Tracks");
                 });
 
             modelBuilder.Entity("MusicSocialNetwork.Entities.Musician", b =>

@@ -19,7 +19,8 @@ namespace MusicSocialNetwork.Migrations
                     album_title = table.Column<string>(type: "text", nullable: true),
                     release_date = table.Column<DateOnly>(type: "date", nullable: false),
                     status = table.Column<string>(type: "text", nullable: true),
-                    auditions_count = table.Column<int>(type: "integer", nullable: false)
+                    auditions_count = table.Column<int>(type: "integer", nullable: false),
+                    cover = table.Column<byte[]>(type: "bytea", nullable: true)
                 },
                 constraints: table =>
                 {

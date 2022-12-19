@@ -55,7 +55,7 @@ public class TracksController : ControllerBase
     {
         var resp = await _trackService.GetTrackFileAsync(id);
 
-        return File(resp, "application/octet-stream", $"{id}.mp3");
+        return File(resp, "audio/mjpeg", $"{id}.mp3");
     }
 
     [HttpGet("get-tracks")]
@@ -66,6 +66,38 @@ public class TracksController : ControllerBase
         return Ok(resp);
     }
 
+    [HttpGet("add-track-to-peson")]
+    public async Task<IActionResult> AddTrackToPerson(int personId, int trackId)
+    {
+        
+        var response = await _trackService.AddTrackToPerson(personId, trackId);
+        if (response.Success)
+            return Ok(response);
+
+        return BadRequest(response);
+    }
+
+    [HttpGet("get-all-added-tracks-person/{personId}")]
+    public async Task<IActionResult> GetAllAddedTracksPerson(int personId)
+    {
+        
+        var response = await _trackService.GetAllAddedTracksToPerson(personId);
+        if (response.Success)
+            return Ok(response);
+
+
+        return BadRequest(response);
+    }
+
+    [HttpDelete("delete/{id}")]
+    public async Task<ActionResult<OperatingSystem>> DeleteAddedTrackToPerson(int trackId)
+    {
+        var result = await _trackService.DeleteAddedTrackToPerson(trackId);
+        if (result.Success)
+            return Ok(result);
+
+        return BadRequest(result);
+    }
 }
 
 

@@ -31,9 +31,6 @@ public class AddedTracksRepository : IAddedTracksRepository
 
     }
 
-    public async Task<IEnumerable<AddedTracks>> GetAllAddedTracksAsync(int personId)
-    {
-      return await _context.AddedTracks.Where(a => a.PersonId == personId).ToListAsync();
-    }
+    
 }
 

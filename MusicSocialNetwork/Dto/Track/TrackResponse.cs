@@ -11,5 +11,6 @@
         public int AuditionsCount { get; set; }
 
         public string Url { get; set; }
+        // возвращать на клиент
     }
 }

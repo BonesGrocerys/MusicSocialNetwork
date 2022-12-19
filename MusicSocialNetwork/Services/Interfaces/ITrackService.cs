@@ -18,5 +18,10 @@ namespace MusicSocialNetwork.Services.Interfaces
         Task<Stream> GetTrackFileAsync(int id);
 
         Task<OperationResult<IEnumerable<TrackResponse>>> GetTracks();
+
+        Task<OperationResult> AddTrackToPerson(int personId, int trackId);
+
+        Task<OperationResult<IEnumerable<TrackResponse>>> GetAllAddedTracksToPerson(int personId);
+        Task<OperationResult> DeleteAddedTrackToPerson(int trackId);
     }
 }

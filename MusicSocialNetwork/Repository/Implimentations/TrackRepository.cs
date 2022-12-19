@@ -27,6 +27,11 @@ public class TrackRepository : ITrackRepository
         throw new NotImplementedException();
     }
 
+    public async Task<IEnumerable<Track>> GetAddedTracksPerson(int personId)
+    {
+        return await _context.Tracks.Where(x => x.PersonAddedTracks.Any(y => y.PersonId == personId)).ToListAsync();
+    }
+
     public async Task<IEnumerable<Track>> GetAllTracksAsync()
     {
         return await _context.Tracks.ToListAsync();
@@ -55,6 +60,7 @@ public class TrackRepository : ITrackRepository
         throw new NotImplementedException();
     }
 
+    
 
 }
 

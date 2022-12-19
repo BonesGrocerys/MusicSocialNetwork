@@ -11,5 +11,6 @@ public interface ITrackRepository
     public Task DeleteAsync(int id);
     public Task ListenTrackAsync(int trackId);
     public Task<IEnumerable<Track>> GetAllTracksAsync();
+    public Task<IEnumerable<Track>> GetAddedTracksPerson(int personId);
 }
 

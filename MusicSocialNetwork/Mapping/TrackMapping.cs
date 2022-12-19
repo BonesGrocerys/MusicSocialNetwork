@@ -10,7 +10,7 @@ namespace MusicSocialNetwork.Mapping
         public TrackMapping()
         {
             CreateMap<Track, TrackResponse>()
-            .ForMember(dest => dest.Url, opt => opt.MapFrom(src => $"http://192.168.0.105:5205/api/Tracks/get-track-file/{src.Id}.mp3"));
+            .ForMember(dest => dest.Url, opt => opt.MapFrom(src => $"http://192.168.0.105:7205/api/Tracks/get-track-file/{src.Id}.mp3"));
             CreateMap<TrackCreateRequest, Track>();
             CreateMap<AlbumCreateReqeust, Album>();
         }

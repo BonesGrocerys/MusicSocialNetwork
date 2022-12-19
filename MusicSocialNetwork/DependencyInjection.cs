@@ -16,6 +16,7 @@ namespace MusicSocialNetwork
         {
             services.AddScoped<ITrackRepository, TrackRepository>();
             services.AddScoped<IAlbumRepository, AlbumRepository>();
+            services.AddScoped<IAddedTracksRepository, AddedTracksRepository>();
         }
     }
 }

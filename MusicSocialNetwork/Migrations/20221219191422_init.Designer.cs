@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MusicSocialNetwork.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221202063328_init")]
+    [Migration("20221219191422_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -130,6 +130,10 @@ namespace MusicSocialNetwork.Migrations
                     b.Property<int>("AuditionsCount")
                         .HasColumnType("integer")
                         .HasColumnName("auditions_count");
+
+                    b.Property<byte[]>("Cover")
+                        .HasColumnType("bytea")
+                        .HasColumnName("cover");
 
                     b.Property<DateOnly>("ReleaseDate")
                         .HasColumnType("date")
@@ -461,7 +465,7 @@ namespace MusicSocialNetwork.Migrations
             modelBuilder.Entity("MusicSocialNetwork.Entities.Track", b =>
                 {
                     b.HasOne("MusicSocialNetwork.Entities.Album", "Album")
-                        .WithMany("TracksId")
+                        .WithMany("Tracks")
                         .HasForeignKey("AlbumId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -486,7 +490,7 @@ namespace MusicSocialNetwork.Migrations
 
             modelBuilder.Entity("MusicSocialNetwork.Entities.Album", b =>
                 {
-                    b.Navigation("TracksId");
+                    b.Navigation("Tracks");
                 });
 
             modelBuilder.Entity("MusicSocialNetwork.Entities.Musician", b =>
