@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MusicSocialNetwork.Dto.Album;
 using MusicSocialNetwork.Dto.Track;
 using MusicSocialNetwork.Services.Interfaces;
 
 namespace MusicSocialNetwork.Controllers;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class TracksController : ControllerBase

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MusicSocialNetwork.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221219191422_init")]
+    [Migration("20221226063445_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -212,7 +212,12 @@ namespace MusicSocialNetwork.Migrations
                         .HasColumnType("text")
                         .HasColumnName("Password");
 
+                    b.Property<int>("RoleId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("Persons");
                 });
@@ -257,6 +262,35 @@ namespace MusicSocialNetwork.Migrations
                     b.HasIndex("MusicianId");
 
                     b.ToTable("Publications");
+                });
+
+            modelBuilder.Entity("MusicSocialNetwork.Entities.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Title")
+                        .HasColumnType("text")
+                        .HasColumnName("title");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Title = "User"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Title = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("MusicSocialNetwork.Entities.Subscriptions", b =>
@@ -430,6 +464,17 @@ namespace MusicSocialNetwork.Migrations
                         .HasForeignKey("TrackId");
 
                     b.Navigation("Person");
+                });
+
+            modelBuilder.Entity("MusicSocialNetwork.Entities.Person", b =>
+                {
+                    b.HasOne("MusicSocialNetwork.Entities.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("MusicSocialNetwork.Entities.Publications", b =>

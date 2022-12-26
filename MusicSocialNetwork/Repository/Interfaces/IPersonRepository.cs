@@ -9,6 +9,6 @@ public interface IPersonRepository
     public Task DeleteAsync(int id);
     public Task<Musician> GetAllMusicianAsync();
 
-   
+    public Task<Person> GetByLogin(string login);
 }
 

@@ -14,6 +14,9 @@ public class Person
     [Column("Status")]
     //public string Status { get; set; }
 
+    public Role Role { get; set; }
+    public int RoleId { get; set; }
+
     public List<Musician> Musicians { get; set; }
     public List<AddedTracks> MyTracks { get; set; }
     public List<Subscriptions> SubscribeMusician { get; set; }

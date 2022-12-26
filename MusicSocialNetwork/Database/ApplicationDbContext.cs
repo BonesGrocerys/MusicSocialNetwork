@@ -19,15 +19,34 @@ namespace MusicSocialNetwork.Database
 
         public DbSet<AddedPlaylists> AddedPlaylists { get; set; }
 
-        public DbSet<Genre> Genre { get; set; }
+        public DbSet<Genre> Genres { get; set; }
 
-        public DbSet<Album> Album { get; set; }
+        public DbSet<Album> Albums { get; set; }
 
         public DbSet<AddedTracks> AddedTracks { get; set; }
+
+        public DbSet<Role> Roles { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
             Database.EnsureCreated();
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Role>().HasData(new Role[]
+            {
+                new Role
+                {
+                    Id= 1,
+                    Title = "User"
+                },
+                new Role
+                {
+                    Id= 2,
+                    Title = "Admin"
+                },
+            });
         }
     }
 }

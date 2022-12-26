@@ -7,16 +7,21 @@ namespace MusicSocialNetwork
 {
     public static class DependencyInjection
     {
-        public static void AddServices(this IServiceCollection services)
+        public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            services.AddScoped<ITrackService, TrackService>();
+            return  services
+                .AddScoped<ITrackService, TrackService>()
+                .AddScoped<IAuthService, AuthService>();
         }
 
-        public static void AddRepositories(this IServiceCollection services)
+        public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
-            services.AddScoped<ITrackRepository, TrackRepository>();
-            services.AddScoped<IAlbumRepository, AlbumRepository>();
-            services.AddScoped<IAddedTracksRepository, AddedTracksRepository>();
+            return services
+                .AddScoped<ITrackRepository, TrackRepository>()
+                .AddScoped<IAlbumRepository, AlbumRepository>()
+                .AddScoped<IRoleRepository, RoleRepository>()
+                .AddScoped<IPersonRepository, PersonRepository>()
+                .AddScoped<IAddedTracksRepository, AddedTracksRepository>();
         }
     }
 }

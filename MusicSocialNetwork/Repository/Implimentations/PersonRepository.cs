@@ -1,4 +1,5 @@
-﻿using MusicSocialNetwork.Database;
+﻿using Microsoft.EntityFrameworkCore;
+using MusicSocialNetwork.Database;
 using MusicSocialNetwork.Entities;
 using MusicSocialNetwork.Repository.Interfaces;
 
@@ -21,6 +22,8 @@ public class PersonRepository : IPersonRepository
         return person.Id;
     }
 
+
+
     public Task DeleteAsync(int id)
     {
         throw new NotImplementedException();
@@ -29,6 +32,11 @@ public class PersonRepository : IPersonRepository
     public Task<Musician> GetAllMusicianAsync()
     {
         throw new NotImplementedException();
+    }
+
+    public async Task<Person> GetByLogin(string login)
+    {
+        return await _context.Persons.FirstOrDefaultAsync(x => x.Login == login);
     }
 
     public Task UpdateAsync(Person person)

@@ -41,20 +41,6 @@ namespace MusicSocialNetwork.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Persons",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Login = table.Column<string>(type: "text", nullable: true),
-                    Password = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Persons", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Playlists",
                 columns: table => new
                 {
@@ -65,6 +51,19 @@ namespace MusicSocialNetwork.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Playlists", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Roles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    title = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Roles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -114,25 +113,46 @@ namespace MusicSocialNetwork.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AlbumPerson",
+                name: "Persons",
                 columns: table => new
                 {
-                    AddedAlbumsId = table.Column<int>(type: "integer", nullable: false),
-                    PersonsId = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Login = table.Column<string>(type: "text", nullable: true),
+                    Password = table.Column<string>(type: "text", nullable: true),
+                    RoleId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AlbumPerson", x => new { x.AddedAlbumsId, x.PersonsId });
+                    table.PrimaryKey("PK_Persons", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AlbumPerson_Album_AddedAlbumsId",
-                        column: x => x.AddedAlbumsId,
-                        principalTable: "Album",
+                        name: "FK_Persons_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PlaylistsTrack",
+                columns: table => new
+                {
+                    PlaylistsId = table.Column<int>(type: "integer", nullable: false),
+                    TracksId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PlaylistsTrack", x => new { x.PlaylistsId, x.TracksId });
+                    table.ForeignKey(
+                        name: "FK_PlaylistsTrack_Playlists_PlaylistsId",
+                        column: x => x.PlaylistsId,
+                        principalTable: "Playlists",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AlbumPerson_Persons_PersonsId",
-                        column: x => x.PersonsId,
-                        principalTable: "Persons",
+                        name: "FK_PlaylistsTrack_Tracks_TracksId",
+                        column: x => x.TracksId,
+                        principalTable: "Tracks",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -190,6 +210,30 @@ namespace MusicSocialNetwork.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AlbumPerson",
+                columns: table => new
+                {
+                    AddedAlbumsId = table.Column<int>(type: "integer", nullable: false),
+                    PersonsId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AlbumPerson", x => new { x.AddedAlbumsId, x.PersonsId });
+                    table.ForeignKey(
+                        name: "FK_AlbumPerson_Album_AddedAlbumsId",
+                        column: x => x.AddedAlbumsId,
+                        principalTable: "Album",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AlbumPerson_Persons_PersonsId",
+                        column: x => x.PersonsId,
+                        principalTable: "Persons",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Musicians",
                 columns: table => new
                 {
@@ -214,30 +258,6 @@ namespace MusicSocialNetwork.Migrations
                         column: x => x.TrackId,
                         principalTable: "Tracks",
                         principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PlaylistsTrack",
-                columns: table => new
-                {
-                    PlaylistsId = table.Column<int>(type: "integer", nullable: false),
-                    TracksId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PlaylistsTrack", x => new { x.PlaylistsId, x.TracksId });
-                    table.ForeignKey(
-                        name: "FK_PlaylistsTrack_Playlists_PlaylistsId",
-                        column: x => x.PlaylistsId,
-                        principalTable: "Playlists",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_PlaylistsTrack_Tracks_TracksId",
-                        column: x => x.TracksId,
-                        principalTable: "Tracks",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -313,6 +333,15 @@ namespace MusicSocialNetwork.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "Id", "title" },
+                values: new object[,]
+                {
+                    { 1, "User" },
+                    { 2, "Admin" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AddedPlaylists_PersonId",
                 table: "AddedPlaylists",
@@ -357,6 +386,11 @@ namespace MusicSocialNetwork.Migrations
                 name: "IX_Musicians_TrackId",
                 table: "Musicians",
                 column: "TrackId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Persons_RoleId",
+                table: "Persons",
+                column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PlaylistsTrack_TracksId",
@@ -424,6 +458,9 @@ namespace MusicSocialNetwork.Migrations
 
             migrationBuilder.DropTable(
                 name: "Tracks");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
 
             migrationBuilder.DropTable(
                 name: "Album");
