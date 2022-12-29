@@ -27,6 +27,9 @@ namespace MusicSocialNetwork.Database
 
         public DbSet<Role> Roles { get; set; }
 
+        //public DbSet<MusicianAlbum> MusicianAlbum { get; set; }
+        //public DbSet<MusicianTracks> MusicianTracks { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
             Database.EnsureCreated();

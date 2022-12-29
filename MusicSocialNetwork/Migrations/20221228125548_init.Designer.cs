@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MusicSocialNetwork.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221226063445_init")]
+    [Migration("20221228125548_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -67,6 +67,21 @@ namespace MusicSocialNetwork.Migrations
                     b.HasIndex("PersonsId");
 
                     b.ToTable("AlbumPerson");
+                });
+
+            modelBuilder.Entity("MusicianTrack", b =>
+                {
+                    b.Property<int>("MusiciansId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TracksId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("MusiciansId", "TracksId");
+
+                    b.HasIndex("TracksId");
+
+                    b.ToTable("MusicianTrack");
                 });
 
             modelBuilder.Entity("MusicSocialNetwork.Entities.AddedPlaylists", b =>
@@ -145,7 +160,7 @@ namespace MusicSocialNetwork.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Album");
+                    b.ToTable("Albums");
                 });
 
             modelBuilder.Entity("MusicSocialNetwork.Entities.Genre", b =>
@@ -162,7 +177,7 @@ namespace MusicSocialNetwork.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Genre");
+                    b.ToTable("Genres");
                 });
 
             modelBuilder.Entity("MusicSocialNetwork.Entities.Musician", b =>
@@ -184,14 +199,9 @@ namespace MusicSocialNetwork.Migrations
                     b.Property<int>("PersonId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("TrackId")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
                     b.HasIndex("PersonId");
-
-                    b.HasIndex("TrackId");
 
                     b.ToTable("Musicians");
                 });
@@ -413,6 +423,21 @@ namespace MusicSocialNetwork.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("MusicianTrack", b =>
+                {
+                    b.HasOne("MusicSocialNetwork.Entities.Musician", null)
+                        .WithMany()
+                        .HasForeignKey("MusiciansId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MusicSocialNetwork.Entities.Track", null)
+                        .WithMany()
+                        .HasForeignKey("TracksId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("MusicSocialNetwork.Entities.AddedPlaylists", b =>
                 {
                     b.HasOne("MusicSocialNetwork.Entities.Person", "Person")
@@ -458,10 +483,6 @@ namespace MusicSocialNetwork.Migrations
                         .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("MusicSocialNetwork.Entities.Track", null)
-                        .WithMany("Musicians")
-                        .HasForeignKey("TrackId");
 
                     b.Navigation("Person");
                 });
@@ -563,8 +584,6 @@ namespace MusicSocialNetwork.Migrations
 
             modelBuilder.Entity("MusicSocialNetwork.Entities.Track", b =>
                 {
-                    b.Navigation("Musicians");
-
                     b.Navigation("PersonAddedTracks");
                 });
 #pragma warning restore 612, 618

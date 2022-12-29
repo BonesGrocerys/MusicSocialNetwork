@@ -20,6 +20,7 @@ public class Track
     
     public List<AddedTracks> PersonAddedTracks { get; set; }
     public List<Playlists> Playlists { get; set; }
+    //public List<MusicianTracks> MusiciansTracks { get; set; }
     public List<Musician> Musicians { get; set; }
 
 

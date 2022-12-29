@@ -22,6 +22,6 @@ namespace MusicSocialNetwork.Services.Interfaces
         Task<OperationResult> AddTrackToPerson(int personId, int trackId);
 
         Task<OperationResult<IEnumerable<TrackResponse>>> GetAllAddedTracksToPerson(int personId);
-        Task<OperationResult> DeleteAddedTrackToPerson(int trackId);
+        Task<OperationResult> DeleteAddedTrackToPerson(int personId, int trackId);
     }
 }

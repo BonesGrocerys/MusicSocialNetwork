@@ -29,23 +29,24 @@ public class TrackRepository : ITrackRepository
 
     public async Task<IEnumerable<Track>> GetAddedTracksPerson(int personId)
     {
-        return await _context.Tracks.Where(x => x.PersonAddedTracks.Any(y => y.PersonId == personId)).ToListAsync();
+        return await _context.Tracks.Include(x => x.Musicians).Where(x => x.PersonAddedTracks.Any(y => y.PersonId == personId)).ToListAsync();
     }
 
     public async Task<IEnumerable<Track>> GetAllTracksAsync()
     {
-        return await _context.Tracks.ToListAsync();
+        return await _context.Tracks.Include(x => x.Musicians).ToListAsync();
     }
 
     public async Task<Track> GetAsync(int id)
     {
-        return await _context.Tracks.FindAsync(id);
+        return await _context.Tracks.Include(x => x.Musicians).FirstOrDefaultAsync(x => x.Id == id);
+
     }
 
-    public async Task<IEnumerable<Track>> GetByMusicanIdAsync(int musicanId)
+    public async Task<IEnumerable<Track>> GetTrackByMusicanIdAsync(int musicanId)
     {
-        //return await _context.Tracks.Where(t => t.Musicians == musicanId).ToListAsync();
-        throw new NotImplementedException();
+        return await _context.Tracks.Where(t => t.Musicians.Any(x => x.Id == musicanId)).ToListAsync();
+        //throw new NotImplementedException();
     }
 
     public async Task ListenTrackAsync(int trackId)

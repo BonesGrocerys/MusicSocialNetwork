@@ -61,6 +61,8 @@ public class MusicianRepository : IMusicianRepository
             updatedMusician.Email = musician.Email;
         }
         await _context.SaveChangesAsync();
+
+        
     }
 }
 

@@ -6,7 +6,7 @@ public interface IAddedTracksRepository
     {
     public Task AddTracksAsync(AddedTracks addedTracks);
     
-    public Task DeleteTrackAsync(int id);
+    public Task DeleteTrackAsync(int personId, int trackId);
 
     }
 

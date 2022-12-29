@@ -6,7 +6,7 @@ using MusicSocialNetwork.Services.Interfaces;
 
 namespace MusicSocialNetwork.Controllers;
 
-[Authorize]
+//[Authorize(AuthenticationSchemes = "Bearer")]
 [Route("api/[controller]")]
 [ApiController]
 public class TracksController : ControllerBase
@@ -57,7 +57,7 @@ public class TracksController : ControllerBase
     {
         var resp = await _trackService.GetTrackFileAsync(id);
 
-        return File(resp, "audio/mjpeg", $"{id}.mp3");
+        return File(resp, "audio/mpeg", $"{id}.mp3", true);
     }
 
     [HttpGet("get-tracks")]
@@ -91,10 +91,10 @@ public class TracksController : ControllerBase
         return BadRequest(response);
     }
 
-    [HttpDelete("delete/{id}")]
-    public async Task<ActionResult<OperatingSystem>> DeleteAddedTrackToPerson(int trackId)
+    [HttpDelete("delete")]
+    public async Task<ActionResult<OperatingSystem>> DeleteAddedTrackToPerson(int personId, int trackId)
     {
-        var result = await _trackService.DeleteAddedTrackToPerson(trackId);
+        var result = await _trackService.DeleteAddedTrackToPerson(personId ,trackId );
         if (result.Success)
             return Ok(result);
 

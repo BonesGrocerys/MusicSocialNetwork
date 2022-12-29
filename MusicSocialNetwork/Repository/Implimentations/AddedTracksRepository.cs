@@ -17,15 +17,16 @@ public class AddedTracksRepository : IAddedTracksRepository
     public async Task AddTracksAsync(AddedTracks addedTracks)
     {
         await _context.AddAsync(addedTracks);
+        //addedTracks.DateTime = DateTime.Now;
         await _context.SaveChangesAsync();
     }
 
-    public async Task DeleteTrackAsync(int id)
+    public async Task DeleteTrackAsync(int personId, int trackId)
     {
-        var track = await _context.AddedTracks.FindAsync(id);
-        if (track != null)
+        var tracks = await _context.AddedTracks.Where( x => x.PersonId == personId && x.TrackId == trackId).ToListAsync();
+        if (tracks != null)
         {
-            _context.AddedTracks.Remove(track);
+            _context.AddedTracks.RemoveRange(tracks);
         }
         await _context.SaveChangesAsync();
 

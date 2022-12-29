@@ -103,9 +103,9 @@ namespace MusicSocialNetwork.Services.Implementation
             return new OperationResult<IEnumerable<TrackResponse>>(response);
         }
 
-        public async Task<OperationResult> DeleteAddedTrackToPerson(int trackId)
+        public async Task<OperationResult> DeleteAddedTrackToPerson(int personId, int trackId)
         {
-            await _addedTracksRepository.DeleteTrackAsync(trackId);
+            await _addedTracksRepository.DeleteTrackAsync(personId,trackId);
             return OperationResult.OK;  
         }
     }

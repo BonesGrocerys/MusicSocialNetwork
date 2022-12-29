@@ -20,9 +20,8 @@ public class Album
     public Byte[] Cover { get; set; }
     public List<Genre> Genres { get; set; }
     public List<Track> Tracks { get; set; }
-    public List<Musician> Musicians { get; set; }
+    //public List<MusicianAlbum> MusicianAlbums { get; set; }
     public List<Person> Persons { get; set; }
-    
-
+    public List<Musician> Musicians { get; set; }
 }
 
