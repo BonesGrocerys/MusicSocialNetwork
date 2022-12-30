@@ -72,7 +72,7 @@ namespace MusicSocialNetwork.Services.Implementation
 
         public async  Task<Stream> GetTrackFileAsync(int id)
         {
-            var path = $"C:\\Users\\Глеб\\Desktop\\Tracks\\{id}.mp3";
+            var path = $"C:\\Users\\shpackyous\\Desktop\\Tracks\\{id}.mp3";
             var stream = File.OpenRead(path);
             return stream;
         }
@@ -107,6 +107,14 @@ namespace MusicSocialNetwork.Services.Implementation
         {
             await _addedTracksRepository.DeleteTrackAsync(personId,trackId);
             return OperationResult.OK;  
+        }
+
+        public async Task<OperationResult<IEnumerable<TrackResponse>>> GetAllTracksToMusician(int musicianId)
+        {
+            var tracks = await _trackRepository.GetAllTracksToMusician(musicianId);
+
+            var response = _mapper.Map<IEnumerable<TrackResponse>>(tracks);
+            return new OperationResult<IEnumerable<TrackResponse>>(response);
         }
     }
 }

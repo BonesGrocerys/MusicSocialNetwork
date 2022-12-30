@@ -37,6 +37,12 @@ public class TrackRepository : ITrackRepository
         return await _context.Tracks.Include(x => x.Musicians).ToListAsync();
     }
 
+    public async Task<IEnumerable<Track>> GetAllTracksToMusician(int musicianId)
+    {
+        return await _context.Tracks.Where(x => x.Musicians.Any( x => x.Id == musicianId )).ToListAsync();
+        //throw new NotImplementedException();
+    }
+
     public async Task<Track> GetAsync(int id)
     {
         return await _context.Tracks.Include(x => x.Musicians).FirstOrDefaultAsync(x => x.Id == id);

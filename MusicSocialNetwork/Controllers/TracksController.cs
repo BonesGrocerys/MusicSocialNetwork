@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MusicSocialNetwork.Dto.Album;
 using MusicSocialNetwork.Dto.Track;
+using MusicSocialNetwork.Entities;
 using MusicSocialNetwork.Services.Interfaces;
 
 namespace MusicSocialNetwork.Controllers;
@@ -99,6 +100,17 @@ public class TracksController : ControllerBase
             return Ok(result);
 
         return BadRequest(result);
+    }
+
+    [HttpGet("get-all-tracks-to-musician/{musicianId}")]
+    public async Task<IActionResult> GetAllTracksToMusician(int musicianId)
+    {
+        var response = await _trackService.GetAllTracksToMusician(musicianId);
+        if (response.Success)
+            return Ok(response);
+
+
+        return BadRequest(response);
     }
 }
 
