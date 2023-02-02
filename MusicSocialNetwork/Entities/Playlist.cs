@@ -2,7 +2,7 @@
 
 namespace MusicSocialNetwork.Entities;
 
-public class Playlists
+public class Playlist
 {
     [Key]
     public int Id { get; set; }

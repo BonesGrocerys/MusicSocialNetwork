@@ -15,7 +15,7 @@ namespace MusicSocialNetwork.Database
 
         public DbSet<Subscriptions> Subscriptions { get; set; }
 
-        public DbSet<Playlists> Playlists { get; set; }
+        public DbSet<Playlist> Playlists { get; set; }
 
         public DbSet<AddedPlaylists> AddedPlaylists { get; set; }
 
