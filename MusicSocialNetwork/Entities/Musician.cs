@@ -15,8 +15,8 @@ public class Musician
     //public  List<MusicianAlbum> MusicianAlbums { get; set; }
 
     public  List<Publications> PublicationsList { get; set; }
-    public int PersonId { get; set; }
-    public Person Person { get; set; }
+    public int? PersonId { get; set; }
+    public Person? Person { get; set; }
 
     public List<Subscriptions> Subscribers { get; set; } 
     //public List<MusicianTracks> MusicianTracks { get; set; }

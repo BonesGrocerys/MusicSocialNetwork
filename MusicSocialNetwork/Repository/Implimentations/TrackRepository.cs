@@ -32,9 +32,16 @@ public class TrackRepository : ITrackRepository
         return await _context.Tracks.Include(x => x.Musicians).Where(x => x.PersonAddedTracks.Any(y => y.PersonId == personId)).ToListAsync();
     }
 
-    public async Task<IEnumerable<Track>> GetAllTracksAsync()
+    public async Task<IEnumerable<Track>> GetAllTracksAsync(string searchText)
     {
-        return await _context.Tracks.Include(x => x.Musicians).ToListAsync();
+       var query = _context.Tracks.Include(x => x.Musicians).AsQueryable();
+        if (searchText != null)
+        {
+            query = query.Where(x => x.Title.ToLower().Contains(searchText.ToLower()) ||
+                x.Musicians.Any( y => y.Nickname.ToLower().Contains(searchText.ToLower())));
+        }
+
+        return await query.ToListAsync();
     }
 
     public async Task<IEnumerable<Track>> GetAllTracksToMusician(int musicianId)

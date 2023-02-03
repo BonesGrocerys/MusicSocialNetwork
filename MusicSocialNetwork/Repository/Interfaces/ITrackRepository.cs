@@ -10,7 +10,7 @@ public interface ITrackRepository
     public Task UpdateAsync(Track track);
     public Task DeleteAsync(int id);
     public Task ListenTrackAsync(int trackId);
-    public Task<IEnumerable<Track>> GetAllTracksAsync();
+    public Task<IEnumerable<Track>> GetAllTracksAsync(string searchText);
     public Task<IEnumerable<Track>> GetAddedTracksPerson(int personId);
     public Task<IEnumerable<Track>> GetAllTracksToMusician(int musicianId);
 }

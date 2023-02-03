@@ -179,7 +179,7 @@ namespace MusicSocialNetwork.Migrations
                         .HasColumnType("text")
                         .HasColumnName("nickname");
 
-                    b.Property<int>("PersonId")
+                    b.Property<int?>("PersonId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -479,9 +479,7 @@ namespace MusicSocialNetwork.Migrations
                 {
                     b.HasOne("MusicSocialNetwork.Entities.Person", "Person")
                         .WithMany("Musicians")
-                        .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PersonId");
 
                     b.Navigation("Person");
                 });

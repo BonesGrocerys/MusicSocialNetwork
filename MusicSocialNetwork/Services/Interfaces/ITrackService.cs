@@ -17,7 +17,7 @@ namespace MusicSocialNetwork.Services.Interfaces
 
         Task<Stream> GetTrackFileAsync(int id);
 
-        Task<OperationResult<IEnumerable<TrackResponse>>> GetTracks();
+        Task<OperationResult<IEnumerable<TrackResponse>>> GetTracks(string searchText);
 
         Task<OperationResult> AddTrackToPerson(int personId, int trackId);
 

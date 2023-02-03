@@ -29,7 +29,7 @@ public class TracksController : ControllerBase
         return BadRequest(response);
     }
 
-    [HttpPost("create")]
+    [HttpPost("create-track")]
     public async Task<IActionResult> Create(TrackCreateRequest request)
     {
         var response = await _trackService.CreateAsync(request);
@@ -62,9 +62,9 @@ public class TracksController : ControllerBase
     }
 
     [HttpGet("get-tracks")]
-    public async Task<IActionResult> GetTracks()
+    public async Task<IActionResult> GetTracks(string searchText)
     {
-        var resp = await _trackService.GetTracks();
+        var resp = await _trackService.GetTracks(searchText);
 
         return Ok(resp);
     }

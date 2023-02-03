@@ -33,13 +33,24 @@ namespace MusicSocialNetwork.Services.Implementation
         public async Task<OperationResult> CreateAsync(TrackCreateRequest request)
         {
             var track = _mapper.Map<Track>(request);
-            var musician = await _musicianRepository.GetByNicknameAsync(request.Nickname);
-            if (musician is not null) { 
             List<Musician> musicians = new List<Musician>();
-            musicians.Add(musician);
-            track.Musicians = musicians;
-             }
+            foreach (var author in request.Nicknames)
+            {
+                var musician = await _musicianRepository.GetByNicknameAsync(author);
+                if (musician != null)
+                {
+                     musicians.Add(musician);
+                } else
+                {
+                    musicians.Add(new Musician
+                    {
+                        Nickname = author,
+                    });
+                }
+
+            }
             track.AlbumId = request.AlbumId;
+            track.Musicians = musicians;
             await _trackRepository.CreateAsync(track);
             return new OperationResult(OperationCode.Ok, $"Трек успешно создан");
         }
@@ -86,9 +97,9 @@ namespace MusicSocialNetwork.Services.Implementation
             return stream;
         }
 
-        public async Task<OperationResult<IEnumerable<TrackResponse>>> GetTracks()
+        public async Task<OperationResult<IEnumerable<TrackResponse>>> GetTracks(string searchText)
         {
-            var tracks = await _trackRepository.GetAllTracksAsync();
+            var tracks = await _trackRepository.GetAllTracksAsync(searchText);
             var response = _mapper.Map<IEnumerable<TrackResponse>>(tracks);
             return new OperationResult<IEnumerable<TrackResponse>>(response);
         }
