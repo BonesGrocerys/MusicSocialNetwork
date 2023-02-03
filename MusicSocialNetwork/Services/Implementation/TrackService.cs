@@ -17,22 +17,31 @@ namespace MusicSocialNetwork.Services.Implementation
 
         private readonly IAlbumRepository _albumRepository;
         private readonly IAddedTracksRepository _addedTracksRepository;
+        private readonly IMusicianRepository _musicianRepository;
 
         private readonly IMapper _mapper;
 
-        public TrackService(ITrackRepository trackRepository, IMapper mapper, IAlbumRepository albumRepository, IAddedTracksRepository addedTracksRepository)
+        public TrackService(ITrackRepository trackRepository, IMapper mapper, IAlbumRepository albumRepository, IAddedTracksRepository addedTracksRepository, IMusicianRepository musicianRepository)
         {
             _trackRepository = trackRepository;
             _mapper = mapper;
             _albumRepository = albumRepository;
             _addedTracksRepository = addedTracksRepository;
+            _musicianRepository = musicianRepository;
         }
 
         public async Task<OperationResult> CreateAsync(TrackCreateRequest request)
         {
             var track = _mapper.Map<Track>(request);
+            var musician = await _musicianRepository.GetByNicknameAsync(request.Nickname);
+            if (musician is not null) { 
+            List<Musician> musicians = new List<Musician>();
+            musicians.Add(musician);
+            track.Musicians = musicians;
+             }
+            track.AlbumId = request.AlbumId;
             await _trackRepository.CreateAsync(track);
-            return new OperationResult(OperationCode.Ok, "Трек успешно создан");
+            return new OperationResult(OperationCode.Ok, $"Трек успешно создан");
         }
 
         public async Task<OperationResult<TrackResponse>> GetById(int id)

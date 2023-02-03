@@ -20,7 +20,7 @@ public class Musician
 
     public List<Subscriptions> Subscribers { get; set; } 
     //public List<MusicianTracks> MusicianTracks { get; set; }
-    public List<Album> Albums { get; set; }
+    public List<MusicianAlbum> MusicianAlbum { get; set; }
     public List<Track> Tracks { get; set; }
 }
 

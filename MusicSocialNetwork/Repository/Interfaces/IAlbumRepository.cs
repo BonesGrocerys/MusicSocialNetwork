@@ -8,7 +8,7 @@ namespace MusicSocialNetwork.Repository.Interfaces;
     public Task UpdateAsync(Album album);
     public Task DeleteAsync(int id);
 
-    public Task<IEnumerable<Album>> GetAlbumByMusicianIdAsync(int musicianId);
+    public Task<IEnumerable<Album>> GetAllAlbumByMusicianIdAsync(int musicianId);
 
     }
 

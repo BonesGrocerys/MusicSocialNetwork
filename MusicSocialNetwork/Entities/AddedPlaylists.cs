@@ -8,7 +8,7 @@ namespace MusicSocialNetwork.Entities;
     public int Id { get; set; }
     public int PersonId { get; set; }
     public Person Person { get; set; }
-    public int PlaylistsId { get; set; }
-    public Playlists Playlists { get; set; } 
+    public int PlaylistId { get; set; }
+    public Playlist Playlist { get; set; } 
     }
 

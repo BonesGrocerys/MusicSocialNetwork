@@ -21,6 +21,7 @@ namespace MusicSocialNetwork
                 .AddScoped<IAlbumRepository, AlbumRepository>()
                 .AddScoped<IRoleRepository, RoleRepository>()
                 .AddScoped<IPersonRepository, PersonRepository>()
+                .AddScoped<IMusicianRepository, MusicianRepository>()
                 .AddScoped<IAddedTracksRepository, AddedTracksRepository>();
         }
     }

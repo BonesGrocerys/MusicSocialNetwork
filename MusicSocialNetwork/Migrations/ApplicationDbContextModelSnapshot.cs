@@ -37,21 +37,6 @@ namespace MusicSocialNetwork.Migrations
                     b.ToTable("AlbumGenre");
                 });
 
-            modelBuilder.Entity("AlbumMusician", b =>
-                {
-                    b.Property<int>("AlbumsId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("MusiciansId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("AlbumsId", "MusiciansId");
-
-                    b.HasIndex("MusiciansId");
-
-                    b.ToTable("AlbumMusician");
-                });
-
             modelBuilder.Entity("AlbumPerson", b =>
                 {
                     b.Property<int>("AddedAlbumsId")
@@ -93,14 +78,14 @@ namespace MusicSocialNetwork.Migrations
                     b.Property<int>("PersonId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("PlaylistsId")
+                    b.Property<int>("PlaylistId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PersonId");
 
-                    b.HasIndex("PlaylistsId");
+                    b.HasIndex("PlaylistId");
 
                     b.ToTable("AddedPlaylists");
                 });
@@ -204,6 +189,29 @@ namespace MusicSocialNetwork.Migrations
                     b.ToTable("Musicians");
                 });
 
+            modelBuilder.Entity("MusicSocialNetwork.Entities.MusicianAlbum", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AlbumId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("MusicianId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AlbumId");
+
+                    b.HasIndex("MusicianId");
+
+                    b.ToTable("MusicianAlbum");
+                });
+
             modelBuilder.Entity("MusicSocialNetwork.Entities.Person", b =>
                 {
                     b.Property<int>("Id")
@@ -230,7 +238,7 @@ namespace MusicSocialNetwork.Migrations
                     b.ToTable("Persons");
                 });
 
-            modelBuilder.Entity("MusicSocialNetwork.Entities.Playlists", b =>
+            modelBuilder.Entity("MusicSocialNetwork.Entities.Playlist", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -244,6 +252,29 @@ namespace MusicSocialNetwork.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Playlists");
+                });
+
+            modelBuilder.Entity("MusicSocialNetwork.Entities.PlaylistTrack", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("playlistId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("trackId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("playlistId");
+
+                    b.HasIndex("trackId");
+
+                    b.ToTable("PlaylistTrack");
                 });
 
             modelBuilder.Entity("MusicSocialNetwork.Entities.Publications", b =>
@@ -361,21 +392,6 @@ namespace MusicSocialNetwork.Migrations
                     b.ToTable("Tracks");
                 });
 
-            modelBuilder.Entity("PlaylistsTrack", b =>
-                {
-                    b.Property<int>("PlaylistsId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("TracksId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("PlaylistsId", "TracksId");
-
-                    b.HasIndex("TracksId");
-
-                    b.ToTable("PlaylistsTrack");
-                });
-
             modelBuilder.Entity("AlbumGenre", b =>
                 {
                     b.HasOne("MusicSocialNetwork.Entities.Album", null)
@@ -387,21 +403,6 @@ namespace MusicSocialNetwork.Migrations
                     b.HasOne("MusicSocialNetwork.Entities.Genre", null)
                         .WithMany()
                         .HasForeignKey("GenresId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("AlbumMusician", b =>
-                {
-                    b.HasOne("MusicSocialNetwork.Entities.Album", null)
-                        .WithMany()
-                        .HasForeignKey("AlbumsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MusicSocialNetwork.Entities.Musician", null)
-                        .WithMany()
-                        .HasForeignKey("MusiciansId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -444,15 +445,15 @@ namespace MusicSocialNetwork.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MusicSocialNetwork.Entities.Playlists", "Playlists")
+                    b.HasOne("MusicSocialNetwork.Entities.Playlist", "Playlist")
                         .WithMany("AddedPlaylists")
-                        .HasForeignKey("PlaylistsId")
+                        .HasForeignKey("PlaylistId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Person");
 
-                    b.Navigation("Playlists");
+                    b.Navigation("Playlist");
                 });
 
             modelBuilder.Entity("MusicSocialNetwork.Entities.AddedTracks", b =>
@@ -485,6 +486,25 @@ namespace MusicSocialNetwork.Migrations
                     b.Navigation("Person");
                 });
 
+            modelBuilder.Entity("MusicSocialNetwork.Entities.MusicianAlbum", b =>
+                {
+                    b.HasOne("MusicSocialNetwork.Entities.Album", "Album")
+                        .WithMany("MusicianAlbum")
+                        .HasForeignKey("AlbumId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MusicSocialNetwork.Entities.Musician", "Musician")
+                        .WithMany("MusicianAlbum")
+                        .HasForeignKey("MusicianId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Album");
+
+                    b.Navigation("Musician");
+                });
+
             modelBuilder.Entity("MusicSocialNetwork.Entities.Person", b =>
                 {
                     b.HasOne("MusicSocialNetwork.Entities.Role", "Role")
@@ -494,6 +514,25 @@ namespace MusicSocialNetwork.Migrations
                         .IsRequired();
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("MusicSocialNetwork.Entities.PlaylistTrack", b =>
+                {
+                    b.HasOne("MusicSocialNetwork.Entities.Playlist", "playlist")
+                        .WithMany("TrackAddedPlaylist")
+                        .HasForeignKey("playlistId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MusicSocialNetwork.Entities.Track", "track")
+                        .WithMany("PlaylistAddedTracks")
+                        .HasForeignKey("trackId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("playlist");
+
+                    b.Navigation("track");
                 });
 
             modelBuilder.Entity("MusicSocialNetwork.Entities.Publications", b =>
@@ -537,28 +576,17 @@ namespace MusicSocialNetwork.Migrations
                     b.Navigation("Album");
                 });
 
-            modelBuilder.Entity("PlaylistsTrack", b =>
-                {
-                    b.HasOne("MusicSocialNetwork.Entities.Playlists", null)
-                        .WithMany()
-                        .HasForeignKey("PlaylistsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MusicSocialNetwork.Entities.Track", null)
-                        .WithMany()
-                        .HasForeignKey("TracksId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("MusicSocialNetwork.Entities.Album", b =>
                 {
+                    b.Navigation("MusicianAlbum");
+
                     b.Navigation("Tracks");
                 });
 
             modelBuilder.Entity("MusicSocialNetwork.Entities.Musician", b =>
                 {
+                    b.Navigation("MusicianAlbum");
+
                     b.Navigation("PublicationsList");
 
                     b.Navigation("Subscribers");
@@ -575,14 +603,18 @@ namespace MusicSocialNetwork.Migrations
                     b.Navigation("SubscribeMusician");
                 });
 
-            modelBuilder.Entity("MusicSocialNetwork.Entities.Playlists", b =>
+            modelBuilder.Entity("MusicSocialNetwork.Entities.Playlist", b =>
                 {
                     b.Navigation("AddedPlaylists");
+
+                    b.Navigation("TrackAddedPlaylist");
                 });
 
             modelBuilder.Entity("MusicSocialNetwork.Entities.Track", b =>
                 {
                     b.Navigation("PersonAddedTracks");
+
+                    b.Navigation("PlaylistAddedTracks");
                 });
 #pragma warning restore 612, 618
         }

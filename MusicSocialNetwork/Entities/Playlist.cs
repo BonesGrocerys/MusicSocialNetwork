@@ -9,6 +9,6 @@ public class Playlist
     public string Name { get; set; }
     
     public List<AddedPlaylists> AddedPlaylists { get; set; }
-    public List<Track> Tracks { get; set; }
+    public List<PlaylistTrack> TrackAddedPlaylist { get; set; }
 }
 

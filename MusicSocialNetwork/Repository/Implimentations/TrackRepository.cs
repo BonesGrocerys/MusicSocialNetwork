@@ -39,7 +39,7 @@ public class TrackRepository : ITrackRepository
 
     public async Task<IEnumerable<Track>> GetAllTracksToMusician(int musicianId)
     {
-        return await _context.Tracks.Where(x => x.Musicians.Any( x => x.Id == musicianId )).ToListAsync();
+        return await _context.Tracks.Where(x => x.Musicians.Any(x => x.Id == musicianId)).ToListAsync();
         //throw new NotImplementedException();
     }
 
@@ -67,7 +67,6 @@ public class TrackRepository : ITrackRepository
         throw new NotImplementedException();
     }
 
-    
+
 
 }
-

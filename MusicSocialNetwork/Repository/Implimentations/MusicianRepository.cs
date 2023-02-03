@@ -1,4 +1,5 @@
-﻿using MusicSocialNetwork.Database;
+﻿using Microsoft.EntityFrameworkCore;
+using MusicSocialNetwork.Database;
 using MusicSocialNetwork.Entities;
 using MusicSocialNetwork.Repository.Interfaces;
 
@@ -34,6 +35,11 @@ public class MusicianRepository : IMusicianRepository
     public async Task<Musician?> GetAsync(int id)
     {
         return await _context.Musicians.FindAsync(id);
+    }
+
+    public async Task<Musician?> GetByNicknameAsync(string nickname)
+    {
+        return await _context.Musicians.FirstOrDefaultAsync(x => x.Nickname == nickname);
     }
 
     public async Task<int> GetSubscribersCountAsync(int musicianId)

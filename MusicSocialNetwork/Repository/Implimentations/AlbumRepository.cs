@@ -26,10 +26,10 @@ public class AlbumRepository : IAlbumRepository
         throw new NotImplementedException();
     }
 
-    public async Task<IEnumerable<Album>> GetAlbumByMusicianIdAsync(int musicianId)
+    public async Task<IEnumerable<Album>> GetAllAlbumByMusicianIdAsync(int musicianId)
     {
-        return await _context.Albums.Where(x => x.Musicians.Any(x => x.Id == musicianId )).ToListAsync();
-        //throw new NotImplementedException();
+        return await _context.Albums.Where(x => x.MusicianAlbum.Any(x => x.Id == musicianId )).ToListAsync();
+        
     }
 
     public Task UpdateAsync(Album album)
