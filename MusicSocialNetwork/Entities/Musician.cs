@@ -12,7 +12,6 @@ public class Musician
     public string Nickname { get; set; }
     [Column("email")]
     public string Email { get; set; }
-    //public  List<MusicianAlbum> MusicianAlbums { get; set; }
 
     public  List<Publications> PublicationsList { get; set; }
     public int? PersonId { get; set; }
@@ -20,7 +19,8 @@ public class Musician
 
     public List<Subscriptions> Subscribers { get; set; } 
     //public List<MusicianTracks> MusicianTracks { get; set; }
-    public List<MusicianAlbum> MusicianAlbum { get; set; }
+    //public List<MusicianAlbum> MusicianAlbum { get; set; }
+    public List<Album> Albums { get; set; }
     public List<Track> Tracks { get; set; }
 }
 

@@ -30,7 +30,7 @@ public class TracksController : ControllerBase
     }
 
     [HttpPost("create-track")]
-    public async Task<IActionResult> Create(TrackCreateRequest request)
+    public async Task<IActionResult> Create([FromForm]TrackCreateRequest request)
     {
         var response = await _trackService.CreateAsync(request);
         return Ok(response);

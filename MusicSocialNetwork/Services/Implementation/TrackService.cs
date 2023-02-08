@@ -51,7 +51,15 @@ namespace MusicSocialNetwork.Services.Implementation
             }
             track.AlbumId = request.AlbumId;
             track.Musicians = musicians;
-            await _trackRepository.CreateAsync(track);
+            //await _trackRepository.CreateAsync(track);
+            var tracksFiles = request.TrackFiles;
+            var createdId = await _trackRepository.CreateAsync(track);
+
+            var stream = tracksFiles.OpenReadStream();
+            using var fileStream = File.Create($"C:\\Users\\shpackyous\\Desktop\\Tracks\\{createdId}.mp3");
+            stream.Seek(0, SeekOrigin.Begin);
+            stream.CopyTo(fileStream);
+
             return new OperationResult(OperationCode.Ok, $"Трек успешно создан");
         }
 
@@ -73,18 +81,35 @@ namespace MusicSocialNetwork.Services.Implementation
             return new OperationResult(OperationCode.Ok, "Альбом успешно создан");
         }
         //
+        //public async Task CreateTrackFile(AlbumCreateReqeust request)
+        //{
+        //    var tracksDtoList = request.Tracks;
+        //    var tracksFiles = request.TrackFiles;
+
+        //    for(int i = 0; i < request.Tracks.Count; i++)
+        //    {
+        //        var track = _mapper.Map<Track>(tracksDtoList[i]);
+        //        var createdId = await _trackRepository.CreateAsync(track);
+
+        //        var stream = tracksFiles[i].OpenReadStream();
+        //        using var fileStream = File.Create($"C:\\Users\\shpackyous\\Desktop\\{createdId}.m4a");
+        //        stream.Seek(0, SeekOrigin.Begin);
+        //        stream.CopyTo(fileStream);
+        //    }
+        //}
+
         public async Task CreateTrackFile(AlbumCreateReqeust request)
         {
             var tracksDtoList = request.Tracks;
             var tracksFiles = request.TrackFiles;
 
-            for(int i = 0; i < request.Tracks.Count; i++)
+            for (int i = 0; i < request.Tracks.Count; i++)
             {
                 var track = _mapper.Map<Track>(tracksDtoList[i]);
                 var createdId = await _trackRepository.CreateAsync(track);
 
                 var stream = tracksFiles[i].OpenReadStream();
-                using var fileStream = File.Create($"C:\\Users\\shpackyous\\Desktop\\{createdId}.m4a");
+                using var fileStream = File.Create($"C:\\Users\\shpackyous\\Desktop\\{createdId}.mp3");
                 stream.Seek(0, SeekOrigin.Begin);
                 stream.CopyTo(fileStream);
             }

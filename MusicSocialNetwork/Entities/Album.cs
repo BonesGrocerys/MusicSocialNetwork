@@ -22,6 +22,7 @@ public class Album
     public List<Track> Tracks { get; set; }
     //public List<MusicianAlbum> MusicianAlbums { get; set; }
     public List<Person> Persons { get; set; }
-    public List<MusicianAlbum> MusicianAlbum { get; set; }
+    //public List<MusicianAlbum> MusicianAlbum { get; set; }
+    public List<Musician> Musicians { get; set;}
 }
 

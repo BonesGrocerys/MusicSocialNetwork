@@ -28,8 +28,8 @@ public class AlbumRepository : IAlbumRepository
 
     public async Task<IEnumerable<Album>> GetAllAlbumByMusicianIdAsync(int musicianId)
     {
-        return await _context.Albums.Where(x => x.MusicianAlbum.Any(x => x.Id == musicianId )).ToListAsync();
-        
+        //return await _context.Albums.Where(x => x.MusicianAlbum.Any(x => x.Id == musicianId )).ToListAsync();
+        throw new NotImplementedException();
     }
 
     public Task UpdateAsync(Album album)
