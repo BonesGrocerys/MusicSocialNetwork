@@ -2,6 +2,7 @@
 using MusicSocialNetwork.Database;
 using MusicSocialNetwork.Entities;
 using MusicSocialNetwork.Repository.Interfaces;
+using System.Runtime.CompilerServices;
 
 namespace MusicSocialNetwork.Repository.Implimentations;
 
@@ -26,10 +27,25 @@ public class AlbumRepository : IAlbumRepository
         throw new NotImplementedException();
     }
 
+
     public async Task<IEnumerable<Album>> GetAllAlbumByMusicianIdAsync(int musicianId)
     {
-        //return await _context.Albums.Where(x => x.MusicianAlbum.Any(x => x.Id == musicianId )).ToListAsync();
-        throw new NotImplementedException();
+        return await _context.Albums.Where(x => x.Musicians.Any(x => x.Id == musicianId)).Include(x => x.Tracks).ThenInclude( y => y.Musicians).ToListAsync();
+
+    }
+
+    public async Task<IEnumerable<Album>> GetAllAlbumAsync(string searchText)
+    {
+        var query = _context.Albums.Include(x => x.Tracks).AsQueryable();
+        if (searchText != null)
+        {
+            query = query.Where(x => x.AlbumTitle.ToLower().Contains(searchText.ToLower())); 
+            //||
+            //    x.Musicians.Any(y => y.Nickname.ToLower().Contains(searchText.ToLower())));
+        }
+
+        return await query.ToListAsync();
+        //throw new NotImplementedException();
     }
 
     public Task UpdateAsync(Album album)

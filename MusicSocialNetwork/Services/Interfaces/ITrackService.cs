@@ -13,7 +13,7 @@ namespace MusicSocialNetwork.Services.Interfaces
 
         Task<OperationResult> CreateAlbumAsync(AlbumCreateReqeust request);
 
-        Task CreateTrackFile(AlbumCreateReqeust file);
+        //Task CreateTrackFile(AlbumCreateReqeust file);
 
         Task<Stream> GetTrackFileAsync(int id);
 

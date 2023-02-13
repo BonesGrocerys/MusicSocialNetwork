@@ -98,22 +98,7 @@ namespace MusicSocialNetwork.Services.Implementation
         //    }
         //}
 
-        public async Task CreateTrackFile(AlbumCreateReqeust request)
-        {
-            var tracksDtoList = request.Tracks;
-            var tracksFiles = request.TrackFiles;
 
-            for (int i = 0; i < request.Tracks.Count; i++)
-            {
-                var track = _mapper.Map<Track>(tracksDtoList[i]);
-                var createdId = await _trackRepository.CreateAsync(track);
-
-                var stream = tracksFiles[i].OpenReadStream();
-                using var fileStream = File.Create($"C:\\Users\\shpackyous\\Desktop\\{createdId}.mp3");
-                stream.Seek(0, SeekOrigin.Begin);
-                stream.CopyTo(fileStream);
-            }
-        }
 
         public async  Task<Stream> GetTrackFileAsync(int id)
         {

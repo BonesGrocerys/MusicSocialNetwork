@@ -11,7 +11,8 @@ namespace MusicSocialNetwork
         {
             return  services
                 .AddScoped<ITrackService, TrackService>()
-                .AddScoped<IAuthService, AuthService>();
+                .AddScoped<IAuthService, AuthService>()
+                .AddScoped<IAlbumService, AlbumService>();
         }
 
         public static IServiceCollection AddRepositories(this IServiceCollection services)
