@@ -112,6 +112,17 @@ public class TracksController : ControllerBase
 
         return BadRequest(response);
     }
+
+    [HttpGet("get-random-track")]
+    public async Task<IActionResult> GetRandomTrack()
+    {
+        var response = await _trackService.GetRandomTrackAsync();
+        if (response.Success)
+            return Ok(response);
+
+
+        return BadRequest(response);
+    }
 }
 
 

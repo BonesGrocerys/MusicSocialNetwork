@@ -56,6 +56,14 @@ public class TrackRepository : ITrackRepository
 
     }
 
+    public async Task<IEnumerable<Track>> GetRandomTrackAsync()
+    {
+        Random rnd = new Random(3);
+        int dice = rnd.Next(1, 3);
+        return await _context.Tracks.Include(x => x.Id == dice).FirstOrDefaultAsync();
+       
+    }
+
     public async Task<IEnumerable<Track>> GetTrackByMusicanIdAsync(int musicanId)
     {
         return await _context.Tracks.Where(t => t.Musicians.Any(x => x.Id == musicanId)).ToListAsync();
