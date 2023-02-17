@@ -56,16 +56,16 @@ public class TrackRepository : ITrackRepository
 
     }
 
-    public async Task<Track> GetRandomTrackAsync()
+    public async Task<IEnumerable<Track>> GetRandomTrackAsync()
     {
         var end = _context.Tracks.Max(x => x.Id);
         var rnd = new Random();
         var dice = rnd.Next(1, end+1);
-        var randomTrack = await _context.Tracks.FirstOrDefaultAsync(x => x.Id == dice);
+        var randomTrack = await _context.Tracks.Where(x => x.Id == dice).ToListAsync();
         while (randomTrack == null)
         {
             dice = rnd.Next(1, end + 1);
-            randomTrack = await _context.Tracks.FirstOrDefaultAsync(x => x.Id == dice);
+            randomTrack = await _context.Tracks.Where(x => x.Id == dice).ToListAsync();
         }
         return randomTrack;
     }
