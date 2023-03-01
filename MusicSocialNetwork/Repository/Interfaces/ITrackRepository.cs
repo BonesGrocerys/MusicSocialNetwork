@@ -13,6 +13,6 @@ public interface ITrackRepository
     public Task<IEnumerable<Track>> GetAllTracksAsync(string searchText);
     public Task<IEnumerable<Track>> GetAddedTracksPerson(int personId);
     public Task<IEnumerable<Track>> GetAllTracksToMusician(int musicianId);
-    public Task<Track> GetRandomTrackAsync();
+    public Task<IEnumerable<Track>> GetRandomTrackAsync();
 }
 
