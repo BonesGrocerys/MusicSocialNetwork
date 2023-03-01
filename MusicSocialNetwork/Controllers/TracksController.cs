@@ -124,16 +124,16 @@ public class TracksController : ControllerBase
         return BadRequest(response);
     }
 
-    [HttpPost("listen-track/{trackId}")]
-    public async Task<IActionResult> ListenTrack(int trackId)
-    {
-        var response = await _trackService.ListenTrackAsync(trackId);
-        if (response.Success)
-            return Ok(response);
+    //[HttpPost("listen-track/{trackId}")]
+    //public async Task<IActionResult> ListenTrack(int trackId)
+    //{
+    //    var response = await _trackService.ListenTrackAsync(trackId);
+    //    if (response.Success)
+    //        return Ok(response);
 
 
-        return BadRequest(response);
-    }
+    //    return BadRequest(response);
+    //}
 
     [HttpGet("get-genre-track/{genreId}")]
     public async Task<IActionResult> GetTrackGenre(int genreId)

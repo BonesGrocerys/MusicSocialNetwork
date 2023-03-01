@@ -35,6 +35,14 @@ namespace MusicSocialNetwork.Controllers
             return Ok(resp);
         }
 
-        
+        [HttpGet("get-all-albums")]
+        public async Task<IActionResult> GetAllAlbums(string SearchText)
+        {
+            var resp = await _albumService.GetAllAlbums(SearchText);
+
+            return Ok(resp);
+        }
+
+
     }
 }

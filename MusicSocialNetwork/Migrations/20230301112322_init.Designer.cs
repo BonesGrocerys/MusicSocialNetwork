@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MusicSocialNetwork.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230301073054_init")]
+    [Migration("20230301112322_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -168,6 +168,32 @@ namespace MusicSocialNetwork.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Genres");
+                });
+
+            modelBuilder.Entity("MusicSocialNetwork.Entities.ListenPerson", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("PersonId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("TrackId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PersonId");
+
+                    b.HasIndex("TrackId");
+
+                    b.ToTable("AuditionsCount");
                 });
 
             modelBuilder.Entity("MusicSocialNetwork.Entities.Musician", b =>
@@ -357,10 +383,6 @@ namespace MusicSocialNetwork.Migrations
                     b.Property<int>("AlbumId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("AuditionsCount")
-                        .HasColumnType("integer")
-                        .HasColumnName("auditions_count");
-
                     b.Property<string>("Author")
                         .HasColumnType("text")
                         .HasColumnName("author");
@@ -468,6 +490,21 @@ namespace MusicSocialNetwork.Migrations
                     b.Navigation("Genre");
                 });
 
+            modelBuilder.Entity("MusicSocialNetwork.Entities.ListenPerson", b =>
+                {
+                    b.HasOne("MusicSocialNetwork.Entities.Person", "Person")
+                        .WithMany("ListenPerson")
+                        .HasForeignKey("PersonId");
+
+                    b.HasOne("MusicSocialNetwork.Entities.Track", "Track")
+                        .WithMany("ListenPerson")
+                        .HasForeignKey("TrackId");
+
+                    b.Navigation("Person");
+
+                    b.Navigation("Track");
+                });
+
             modelBuilder.Entity("MusicSocialNetwork.Entities.Musician", b =>
                 {
                     b.HasOne("MusicSocialNetwork.Entities.Person", "Person")
@@ -567,6 +604,8 @@ namespace MusicSocialNetwork.Migrations
 
             modelBuilder.Entity("MusicSocialNetwork.Entities.Person", b =>
                 {
+                    b.Navigation("ListenPerson");
+
                     b.Navigation("Musicians");
 
                     b.Navigation("MyPlaylists");
@@ -585,6 +624,8 @@ namespace MusicSocialNetwork.Migrations
 
             modelBuilder.Entity("MusicSocialNetwork.Entities.Track", b =>
                 {
+                    b.Navigation("ListenPerson");
+
                     b.Navigation("PersonAddedTracks");
 
                     b.Navigation("PlaylistAddedTracks");

@@ -101,7 +101,6 @@ namespace MusicSocialNetwork.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     author = table.Column<string>(type: "text", nullable: true),
                     title = table.Column<string>(type: "text", nullable: true),
-                    auditions_count = table.Column<int>(type: "integer", nullable: false),
                     AlbumId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -209,6 +208,31 @@ namespace MusicSocialNetwork.Migrations
                         principalTable: "Tracks",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AuditionsCount",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    DateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    TrackId = table.Column<int>(type: "integer", nullable: true),
+                    PersonId = table.Column<int>(type: "integer", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AuditionsCount", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AuditionsCount_Persons_PersonId",
+                        column: x => x.PersonId,
+                        principalTable: "Persons",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_AuditionsCount_Tracks_TrackId",
+                        column: x => x.TrackId,
+                        principalTable: "Tracks",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -379,6 +403,16 @@ namespace MusicSocialNetwork.Migrations
                 column: "GenreId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AuditionsCount_PersonId",
+                table: "AuditionsCount",
+                column: "PersonId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AuditionsCount_TrackId",
+                table: "AuditionsCount",
+                column: "TrackId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Musicians_PersonId",
                 table: "Musicians",
                 column: "PersonId");
@@ -437,6 +471,9 @@ namespace MusicSocialNetwork.Migrations
 
             migrationBuilder.DropTable(
                 name: "AlbumPerson");
+
+            migrationBuilder.DropTable(
+                name: "AuditionsCount");
 
             migrationBuilder.DropTable(
                 name: "MusicianTrack");

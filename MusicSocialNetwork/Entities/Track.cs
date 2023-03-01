@@ -11,8 +11,7 @@ public class Track
     public string Author { get; set; }
     [Column("title")]
     public string Title { get; set; }
-    [Column("auditions_count")]
-    public int AuditionsCount { get; set; }
+    public List<ListenPerson> ListenPerson { get; set; }
    
     public int AlbumId { get; set; }
     public Album Album { get; set; }

@@ -46,7 +46,7 @@ public class TrackRepository : ITrackRepository
 
     public async Task<IEnumerable<Track>> GetAllTracksToMusician(int musicianId)
     {
-        return await _context.Tracks.Where(x => x.Musicians.Any(x => x.Id == musicianId)).Include(x => x.Album).ToListAsync();
+        return await _context.Tracks.Where(x => x.Musicians.Any(x => x.Id == musicianId)).Include(x => x.Album).Include(x => x.Musicians).ToListAsync();
         //throw new NotImplementedException();
     }
 
@@ -61,11 +61,11 @@ public class TrackRepository : ITrackRepository
         var end = _context.Tracks.Max(x => x.Id);
         var rnd = new Random();
         var dice = rnd.Next(1, end+1);
-        var randomTrack = await _context.Tracks.Where(x => x.Id == dice).Include(x => x.Album).ToListAsync();
+        var randomTrack = await _context.Tracks.Where(x => x.Id == dice).Include(x => x.Album).Include(x => x.Musicians).ToListAsync();
         while (randomTrack == null)
         {
             dice = rnd.Next(1, end + 1);
-            randomTrack = await _context.Tracks.Where(x => x.Id == dice).Include(x => x.Album).ToListAsync();
+            randomTrack = await _context.Tracks.Where(x => x.Id == dice).Include(x => x.Album).Include(x => x.Musicians).ToListAsync();
         }
         
         return randomTrack;
@@ -73,21 +73,23 @@ public class TrackRepository : ITrackRepository
 
     public async Task<IEnumerable<Track>> GetTrackByMusicanIdAsync(int musicanId)
     {
-        return await _context.Tracks.Where(t => t.Musicians.Any(x => x.Id == musicanId)).Include(x => x.Album).ToListAsync();
+        return await _context.Tracks.Where(t => t.Musicians.Any(x => x.Id == musicanId)).Include(x => x.Album).Include(x => x.Musicians).ToListAsync();
         
     }
 
     public async Task<IEnumerable<Track>> GetTrackGenreAsync(int genreId)
     {
-        return await _context.Tracks.Where(e => e.Album.GenreId == genreId).ToListAsync();
+        return await _context.Tracks.Where(e => e.Album.GenreId == genreId).Include(x => x.Album).Include(x => x.Musicians).ToListAsync();
     }
 
-    public async Task ListenTrackAsync(int trackId)
+    public async Task ListenTrackAsync(ListenPerson listenPerson)
     {
-        var track = await _context.Tracks.FindAsync(trackId);
-        track.AuditionsCount += 1;
+        listenPerson.DateTime = DateTime.Now;
+        await _context.AddAsync(listenPerson);
         await _context.SaveChangesAsync();
+        return;
     }
+
 
     public Task UpdateAsync(Track track)
     {

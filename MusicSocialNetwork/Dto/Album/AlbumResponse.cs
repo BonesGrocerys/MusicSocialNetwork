@@ -1,4 +1,5 @@
-﻿using MusicSocialNetwork.Dto.Track;
+﻿using MusicSocialNetwork.Dto.Musician;
+using MusicSocialNetwork.Dto.Track;
 
 namespace MusicSocialNetwork.Dto.Album;
 
@@ -13,6 +14,7 @@ namespace MusicSocialNetwork.Dto.Album;
 
     public int AuditionsCount { get; set; }
     public Byte[] Cover { get; set; }
-    public List<TrackResponse> Tracks { get; set; }
+    public List<MusicianResponse> Musicians { get; set; }
+    public List<TrackInAlbumResponse> Tracks { get; set; }
 }
 

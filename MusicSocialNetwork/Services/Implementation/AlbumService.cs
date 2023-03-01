@@ -47,7 +47,7 @@ namespace MusicSocialNetwork.Services.Implementation
                 }
 
             }
-            if ( request.Cover!= null ) {
+            if ( request.Cover != null ) {
                 using (var memoryStream = new MemoryStream())
                 {
                     request.Cover.CopyTo(memoryStream);

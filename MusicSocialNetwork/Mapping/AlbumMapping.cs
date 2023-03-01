@@ -12,6 +12,7 @@ namespace MusicSocialNetwork.Mapping
         public AlbumMapping() 
         {
             CreateMap<Album, AlbumResponse>();
+            
         }
     }
 }

@@ -1,9 +1,8 @@
 ﻿using MusicSocialNetwork.Dto.Musician;
-using MusicSocialNetwork.Entities;
 
-namespace MusicSocialNetwork.Dto.Track
+namespace MusicSocialNetwork.Dto.Album
 {
-    public class TrackResponse
+    public class TrackInAlbumResponse
     {
         public int Id { get; set; }
 
@@ -16,8 +15,6 @@ namespace MusicSocialNetwork.Dto.Track
         public string Url { get; set; }
 
         public List<MusicianResponse> Musicians { get; set; }
-        public int GenreId { get; set; }
-        public Byte[] Cover { get; set; }
-        // возвращать на клиент
+
     }
 }

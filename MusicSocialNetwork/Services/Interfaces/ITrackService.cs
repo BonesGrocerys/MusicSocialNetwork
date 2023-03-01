@@ -26,7 +26,7 @@ namespace MusicSocialNetwork.Services.Interfaces
 
         Task<OperationResult<IEnumerable<TrackResponse>>> GetAllTracksToMusician(int musicianId);
         Task<OperationResult<IEnumerable<TrackResponse>>> GetRandomTrackAsync();
-        Task<OperationResult> ListenTrackAsync(int trackId);
+        //Task<OperationResult> ListenTrackAsync(int trackId);
         Task<OperationResult<IEnumerable<TrackResponse>>> GetTrackGenreAsync(int genreId);
     }
 }

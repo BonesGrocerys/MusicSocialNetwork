@@ -30,22 +30,30 @@ public class AlbumRepository : IAlbumRepository
 
     public async Task<IEnumerable<Album>> GetAllAlbumByMusicianIdAsync(int musicianId)
     {
-        return await _context.Albums.Where(x => x.Musicians.Any(x => x.Id == musicianId)).Include(x => x.Tracks).ThenInclude( y => y.Musicians).ToListAsync();
+        return await _context.Albums
+            .Where(x => x.Musicians.Any(x => x.Id == musicianId))
+            .Include(x => x.Musicians)
+            .Include(x => x.Tracks)
+                .ThenInclude( y => y.Musicians)
+            .ToListAsync();
+            
 
     }
 
     public async Task<IEnumerable<Album>> GetAllAlbumAsync(string searchText)
     {
-        var query = _context.Albums.Include(x => x.Tracks).AsQueryable();
+        var query = _context.Albums
+            .Include(x => x.Musicians)
+            .Include(x => x.Tracks)
+                .ThenInclude(x => x.Musicians)
+            .AsQueryable();
         if (searchText != null)
         {
-            query = query.Where(x => x.AlbumTitle.ToLower().Contains(searchText.ToLower())); 
-            //||
-            //    x.Musicians.Any(y => y.Nickname.ToLower().Contains(searchText.ToLower())));
+            query = query.Where(x => x.AlbumTitle.ToLower().Contains(searchText.ToLower()) ||
+                x.Musicians.Any(y => y.Nickname.ToLower().Contains(searchText.ToLower())));
         }
 
         return await query.ToListAsync();
-        //throw new NotImplementedException();
     }
 
     public Task UpdateAsync(Album album)

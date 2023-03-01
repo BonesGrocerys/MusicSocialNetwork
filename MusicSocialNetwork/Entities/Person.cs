@@ -22,5 +22,6 @@ public class Person
     public List<Subscriptions> SubscribeMusician { get; set; }
     public List<AddedPlaylists> MyPlaylists { get; set; }
     public List<Album> AddedAlbums { get; set; }
+    public List<ListenPerson> ListenPerson { get; set; }
 }
 
