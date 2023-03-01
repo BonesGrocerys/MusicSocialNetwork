@@ -33,6 +33,7 @@ public class AlbumRepository : IAlbumRepository
         return await _context.Albums
             .Where(x => x.Musicians.Any(x => x.Id == musicianId))
             .Include(x => x.Musicians)
+            .Include(x => x.Genre)
             .Include(x => x.Tracks)
                 .ThenInclude( y => y.Musicians)
             .ToListAsync();
@@ -44,6 +45,7 @@ public class AlbumRepository : IAlbumRepository
     {
         var query = _context.Albums
             .Include(x => x.Musicians)
+            .Include(x => x.Genre)
             .Include(x => x.Tracks)
                 .ThenInclude(x => x.Musicians)
             .AsQueryable();

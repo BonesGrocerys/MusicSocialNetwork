@@ -11,6 +11,7 @@ namespace MusicSocialNetwork.Dto.Album;
 
     public string Status { get; set; }
     public int? GenreId { get; set; }
+    public string GenreTitle { get; set; }
 
     public int AuditionsCount { get; set; }
     public Byte[] Cover { get; set; }

@@ -27,7 +27,7 @@ namespace MusicSocialNetwork.Database
 
         public DbSet<Role> Roles { get; set; }
 
-        public DbSet<ListenPerson> AuditionsCount { get; set; }
+        public DbSet<ListenPerson> ListenPerson { get; set; }
 
         //public DbSet<MusicianAlbum> MusicianAlbum { get; set; }
         //public DbSet<MusicianTracks> MusicianTracks { get; set; }

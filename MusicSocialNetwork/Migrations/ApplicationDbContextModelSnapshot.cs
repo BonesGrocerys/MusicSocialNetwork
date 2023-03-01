@@ -179,10 +179,10 @@ namespace MusicSocialNetwork.Migrations
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int?>("PersonId")
+                    b.Property<int>("PersonId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("TrackId")
+                    b.Property<int>("TrackId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -191,7 +191,7 @@ namespace MusicSocialNetwork.Migrations
 
                     b.HasIndex("TrackId");
 
-                    b.ToTable("AuditionsCount");
+                    b.ToTable("ListenPerson");
                 });
 
             modelBuilder.Entity("MusicSocialNetwork.Entities.Musician", b =>
@@ -492,11 +492,15 @@ namespace MusicSocialNetwork.Migrations
                 {
                     b.HasOne("MusicSocialNetwork.Entities.Person", "Person")
                         .WithMany("ListenPerson")
-                        .HasForeignKey("PersonId");
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("MusicSocialNetwork.Entities.Track", "Track")
                         .WithMany("ListenPerson")
-                        .HasForeignKey("TrackId");
+                        .HasForeignKey("TrackId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Person");
 
