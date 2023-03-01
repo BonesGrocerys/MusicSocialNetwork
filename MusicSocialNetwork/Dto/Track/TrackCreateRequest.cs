@@ -11,6 +11,7 @@ namespace MusicSocialNetwork.Dto.Track
         public List<string> Nicknames { get; set; }
         public int AlbumId { get; set; }
         public IFormFile TrackFiles { get; set; }
+        
 
         // запрос с фронта на бэк-энд
     }

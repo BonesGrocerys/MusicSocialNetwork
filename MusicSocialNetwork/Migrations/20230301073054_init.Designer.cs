@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MusicSocialNetwork.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230227064711_init")]
+    [Migration("20230301073054_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -135,7 +135,7 @@ namespace MusicSocialNetwork.Migrations
                         .HasColumnType("bytea")
                         .HasColumnName("cover");
 
-                    b.Property<int>("GenreId")
+                    b.Property<int?>("GenreId")
                         .HasColumnType("integer");
 
                     b.Property<DateOnly>("ReleaseDate")
@@ -365,9 +365,6 @@ namespace MusicSocialNetwork.Migrations
                         .HasColumnType("text")
                         .HasColumnName("author");
 
-                    b.Property<int>("GenreId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Title")
                         .HasColumnType("text")
                         .HasColumnName("title");
@@ -375,8 +372,6 @@ namespace MusicSocialNetwork.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AlbumId");
-
-                    b.HasIndex("GenreId");
 
                     b.ToTable("Tracks");
                 });
@@ -468,9 +463,7 @@ namespace MusicSocialNetwork.Migrations
                 {
                     b.HasOne("MusicSocialNetwork.Entities.Genre", "Genre")
                         .WithMany("Albums")
-                        .HasForeignKey("GenreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("GenreId");
 
                     b.Navigation("Genre");
                 });
@@ -552,15 +545,7 @@ namespace MusicSocialNetwork.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MusicSocialNetwork.Entities.Genre", "Genre")
-                        .WithMany("Tracks")
-                        .HasForeignKey("GenreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Album");
-
-                    b.Navigation("Genre");
                 });
 
             modelBuilder.Entity("MusicSocialNetwork.Entities.Album", b =>
@@ -571,8 +556,6 @@ namespace MusicSocialNetwork.Migrations
             modelBuilder.Entity("MusicSocialNetwork.Entities.Genre", b =>
                 {
                     b.Navigation("Albums");
-
-                    b.Navigation("Tracks");
                 });
 
             modelBuilder.Entity("MusicSocialNetwork.Entities.Musician", b =>

@@ -363,9 +363,6 @@ namespace MusicSocialNetwork.Migrations
                         .HasColumnType("text")
                         .HasColumnName("author");
 
-                    b.Property<int?>("GenreId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Title")
                         .HasColumnType("text")
                         .HasColumnName("title");
@@ -373,8 +370,6 @@ namespace MusicSocialNetwork.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AlbumId");
-
-                    b.HasIndex("GenreId");
 
                     b.ToTable("Tracks");
                 });
@@ -548,13 +543,7 @@ namespace MusicSocialNetwork.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MusicSocialNetwork.Entities.Genre", "Genre")
-                        .WithMany("Tracks")
-                        .HasForeignKey("GenreId");
-
                     b.Navigation("Album");
-
-                    b.Navigation("Genre");
                 });
 
             modelBuilder.Entity("MusicSocialNetwork.Entities.Album", b =>
@@ -565,8 +554,6 @@ namespace MusicSocialNetwork.Migrations
             modelBuilder.Entity("MusicSocialNetwork.Entities.Genre", b =>
                 {
                     b.Navigation("Albums");
-
-                    b.Navigation("Tracks");
                 });
 
             modelBuilder.Entity("MusicSocialNetwork.Entities.Musician", b =>

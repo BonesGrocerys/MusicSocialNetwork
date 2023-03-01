@@ -10,7 +10,7 @@ public class Genre
     [Column("genre")]
     public string Name { get; set; } 
     public List<Album> Albums { get; set; } = new List<Album>();
-    public List<Track> Tracks { get; set; } = new List<Track>();
+    //public List<Track> Tracks { get; set; } = new List<Track>();
     
 }
 

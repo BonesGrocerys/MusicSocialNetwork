@@ -59,8 +59,8 @@ namespace MusicSocialNetwork.Migrations
                     release_date = table.Column<DateOnly>(type: "date", nullable: false),
                     status = table.Column<string>(type: "text", nullable: true),
                     auditions_count = table.Column<int>(type: "integer", nullable: false),
-                    cover = table.Column<byte[]>(type: "bytea", nullable: true),
-                    GenreId = table.Column<int>(type: "integer", nullable: false)
+                    GenreId = table.Column<int>(type: "integer", nullable: true),
+                    cover = table.Column<byte[]>(type: "bytea", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -69,8 +69,7 @@ namespace MusicSocialNetwork.Migrations
                         name: "FK_Albums_Genres_GenreId",
                         column: x => x.GenreId,
                         principalTable: "Genres",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -103,8 +102,7 @@ namespace MusicSocialNetwork.Migrations
                     author = table.Column<string>(type: "text", nullable: true),
                     title = table.Column<string>(type: "text", nullable: true),
                     auditions_count = table.Column<int>(type: "integer", nullable: false),
-                    AlbumId = table.Column<int>(type: "integer", nullable: false),
-                    GenreId = table.Column<int>(type: "integer", nullable: false)
+                    AlbumId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -113,12 +111,6 @@ namespace MusicSocialNetwork.Migrations
                         name: "FK_Tracks_Albums_AlbumId",
                         column: x => x.AlbumId,
                         principalTable: "Albums",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Tracks_Genres_GenreId",
-                        column: x => x.GenreId,
-                        principalTable: "Genres",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -430,11 +422,6 @@ namespace MusicSocialNetwork.Migrations
                 name: "IX_Tracks_AlbumId",
                 table: "Tracks",
                 column: "AlbumId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Tracks_GenreId",
-                table: "Tracks",
-                column: "GenreId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -29,12 +29,12 @@ public class TrackRepository : ITrackRepository
 
     public async Task<IEnumerable<Track>> GetAddedTracksPerson(int personId)
     {
-        return await _context.Tracks.Include(x => x.Musicians).Where(x => x.PersonAddedTracks.Any(y => y.PersonId == personId)).ToListAsync();
+        return await _context.Tracks.Include(x => x.Musicians).Where(x => x.PersonAddedTracks.Any(y => y.PersonId == personId)).Include(x => x.Album).ToListAsync();
     }
 
     public async Task<IEnumerable<Track>> GetAllTracksAsync(string searchText)
     {
-       var query = _context.Tracks.Include(x => x.Musicians).AsQueryable();
+       var query = _context.Tracks.Include(x => x.Musicians).Include(x => x.Album).AsQueryable();
         if (searchText != null)
         {
             query = query.Where(x => x.Title.ToLower().Contains(searchText.ToLower()) ||
@@ -46,7 +46,7 @@ public class TrackRepository : ITrackRepository
 
     public async Task<IEnumerable<Track>> GetAllTracksToMusician(int musicianId)
     {
-        return await _context.Tracks.Where(x => x.Musicians.Any(x => x.Id == musicianId)).ToListAsync();
+        return await _context.Tracks.Where(x => x.Musicians.Any(x => x.Id == musicianId)).Include(x => x.Album).ToListAsync();
         //throw new NotImplementedException();
     }
 
@@ -61,19 +61,25 @@ public class TrackRepository : ITrackRepository
         var end = _context.Tracks.Max(x => x.Id);
         var rnd = new Random();
         var dice = rnd.Next(1, end+1);
-        var randomTrack = await _context.Tracks.Where(x => x.Id == dice).ToListAsync();
+        var randomTrack = await _context.Tracks.Where(x => x.Id == dice).Include(x => x.Album).ToListAsync();
         while (randomTrack == null)
         {
             dice = rnd.Next(1, end + 1);
-            randomTrack = await _context.Tracks.Where(x => x.Id == dice).ToListAsync();
+            randomTrack = await _context.Tracks.Where(x => x.Id == dice).Include(x => x.Album).ToListAsync();
         }
+        
         return randomTrack;
     }
 
     public async Task<IEnumerable<Track>> GetTrackByMusicanIdAsync(int musicanId)
     {
-        return await _context.Tracks.Where(t => t.Musicians.Any(x => x.Id == musicanId)).ToListAsync();
+        return await _context.Tracks.Where(t => t.Musicians.Any(x => x.Id == musicanId)).Include(x => x.Album).ToListAsync();
         
+    }
+
+    public async Task<IEnumerable<Track>> GetTrackGenreAsync(int genreId)
+    {
+        return await _context.Tracks.Where(e => e.Album.GenreId == genreId).ToListAsync();
     }
 
     public async Task ListenTrackAsync(int trackId)

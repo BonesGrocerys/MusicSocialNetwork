@@ -36,13 +36,13 @@ public class TracksController : ControllerBase
         return Ok(response);
     }
 
-    [HttpPost("create-album")]
-    public async Task<IActionResult> CreateAlbum(AlbumCreateReqeust request)
-    {
+    //[HttpPost("create-album")]
+    //public async Task<IActionResult> CreateAlbum(AlbumCreateReqeust request)
+    //{
 
-        var response =  await _trackService.CreateAlbumAsync(request);
-        return Ok(response);
-    }
+    //    var response =  await _trackService.CreateAlbumAsync(request);
+    //    return Ok(response);
+    //}
 
     //[HttpPost("create-track-file")]
     //public async Task<IActionResult> CreateTracks([FromForm]AlbumCreateReqeust request)
@@ -61,7 +61,7 @@ public class TracksController : ControllerBase
         return File(resp, "audio/mpeg", $"{id}.mp3", true);
     }
 
-    [HttpGet("get-tracks")]
+    [HttpGet("get-all-tracks")]
     public async Task<IActionResult> GetTracks(string searchText)
     {
         var resp = await _trackService.GetTracks(searchText);
@@ -128,6 +128,17 @@ public class TracksController : ControllerBase
     public async Task<IActionResult> ListenTrack(int trackId)
     {
         var response = await _trackService.ListenTrackAsync(trackId);
+        if (response.Success)
+            return Ok(response);
+
+
+        return BadRequest(response);
+    }
+
+    [HttpGet("get-genre-track/{genreId}")]
+    public async Task<IActionResult> GetTrackGenre(int genreId)
+    {
+        var response = await _trackService.GetTrackGenreAsync(genreId);
         if (response.Success)
             return Ok(response);
 

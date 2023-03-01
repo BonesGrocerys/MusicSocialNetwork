@@ -20,8 +20,8 @@ public class Track
     public List<AddedTracks> PersonAddedTracks { get; set; }
     public List<PlaylistTrack> PlaylistAddedTracks { get; set; }
     public List<Musician> Musicians { get; set; }
-    public Genre? Genre { get; set; }
-    public int? GenreId { get; set; }
+    //public Genre? Genre { get; set; }
+    //public int? GenreId { get; set; }
 
 }
 

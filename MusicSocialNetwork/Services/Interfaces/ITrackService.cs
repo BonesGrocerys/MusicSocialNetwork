@@ -25,7 +25,8 @@ namespace MusicSocialNetwork.Services.Interfaces
         Task<OperationResult> DeleteAddedTrackToPerson(int personId, int trackId);
 
         Task<OperationResult<IEnumerable<TrackResponse>>> GetAllTracksToMusician(int musicianId);
-        Task<OperationResult<TrackResponse>> GetRandomTrackAsync();
+        Task<OperationResult<IEnumerable<TrackResponse>>> GetRandomTrackAsync();
         Task<OperationResult> ListenTrackAsync(int trackId);
+        Task<OperationResult<IEnumerable<TrackResponse>>> GetTrackGenreAsync(int genreId);
     }
 }
