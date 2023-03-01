@@ -16,13 +16,13 @@ public class Album
     public string Status { get; set; }
     [Column("auditions_count")]
     public int AuditionsCount { get; set; }
+    public Genre? Genre { get; set; }
+    public int? GenreId { get; set; }
+    public List<Track> Tracks { get; set; }
+    public List<Person> Persons { get; set; }
+    public List<Musician> Musicians { get; set;}
+    //public string CoverName { get; set; }
     [Column("cover")]
     public Byte[] Cover { get; set; }
-    public List<Genre> Genres { get; set; }
-    public List<Track> Tracks { get; set; }
-    //public List<MusicianAlbum> MusicianAlbums { get; set; }
-    public List<Person> Persons { get; set; }
-    //public List<MusicianAlbum> MusicianAlbum { get; set; }
-    public List<Musician> Musicians { get; set;}
 }
 

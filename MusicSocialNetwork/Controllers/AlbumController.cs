@@ -21,7 +21,7 @@ namespace MusicSocialNetwork.Controllers
             _albumService = albumService;
         }
         [HttpPost("create-album")]
-        public async Task<IActionResult> Create(AlbumCreateReqeust request)
+        public async Task<IActionResult> Create([FromForm]AlbumCreateReqeust request)
         {
             var response = await _albumService.CreateAlbumAsync(request);
             return Ok(response);

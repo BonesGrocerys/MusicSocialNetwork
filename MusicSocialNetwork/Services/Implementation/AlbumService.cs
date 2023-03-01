@@ -47,6 +47,15 @@ namespace MusicSocialNetwork.Services.Implementation
                 }
 
             }
+            if ( request.Cover!= null ) {
+                using (var memoryStream = new MemoryStream())
+                {
+                    request.Cover.CopyTo(memoryStream);
+                    var data = memoryStream.ToArray();
+                    album.Cover = data;
+                } 
+            } else return new OperationResult(OperationCode.Error, $"Необходимо загрузить обложку");
+
             album.Musicians = musicians;
             await _albumRepository.CreateAsync(album);
             return new OperationResult(OperationCode.Ok, $"Альбом успешно создан");

@@ -13,16 +13,15 @@ public class Track
     public string Title { get; set; }
     [Column("auditions_count")]
     public int AuditionsCount { get; set; }
-    //[Column("genre")]
-    //public string Genre { get; set; }
+   
     public int AlbumId { get; set; }
     public Album Album { get; set; }
     
     public List<AddedTracks> PersonAddedTracks { get; set; }
     public List<PlaylistTrack> PlaylistAddedTracks { get; set; }
-    //public List<MusicianTracks> MusiciansTracks { get; set; }
     public List<Musician> Musicians { get; set; }
-
+    public Genre? Genre { get; set; }
+    public int? GenreId { get; set; }
 
 }
 

@@ -154,5 +154,13 @@ namespace MusicSocialNetwork.Services.Implementation
             var response = _mapper.Map<TrackResponse>(tracks);
             return new OperationResult<TrackResponse>(response);
         }
+
+        public async Task<OperationResult> ListenTrackAsync(int trackId)
+        {
+            //var track = _mapper.Map<Track>(trackId).AuditionsCount;
+            var track = await _trackRepository.GetAsync(trackId);
+            await _trackRepository.ListenTrackAsync(track.Id);
+            return OperationResult.OK;
+        }
     }
 }

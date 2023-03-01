@@ -9,8 +9,10 @@ namespace MusicSocialNetwork.Dto.Album;
     public string AlbumTitle { get; set; }
 
     public string Status { get; set; }
+    public int? GenreId { get; set; }
 
     public int AuditionsCount { get; set; }
+    public Byte[] Cover { get; set; }
     public List<TrackResponse> Tracks { get; set; }
 }
 
