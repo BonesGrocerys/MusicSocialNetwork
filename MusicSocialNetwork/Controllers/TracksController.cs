@@ -13,10 +13,11 @@ namespace MusicSocialNetwork.Controllers;
 public class TracksController : ControllerBase
 {
     private readonly ITrackService _trackService;
-
-    public TracksController(ITrackService trackService)
+    private readonly IStatisticsService _statisticsService;
+    public TracksController(ITrackService trackService, IStatisticsService statisticsService)
     {
         _trackService = trackService;
+        _statisticsService = statisticsService;
     }
 
     [HttpGet("get-by-id/{id}")]
@@ -139,6 +140,17 @@ public class TracksController : ControllerBase
     public async Task<IActionResult> GetTrackGenre(int genreId)
     {
         var response = await _trackService.GetTrackGenreAsync(genreId);
+        if (response.Success)
+            return Ok(response);
+
+
+        return BadRequest(response);
+    }
+
+    [HttpGet("get-graph-musician/{musicianId}")]
+    public async Task<IActionResult> GetGraphDataByMusicianAsync(int musicianId)
+    {
+        var response = await _statisticsService.GetGraphDataByMusicianAsync(musicianId);
         if (response.Success)
             return Ok(response);
 

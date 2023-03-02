@@ -16,6 +16,6 @@ namespace MusicSocialNetwork.Dto.Album;
     public int AuditionsCount { get; set; }
     public Byte[] Cover { get; set; }
     public List<MusicianResponse> Musicians { get; set; }
-    public List<TrackInAlbumResponse> Tracks { get; set; }
+    public List<TrackResponse> Tracks { get; set; }
 }
 

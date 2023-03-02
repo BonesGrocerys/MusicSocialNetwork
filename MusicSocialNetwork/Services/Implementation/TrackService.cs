@@ -18,16 +18,17 @@ namespace MusicSocialNetwork.Services.Implementation
         private readonly IAlbumRepository _albumRepository;
         private readonly IAddedTracksRepository _addedTracksRepository;
         private readonly IMusicianRepository _musicianRepository;
-
+        private readonly IStatisticsRepository _statisticsRepository;
         private readonly IMapper _mapper;
 
-        public TrackService(ITrackRepository trackRepository, IMapper mapper, IAlbumRepository albumRepository, IAddedTracksRepository addedTracksRepository, IMusicianRepository musicianRepository)
+        public TrackService(ITrackRepository trackRepository, IMapper mapper, IAlbumRepository albumRepository, IAddedTracksRepository addedTracksRepository, IMusicianRepository musicianRepository, IStatisticsRepository statisticsRepository)
         {
             _trackRepository = trackRepository;
             _mapper = mapper;
             _albumRepository = albumRepository;
             _addedTracksRepository = addedTracksRepository;
             _musicianRepository = musicianRepository;
+            _statisticsRepository = statisticsRepository;   
         }
 
         public async Task<OperationResult> CreateAsync(TrackCreateRequest request)
@@ -142,8 +143,13 @@ namespace MusicSocialNetwork.Services.Implementation
         public async Task<OperationResult<IEnumerable<TrackResponse>>> GetAllTracksToMusician(int musicianId)
         {
             var tracks = await _trackRepository.GetAllTracksToMusician(musicianId);
-
             var response = _mapper.Map<IEnumerable<TrackResponse>>(tracks);
+            foreach (var item in response) {
+
+                    item.AuditionsCount = await _statisticsRepository.GetAuditionsTrackCountAsync(item.Id);
+                
+            }
+
             return new OperationResult<IEnumerable<TrackResponse>>(response);
         }
 
@@ -164,9 +170,8 @@ namespace MusicSocialNetwork.Services.Implementation
 
         public async Task<OperationResult<IEnumerable<TrackResponse>>> GetTrackGenreAsync(int genreId)
         {
-            var tracks = await _trackRepository.GetTrackGenreAsync(genreId);
-            var response = _mapper.Map<IEnumerable<TrackResponse>>(tracks);
-            
+            var tracks = await _trackRepository.GetTrackGenreAsync(genreId);  
+            var response = _mapper.Map<IEnumerable<TrackResponse>>(tracks); 
             return new OperationResult<IEnumerable<TrackResponse>>(response);
         }
     }

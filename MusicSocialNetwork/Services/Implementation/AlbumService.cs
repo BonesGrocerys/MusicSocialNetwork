@@ -15,16 +15,17 @@ namespace MusicSocialNetwork.Services.Implementation
         private readonly IAlbumRepository _albumRepository;
         private readonly IAddedTracksRepository _addedTracksRepository;
         private readonly IMusicianRepository _musicianRepository;
-
+        private readonly IStatisticsRepository _statisticsRepository;
         private readonly IMapper _mapper;
 
-        public AlbumService(ITrackRepository trackRepository, IMapper mapper, IAlbumRepository albumRepository, IAddedTracksRepository addedTracksRepository, IMusicianRepository musicianRepository)
+        public AlbumService(ITrackRepository trackRepository, IMapper mapper, IAlbumRepository albumRepository, IAddedTracksRepository addedTracksRepository, IMusicianRepository musicianRepository, IStatisticsRepository statisticsRepository)
         {
             _trackRepository = trackRepository;
             _mapper = mapper;
             _albumRepository = albumRepository;
             _addedTracksRepository = addedTracksRepository;
             _musicianRepository = musicianRepository;
+            _statisticsRepository = statisticsRepository;
         }
 
         public async Task<OperationResult> CreateAlbumAsync(AlbumCreateReqeust request)
@@ -72,6 +73,16 @@ namespace MusicSocialNetwork.Services.Implementation
         {
             var album = await _albumRepository.GetAllAlbumByMusicianIdAsync(musicianId);
             var response = _mapper.Map<IEnumerable<AlbumResponse>>(album);
+            
+
+            foreach ( var albumResponse in response )
+            {
+                foreach ( var item in albumResponse.Tracks)
+                {
+                    item.AuditionsCount = await _statisticsRepository.GetAuditionsTrackCountAsync(item.Id);
+                }
+                albumResponse.AuditionsCount = albumResponse.Tracks.Sum(x => x.AuditionsCount);
+            }
             return new OperationResult<IEnumerable<AlbumResponse>>(response);
         }
     }

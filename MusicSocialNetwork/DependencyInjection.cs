@@ -12,7 +12,8 @@ namespace MusicSocialNetwork
             return  services
                 .AddScoped<ITrackService, TrackService>()
                 .AddScoped<IAuthService, AuthService>()
-                .AddScoped<IAlbumService, AlbumService>();
+                .AddScoped<IAlbumService, AlbumService>()
+                .AddScoped<IStatisticsService, StatisticsService>();
         }
 
         public static IServiceCollection AddRepositories(this IServiceCollection services)
@@ -23,7 +24,9 @@ namespace MusicSocialNetwork
                 .AddScoped<IRoleRepository, RoleRepository>()
                 .AddScoped<IPersonRepository, PersonRepository>()
                 .AddScoped<IMusicianRepository, MusicianRepository>()
-                .AddScoped<IAddedTracksRepository, AddedTracksRepository>();
+                .AddScoped<IAddedTracksRepository, AddedTracksRepository>()
+                .AddScoped<IStatisticsRepository, StatisticsRepository>();
+                
         }
     }
 }

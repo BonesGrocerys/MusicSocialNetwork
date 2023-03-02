@@ -18,11 +18,7 @@ namespace MusicSocialNetwork.Mapping
             CreateMap<TrackCreateRequest, Track>();
             CreateMap<AlbumCreateReqeust, Album>().ForMember(x => x.Cover, opt => opt.Ignore());
             CreateMap<Musician, MusicianResponse>();
-            CreateMap<Track, TrackInAlbumResponse>();
-            
-            
-
-            //CreateMap< , Track>();
+            //CreateMap<Track, TrackInAlbumResponse>();
         }
     }
 }
