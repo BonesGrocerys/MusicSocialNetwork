@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MusicSocialNetwork.Common;
 using MusicSocialNetwork.Dto.Album;
 using MusicSocialNetwork.Dto.Track;
 using MusicSocialNetwork.Entities;
@@ -147,10 +148,10 @@ public class TracksController : ControllerBase
         return BadRequest(response);
     }
 
-    [HttpGet("get-graph-musician/{musicianId}")]
-    public async Task<IActionResult> GetGraphDataByMusicianAsync(int musicianId)
+    [HttpPost("get-graph-musician/{musicianId}")]
+    public async Task<IActionResult> GetGraphDataByMusicianAsync(int musicianId, DayInterval interval)
     {
-        var response = await _statisticsService.GetGraphDataByMusicianAsync(musicianId);
+        var response = await _statisticsService.GetGraphDataByMusicianAsync(musicianId, interval);
         if (response.Success)
             return Ok(response);
 

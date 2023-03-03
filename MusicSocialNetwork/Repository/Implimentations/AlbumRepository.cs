@@ -17,6 +17,8 @@ public class AlbumRepository : IAlbumRepository
 
     public async Task<int> CreateAsync(Album album)
     {
+
+        album.ReleaseDate = DateOnly.FromDateTime(DateTime.UtcNow);
         await _context.AddAsync(album);
         await _context.SaveChangesAsync();
         return album.Id;

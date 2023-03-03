@@ -163,7 +163,7 @@ namespace MusicSocialNetwork.Services.Implementation
 
         public async Task<OperationResult> ListenTrackAsync(int trackId, int personId)
         {
-            var listenPerson = new ListenPerson { TrackId = trackId, PersonId = personId, DateTime = DateTime.UtcNow };
+            var listenPerson = new ListenPerson { TrackId = trackId, PersonId = personId, DateTime = DateTime.UtcNow.Date };
             await _trackRepository.ListenTrackAsync(listenPerson);
             return OperationResult.OK;
         }

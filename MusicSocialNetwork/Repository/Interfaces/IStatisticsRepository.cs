@@ -1,4 +1,5 @@
-﻿using MusicSocialNetwork.Dto.Graph;
+﻿using MusicSocialNetwork.Common;
+using MusicSocialNetwork.Dto.Graph;
 using MusicSocialNetwork.Entities;
 
 namespace MusicSocialNetwork.Repository.Interfaces
@@ -7,6 +8,6 @@ namespace MusicSocialNetwork.Repository.Interfaces
     {
         public Task<int> GetAuditionsTrackCountAsync(int id);
         public Task<IEnumerable<Track>> GetPopularTracksAsync();
-        public Task<IEnumerable<GraphResponse>> GetGraphDataByMusicianAsync(int MusicianId);
+        public Task<IEnumerable<GraphResponse>> GetGraphDataByMusicianAsync(int musicianId, DayInterval interval);
     }
 }
