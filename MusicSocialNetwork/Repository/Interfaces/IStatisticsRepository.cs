@@ -8,6 +8,8 @@ namespace MusicSocialNetwork.Repository.Interfaces
     {
         public Task<int> GetAuditionsTrackCountAsync(int id);
         public Task<IEnumerable<Track>> GetPopularTracksAsync();
-        public Task<IEnumerable<GraphResponse>> GetGraphDataByMusicianAsync(int musicianId, DayInterval interval);
+        public Task<IEnumerable<GraphResponse>> GetGraphDataByMusicianListenCountAsync(int musicianId, DayInterval interval);
+
+        public Task<IEnumerable<GraphResponse>> GetGraphDataByMusicianListenersCountAsync(int musicianId, DayInterval interval);
     }
 }

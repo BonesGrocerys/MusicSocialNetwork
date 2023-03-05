@@ -27,10 +27,15 @@ namespace MusicSocialNetwork.Services.Implementation
             _statisticsRepository = statisticsRepository;
         }
 
-        public async Task<OperationResult<IEnumerable<GraphResponse>>> GetGraphDataByMusicianAsync(int musicianId, DayInterval interval)
+        public async Task<OperationResult<IEnumerable<GraphResponse>>> GetGraphDataByMusicianListenCountAsync(int musicianId, DayInterval interval)
         {
-            var graph = await _statisticsRepository.GetGraphDataByMusicianAsync(musicianId, interval);
-            //var response = _mapper.Map<IEnumerable<GraphResponse>>(graph);
+            var graph = await _statisticsRepository.GetGraphDataByMusicianListenCountAsync(musicianId, interval);
+            return new OperationResult<IEnumerable<GraphResponse>>(graph);
+        }
+
+        public async Task<OperationResult<IEnumerable<GraphResponse>>> GetGraphDataByMusicianListenersCountAsync(int musicianId, DayInterval interval)
+        {
+            var graph = await _statisticsRepository.GetGraphDataByMusicianListenersCountAsync(musicianId, interval);
             return new OperationResult<IEnumerable<GraphResponse>>(graph);
         }
     }

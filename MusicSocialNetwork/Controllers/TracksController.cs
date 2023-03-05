@@ -148,10 +148,21 @@ public class TracksController : ControllerBase
         return BadRequest(response);
     }
 
-    [HttpPost("get-graph-musician/{musicianId}")]
-    public async Task<IActionResult> GetGraphDataByMusicianAsync(int musicianId, DayInterval interval)
+    [HttpPost("get-graph-musician-count-listen/{musicianId}")]
+    public async Task<IActionResult> GetGraphDataByMusicianListenCountAsync(int musicianId, DayInterval interval)
     {
-        var response = await _statisticsService.GetGraphDataByMusicianAsync(musicianId, interval);
+        var response = await _statisticsService.GetGraphDataByMusicianListenCountAsync(musicianId, interval);
+        if (response.Success)
+            return Ok(response);
+
+
+        return BadRequest(response);
+    }
+
+    [HttpPost("get-graph-musician-count-listeners/{musicianId}")]
+    public async Task<IActionResult> GetGraphDataByMusicianListenersCountAsync(int musicianId, DayInterval interval)
+    {
+        var response = await _statisticsService.GetGraphDataByMusicianListenersCountAsync(musicianId, interval);
         if (response.Success)
             return Ok(response);
 

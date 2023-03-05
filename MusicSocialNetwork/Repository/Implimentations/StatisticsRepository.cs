@@ -21,7 +21,7 @@ namespace MusicSocialNetwork.Repository.Implimentations
             return await _context.ListenPerson.CountAsync(x => x.TrackId == id);
         }
 
-        public async Task<IEnumerable<GraphResponse>> GetGraphDataByMusicianAsync(int musicianId, DayInterval interval)
+        public async Task<IEnumerable<GraphResponse>> GetGraphDataByMusicianListenCountAsync(int musicianId, DayInterval interval)
         {
             
             var groupedData = await _context.ListenPerson.Where(x =>
@@ -45,7 +45,30 @@ namespace MusicSocialNetwork.Repository.Implimentations
             return result;
         }
 
+        public async Task<IEnumerable<GraphResponse>> GetGraphDataByMusicianListenersCountAsync(int musicianId, DayInterval interval)
+        {
+            var groupedData = await _context.ListenPerson.Where(x =>
+            x.Track.Musicians.Any(x => x.Id == musicianId))
+            .Select(x => new { x.PersonId, x.DateTime })
+            .Distinct()
+            .GroupBy(x => x.DateTime)
+            .Select(x => new GraphResponse { DateTime = x.Key, AuditionsCountOfDay = x.Count() })
+            .ToDictionaryAsync(x => x.DateTime, x => x.AuditionsCountOfDay);
 
+            var result = new List<GraphResponse>();
+            var intervalDate = interval.GetDate();
+            for (var date = intervalDate.StartDate; date <= intervalDate.EndDate; date = date.AddDays(1))
+            {
+                var resp = new GraphResponse { DateTime = date };
+                if (groupedData.TryGetValue(date, out var count))
+                    resp.AuditionsCountOfDay = count;
+                else
+                    resp.AuditionsCountOfDay = 0;
+
+                result.Add(resp);
+            }
+            return result;
+        }
 
         public async Task<IEnumerable<Track>> GetPopularTracksAsync()
         {
