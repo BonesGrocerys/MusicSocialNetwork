@@ -5,6 +5,7 @@ using MusicSocialNetwork.Dto.Graph;
 using MusicSocialNetwork.Dto.SavesResponse;
 using MusicSocialNetwork.Entities;
 using MusicSocialNetwork.Repository.Interfaces;
+using System.Runtime.InteropServices;
 
 namespace MusicSocialNetwork.Repository.Implimentations
 {
@@ -77,21 +78,26 @@ namespace MusicSocialNetwork.Repository.Implimentations
             throw new NotImplementedException();
         }
 
-        public async Task<CountResponse> GetSavesCountTrackByMusician(int musicianId, int trackId)
+        public async Task<CountResponse> GetSavesCountAllTracksByMusician(int musicianId)
         {
+            var tracks = _context.Tracks
+            .Where(x => x.Musicians
+            .Any(x => x.Id == musicianId)).ToList();
 
-            return await _context.AddedTracks.Where(x => x.Track.Musicians
-            .Any(x => x.Id == musicianId && x.Tracks
-            .Any(x => x.Id == trackId)))
-                .GroupBy(x => x.PersonId == x.PersonId)
-                .Select(x => new CountResponse { Count = x.Count() }).FirstOrDefaultAsync();
-                
-            
+            int result = 0;
 
-            //.Select(x => new GraphResponse { DateTime = DateTime.UtcNow, AuditionsCountOfDay = x.Count() })
+            foreach (var track in tracks)
+            {
+                result += _context.AddedTracks.Where(x => x.TrackId == track.Id).ToList().Count;
+            }
 
+            return new CountResponse { Count = result };
+        }
 
-
+        public async Task<CountResponse> GetSavesCountTrackByMusician(int trackId)
+        {
+            return new CountResponse { Count = _context.AddedTracks.Where(x => x.TrackId == trackId).ToList().Count };
+            //return await _context.AddedTracks.Where(x => x.TrackId== trackId);
         }
     }
 }

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MusicSocialNetwork.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230303103343_init")]
+    [Migration("20230307182812_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -8,6 +8,7 @@ namespace MusicSocialNetwork.Services.Interfaces;
     {
        public Task<OperationResult<IEnumerable<GraphResponse>>> GetGraphDataByMusicianListenCountAsync(int musicianId, DayInterval interval);
        public Task<OperationResult<IEnumerable<GraphResponse>>> GetGraphDataByMusicianListenersCountAsync(int musicianId, DayInterval interval);
-       public Task<OperationResult<CountResponse>> GetSavesCountTrackByMusician(int musicianId, int trackId);
+       public Task<OperationResult<CountResponse>> GetSavesCountTrackByMusician(int trackId);
+       public Task<OperationResult<CountResponse>> GetSavesCountAllTracksByMusician(int musicianId);
 }
 

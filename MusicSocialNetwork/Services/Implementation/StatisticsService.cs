@@ -2,6 +2,7 @@
 using MusicSocialNetwork.Common;
 using MusicSocialNetwork.Dto.Graph;
 using MusicSocialNetwork.Dto.SavesResponse;
+using MusicSocialNetwork.Dto.Track;
 using MusicSocialNetwork.Repository.Interfaces;
 using MusicSocialNetwork.Services.Interfaces;
 
@@ -40,9 +41,17 @@ namespace MusicSocialNetwork.Services.Implementation
             return new OperationResult<IEnumerable<GraphResponse>>(graph);
         }
 
-        public async Task<OperationResult<CountResponse>> GetSavesCountTrackByMusician(int musicianId, int trackId)
+        public async Task<OperationResult<CountResponse>> GetSavesCountAllTracksByMusician(int musicianId)
         {
-            var graph = await _statisticsRepository.GetSavesCountTrackByMusician(musicianId, trackId);
+            var graph = await _statisticsRepository.GetSavesCountAllTracksByMusician(musicianId);
+            
+            return new OperationResult<CountResponse>(graph);
+        }
+
+        public async Task<OperationResult<CountResponse>> GetSavesCountTrackByMusician(int trackId)
+        {
+            var graph = await _statisticsRepository.GetSavesCountTrackByMusician(trackId);
+            //var response = _mapper.Map<CountResponse>(graph);
             return new OperationResult<CountResponse>(graph);
         }  
     }

@@ -171,9 +171,20 @@ public class TracksController : ControllerBase
     }
 
     [HttpGet("get-saves-count-track-by-musician")]
-    public async Task<IActionResult> GetSavesCountTrackByMusician(int musicianId, int trackId)
+    public async Task<IActionResult> GetSavesCountTrackByMusician(int trackId)
     {
-        var response = await _statisticsService.GetSavesCountTrackByMusician(musicianId, trackId);
+        var response = await _statisticsService.GetSavesCountTrackByMusician(trackId);
+        if (response.Success)
+            return Ok(response);
+
+
+        return BadRequest(response);
+    }
+
+    [HttpGet("get-saves-count-all-tracks-by-musician")]
+    public async Task<IActionResult> GetSavesCountAllTracksByMusician(int musicianId)
+    {
+        var response = await _statisticsService.GetSavesCountAllTracksByMusician(musicianId);
         if (response.Success)
             return Ok(response);
 
