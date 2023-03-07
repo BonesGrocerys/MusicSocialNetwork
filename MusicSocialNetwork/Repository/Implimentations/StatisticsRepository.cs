@@ -2,6 +2,7 @@
 using MusicSocialNetwork.Common;
 using MusicSocialNetwork.Database;
 using MusicSocialNetwork.Dto.Graph;
+using MusicSocialNetwork.Dto.SavesResponse;
 using MusicSocialNetwork.Entities;
 using MusicSocialNetwork.Repository.Interfaces;
 
@@ -76,6 +77,21 @@ namespace MusicSocialNetwork.Repository.Implimentations
             throw new NotImplementedException();
         }
 
+        public async Task<CountResponse> GetSavesCountTrackByMusician(int musicianId, int trackId)
+        {
 
+            return await _context.AddedTracks.Where(x => x.Track.Musicians
+            .Any(x => x.Id == musicianId && x.Tracks
+            .Any(x => x.Id == trackId)))
+                .GroupBy(x => x.PersonId == x.PersonId)
+                .Select(x => new CountResponse { Count = x.Count() }).FirstOrDefaultAsync();
+                
+            
+
+            //.Select(x => new GraphResponse { DateTime = DateTime.UtcNow, AuditionsCountOfDay = x.Count() })
+
+
+
+        }
     }
 }

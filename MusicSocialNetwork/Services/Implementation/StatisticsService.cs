@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MusicSocialNetwork.Common;
 using MusicSocialNetwork.Dto.Graph;
+using MusicSocialNetwork.Dto.SavesResponse;
 using MusicSocialNetwork.Repository.Interfaces;
 using MusicSocialNetwork.Services.Interfaces;
 
@@ -38,5 +39,11 @@ namespace MusicSocialNetwork.Services.Implementation
             var graph = await _statisticsRepository.GetGraphDataByMusicianListenersCountAsync(musicianId, interval);
             return new OperationResult<IEnumerable<GraphResponse>>(graph);
         }
+
+        public async Task<OperationResult<CountResponse>> GetSavesCountTrackByMusician(int musicianId, int trackId)
+        {
+            var graph = await _statisticsRepository.GetSavesCountTrackByMusician(musicianId, trackId);
+            return new OperationResult<CountResponse>(graph);
+        }  
     }
 }
