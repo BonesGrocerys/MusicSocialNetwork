@@ -86,7 +86,6 @@ public class TrackRepository : ITrackRepository
         return await _context.Tracks
             .Where(t => t.Musicians
             .Any(x => x.Id == musicanId))
-            //.Include(x => x.ListenPerson.Count(x => x.TrackId == 1 ))
             .Include(x => x.Album)
             .Include(x => x.Musicians)
             .ToListAsync();

@@ -80,7 +80,9 @@ namespace MusicSocialNetwork.Services.Implementation
                 foreach ( var item in albumResponse.Tracks)
                 {
                     item.AuditionsCount = await _statisticsRepository.GetAuditionsTrackCountAsync(item.Id);
+                    //var savesCount =  _statisticsRepository.GetSavesCountTrackByMusician(item.Id); 
                 }
+                
                 albumResponse.AuditionsCount = albumResponse.Tracks.Sum(x => x.AuditionsCount);
             }
             return new OperationResult<IEnumerable<AlbumResponse>>(response);

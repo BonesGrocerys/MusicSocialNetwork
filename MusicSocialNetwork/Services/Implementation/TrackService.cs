@@ -146,7 +146,7 @@ namespace MusicSocialNetwork.Services.Implementation
             var response = _mapper.Map<IEnumerable<TrackResponse>>(tracks);
             foreach (var item in response) {
 
-                item.AuditionsCount = await _statisticsRepository.GetAuditionsTrackCountAsync(item.Id);
+                    item.AuditionsCount = await _statisticsRepository.GetAuditionsTrackCountAsync(item.Id);
                     var saves = await _statisticsRepository.GetSavesCountTrackByMusician(item.Id); 
                     item.SavesCount = saves.Count;
             }

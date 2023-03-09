@@ -9,9 +9,11 @@ namespace MusicSocialNetwork.Repository.Interfaces
     {
         public Task<int> GetAuditionsTrackCountAsync(int id);
         public Task<IEnumerable<Track>> GetPopularTracksAsync();
+        public Task<IEnumerable<Track>> GetPopularTracksByGenreAsync(int genreId);
         public Task<IEnumerable<GraphResponse>> GetGraphDataByMusicianListenCountAsync(int musicianId, DayInterval interval);
         public Task<IEnumerable<GraphResponse>> GetGraphDataByMusicianListenersCountAsync(int musicianId, DayInterval interval);
         public Task<CountResponse> GetSavesCountTrackByMusician(int trackId);
         public Task<CountResponse> GetSavesCountAllTracksByMusician(int musicianId);
+
     }
 }

@@ -32,7 +32,7 @@ public class TracksController : ControllerBase
     }
 
     [HttpPost("create-track")]
-    public async Task<IActionResult> Create([FromForm]TrackCreateRequest request)
+    public async Task<IActionResult> Create([FromForm] TrackCreateRequest request)
     {
         var response = await _trackService.CreateAsync(request);
         return Ok(response);
@@ -74,7 +74,7 @@ public class TracksController : ControllerBase
     [HttpGet("add-track-to-peson")]
     public async Task<IActionResult> AddTrackToPerson(int personId, int trackId)
     {
-        
+
         var response = await _trackService.AddTrackToPerson(personId, trackId);
         if (response.Success)
             return Ok(response);
@@ -85,7 +85,7 @@ public class TracksController : ControllerBase
     [HttpGet("get-all-added-tracks-person/{personId}")]
     public async Task<IActionResult> GetAllAddedTracksPerson(int personId)
     {
-        
+
         var response = await _trackService.GetAllAddedTracksToPerson(personId);
         if (response.Success)
             return Ok(response);
@@ -94,10 +94,10 @@ public class TracksController : ControllerBase
         return BadRequest(response);
     }
 
-    [HttpDelete("delete")]
+    [HttpDelete("delete-track-to-person")]
     public async Task<ActionResult<OperatingSystem>> DeleteAddedTrackToPerson(int personId, int trackId)
     {
-        var result = await _trackService.DeleteAddedTrackToPerson(personId ,trackId );
+        var result = await _trackService.DeleteAddedTrackToPerson(personId, trackId);
         if (result.Success)
             return Ok(result);
 
@@ -191,7 +191,28 @@ public class TracksController : ControllerBase
 
         return BadRequest(response);
     }
+
+    [HttpGet("get-popular-tracks")]
+    public async Task<IActionResult> GetPopularTracks()
+    {
+        var response = await _statisticsService.GetPopularTracksAsync();
+        if (response.Success)
+            return Ok(response);
+
+
+        return BadRequest(response);
+    }
+
+    [HttpGet("get-popular-tracks-by-genre")]
+    public async Task<IActionResult> GetPopularTracksByGenre(int genreId)
+    {
+        var response = await _statisticsService.GetPopularTracksByGenreAsync(genreId);
+        if (response.Success)
+            return Ok(response);
+
+
+        return BadRequest(response);
+    }
+
 }
-
-
 

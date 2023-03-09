@@ -3,6 +3,7 @@ using MusicSocialNetwork.Common;
 using MusicSocialNetwork.Dto.Graph;
 using MusicSocialNetwork.Dto.SavesResponse;
 using MusicSocialNetwork.Dto.Track;
+using MusicSocialNetwork.Entities;
 using MusicSocialNetwork.Repository.Interfaces;
 using MusicSocialNetwork.Services.Interfaces;
 
@@ -39,6 +40,34 @@ namespace MusicSocialNetwork.Services.Implementation
         {
             var graph = await _statisticsRepository.GetGraphDataByMusicianListenersCountAsync(musicianId, interval);
             return new OperationResult<IEnumerable<GraphResponse>>(graph);
+        }
+
+        public async Task<OperationResult<IEnumerable<TrackResponse>>> GetPopularTracksAsync()
+        {
+            var popularTracks = await _statisticsRepository.GetPopularTracksAsync();
+            var response = _mapper.Map<IEnumerable<TrackResponse>>(popularTracks);
+            foreach (var item in response)
+            {
+
+                item.AuditionsCount = await _statisticsRepository.GetAuditionsTrackCountAsync(item.Id);
+                var saves = await _statisticsRepository.GetSavesCountTrackByMusician(item.Id);
+                item.SavesCount = saves.Count;
+            }
+            return new OperationResult<IEnumerable<TrackResponse>>(response);
+        }
+
+        public async Task<OperationResult<IEnumerable<TrackResponse>>> GetPopularTracksByGenreAsync(int genreId)
+        {
+            var popularTracks = await _statisticsRepository.GetPopularTracksByGenreAsync(genreId);
+            var response = _mapper.Map<IEnumerable<TrackResponse>>(popularTracks);
+            foreach (var item in response)
+            {
+
+                item.AuditionsCount = await _statisticsRepository.GetAuditionsTrackCountAsync(item.Id);
+                var saves = await _statisticsRepository.GetSavesCountTrackByMusician(item.Id);
+                item.SavesCount = saves.Count;
+            }
+            return new OperationResult<IEnumerable<TrackResponse>>(response);
         }
 
         public async Task<OperationResult<CountResponse>> GetSavesCountAllTracksByMusician(int musicianId)

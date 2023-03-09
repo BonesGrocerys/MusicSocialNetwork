@@ -74,30 +74,54 @@ namespace MusicSocialNetwork.Repository.Implimentations
 
         public async Task<IEnumerable<Track>> GetPopularTracksAsync()
         {
-            //return await _context.
-            throw new NotImplementedException();
+            var maxDate = DateTime.UtcNow.AddDays(-8);
+
+            var popularTracks = await _context.ListenPerson
+                .Where(lp => lp.DateTime >= maxDate)
+                .Include(x => x.Track)
+                .ThenInclude(x => x.Album)
+                .ThenInclude(x => x.Musicians)
+                .GroupBy(lp => lp.TrackId)
+                .OrderByDescending(group => group.Count())
+                .Select(group => group.First().Track)               
+                .Take(100)
+                .ToListAsync();
+
+            return popularTracks;
+        }
+
+        public async Task<IEnumerable<Track>> GetPopularTracksByGenreAsync(int genreId)
+        {
+            var maxDate = DateTime.UtcNow.AddDays(-8);
+
+            var popularTracks = await _context.ListenPerson
+                .Where(lp => lp.DateTime >= maxDate && lp.Track.Album.GenreId == genreId)
+                //.Where(x => x.Track.Album.GenreId == genreId)
+                .Include(x => x.Track)
+                .ThenInclude(x => x.Album)
+                .ThenInclude(x => x.Musicians)
+                .GroupBy(lp => lp.TrackId)
+                .OrderByDescending(group => group.Count())
+                .Select(group => group.First().Track)
+                .Take(100)
+                .ToListAsync();
+
+            return popularTracks;
         }
 
         public async Task<CountResponse> GetSavesCountAllTracksByMusician(int musicianId)
         {
-            var tracks = _context.Tracks
-            .Where(x => x.Musicians
-            .Any(x => x.Id == musicianId)).ToList();
+            var count = await _context.AddedTracks
+            .Where(x => x.Track.Musicians.Any(m => m.Id == musicianId))
+            .CountAsync();
 
-            int result = 0;
-
-            foreach (var track in tracks)
-            {
-                result += _context.AddedTracks.Where(x => x.TrackId == track.Id).ToList().Count;
-            }
-
-            return new CountResponse { Count = result };
+            return new CountResponse { Count = count };
         }
 
         public async Task<CountResponse> GetSavesCountTrackByMusician(int trackId)
         {
-            return new CountResponse { Count = _context.AddedTracks.Where(x => x.TrackId == trackId).ToList().Count };
-            //return await _context.AddedTracks.Where(x => x.TrackId== trackId);
+            var count = await _context.AddedTracks.CountAsync(x => x.TrackId == trackId);
+            return new CountResponse { Count = count };
         }
     }
 }
