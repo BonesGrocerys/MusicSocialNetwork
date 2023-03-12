@@ -34,6 +34,9 @@ public class TrackRepository : ITrackRepository
             .Where(x => x.PersonAddedTracks
             .Any(y => y.PersonId == personId))
             .Include(x => x.Album)
+            .OrderBy(x => x.PersonAddedTracks
+            .Where(y => y.PersonId == personId)
+            .Min(y => y.Id))
             .ToListAsync();
     }
 

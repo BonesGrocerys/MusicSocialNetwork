@@ -42,11 +42,11 @@ public class MusicianRepository : IMusicianRepository
         return await _context.Musicians.FirstOrDefaultAsync(x => x.Nickname == nickname);
     }
 
-    public async Task<int> GetSubscribersCountAsync(int musicianId)
-    {
-        //return await _context.Subscriptions.Where(s => s.MusicianId == musicianId ).Count();
-        throw new NotImplementedException();
-    }
+    //public async Task<int> GetSubscribersCountAsync(int musicianId)
+    //{
+    //    //return await _context.Subscriptions.Where(s => s.MusicianId == musicianId ).Count();
+    //    throw new NotImplementedException();
+    //}
 
     public async Task GiveAccess(Musician musician)
     {

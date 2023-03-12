@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MusicSocialNetwork.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230307182812_init")]
+    [Migration("20230310235746_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -234,6 +234,10 @@ namespace MusicSocialNetwork.Migrations
                         .HasColumnType("text")
                         .HasColumnName("Login");
 
+                    b.Property<string>("Name")
+                        .HasColumnType("text")
+                        .HasColumnName("Name");
+
                     b.Property<string>("Password")
                         .HasColumnType("text")
                         .HasColumnName("Password");
@@ -259,7 +263,12 @@ namespace MusicSocialNetwork.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
+                    b.Property<int?>("PersonId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("PersonId");
 
                     b.ToTable("Playlists");
                 });
@@ -529,6 +538,15 @@ namespace MusicSocialNetwork.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("MusicSocialNetwork.Entities.Playlist", b =>
+                {
+                    b.HasOne("MusicSocialNetwork.Entities.Person", "Person")
+                        .WithMany("Playlists")
+                        .HasForeignKey("PersonId");
+
+                    b.Navigation("Person");
+                });
+
             modelBuilder.Entity("MusicSocialNetwork.Entities.PlaylistTrack", b =>
                 {
                     b.HasOne("MusicSocialNetwork.Entities.Playlist", "playlist")
@@ -615,6 +633,8 @@ namespace MusicSocialNetwork.Migrations
                     b.Navigation("MyPlaylists");
 
                     b.Navigation("MyTracks");
+
+                    b.Navigation("Playlists");
 
                     b.Navigation("SubscribeMusician");
                 });

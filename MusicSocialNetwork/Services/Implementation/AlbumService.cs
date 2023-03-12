@@ -87,5 +87,12 @@ namespace MusicSocialNetwork.Services.Implementation
             }
             return new OperationResult<IEnumerable<AlbumResponse>>(response);
         }
+
+        public async Task<OperationResult<IEnumerable<AlbumResponse>>> GetLastAlbumByMusicianId(int musicianId)
+        {
+            var album = await _albumRepository.GetLastAlbumByMusicianId(musicianId);
+            var response = _mapper.Map<IEnumerable<AlbumResponse>>(album);
+            return new OperationResult<IEnumerable<AlbumResponse>>(response);
+        }
     }
 }

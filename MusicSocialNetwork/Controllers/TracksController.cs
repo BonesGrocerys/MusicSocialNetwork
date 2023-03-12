@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MusicSocialNetwork.Common;
 using MusicSocialNetwork.Dto.Album;
+using MusicSocialNetwork.Dto.Playlist;
 using MusicSocialNetwork.Dto.Track;
 using MusicSocialNetwork.Entities;
 using MusicSocialNetwork.Services.Interfaces;
@@ -15,10 +16,14 @@ public class TracksController : ControllerBase
 {
     private readonly ITrackService _trackService;
     private readonly IStatisticsService _statisticsService;
-    public TracksController(ITrackService trackService, IStatisticsService statisticsService)
+    private readonly IPlaylistService _playlistService;
+    private readonly IMusicianService _musicianService;
+    public TracksController(ITrackService trackService, IStatisticsService statisticsService, IPlaylistService playlistService, IMusicianService musicianService)
     {
         _trackService = trackService;
         _statisticsService = statisticsService;
+        _playlistService = playlistService;
+        _musicianService = musicianService;
     }
 
     [HttpGet("get-by-id/{id}")]
@@ -214,5 +219,38 @@ public class TracksController : ControllerBase
         return BadRequest(response);
     }
 
+    [HttpPost("create-playlist")]
+    public async Task<IActionResult> CreatePlaylist([FromForm] CreatePlaylistRequest request)
+    {
+        var response = await _playlistService.CreateAsync(request);
+        return Ok(response);
+    }
+
+    
+
+    [HttpGet("get-playlists-by-personId")]
+    public async Task<IActionResult> GetPlaylistsByPersonAsync(int personId)
+    {
+        var response = await _playlistService.GetPlaylistsByPersonAsync(personId);
+        if (response.Success)
+            return Ok(response);
+
+
+        return BadRequest(response);
+    }
+
+    [HttpGet("get-musician-by-id")]
+    public async Task<IActionResult> GetMusicianByIdAsync(int musicianId)
+    {
+        var response = await _musicianService.GetMusicianByIdAsync(musicianId);
+        if (response.Success)
+            return Ok(response);
+
+
+        return BadRequest(response);
+    }
+
+    
+    
 }
 

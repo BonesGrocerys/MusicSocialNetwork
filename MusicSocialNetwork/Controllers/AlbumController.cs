@@ -43,6 +43,17 @@ namespace MusicSocialNetwork.Controllers
             return Ok(resp);
         }
 
+        [HttpGet("get-last-album-by-musician-id/{musicianId}")]
+        public async Task<IActionResult> GetLastAlbumByMusicianId(int musicianId)
+        {
+            var response = await _albumService.GetLastAlbumByMusicianId(musicianId);
+            if (response.Success)
+                return Ok(response);
+
+
+            return BadRequest(response);
+        }
+
 
     }
 }

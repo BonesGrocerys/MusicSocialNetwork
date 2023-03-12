@@ -11,9 +11,9 @@ public class Person
     public string Login { get; set; }
     [Column("Password")]
     public string Password { get; set; }
-    [Column("Status")]
+    [Column("Name")]
     //public string Status { get; set; }
-
+    public string Name { get; set; }
     public Role Role { get; set; }
     public int RoleId { get; set; }
 
@@ -23,5 +23,6 @@ public class Person
     public List<AddedPlaylists> MyPlaylists { get; set; }
     public List<Album> AddedAlbums { get; set; }
     public List<ListenPerson> ListenPerson { get; set; }
+    public List<Playlist> Playlists { get; set; }
 }
 

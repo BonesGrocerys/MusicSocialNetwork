@@ -11,6 +11,6 @@ public interface IMusicianRepository
     public Task UpdateAsync(Musician musician);
     public Task DeleteAsync(int id);
     public Task GiveAccess(Musician musician);
-    public Task<int> GetSubscribersCountAsync(int MusicianId);
+    //public Task<int> GetSubscribersCountAsync(int MusicianId);
 }
 

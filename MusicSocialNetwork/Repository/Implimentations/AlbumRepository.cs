@@ -39,8 +39,6 @@ public class AlbumRepository : IAlbumRepository
             .Include(x => x.Tracks)
                 .ThenInclude( y => y.Musicians)
             .ToListAsync();
-            
-
     }
 
     public async Task<IEnumerable<Album>> GetAllAlbumAsync(string searchText)
@@ -63,6 +61,33 @@ public class AlbumRepository : IAlbumRepository
     public Task UpdateAsync(Album album)
     {
         throw new NotImplementedException();
+    }
+
+    public async Task<IEnumerable<Album>> GetLastAlbumByMusicianId(int musicianId)
+    {
+        return await _context.Albums
+        .Where(x => x.Musicians.Any(x => x.Id == musicianId))
+        .Include(x => x.Musicians)
+        .Include(x => x.Genre)
+        .Include(x => x.Tracks)
+            .ThenInclude(y => y.Musicians)
+        .OrderByDescending(x => x.ReleaseDate) // Сортировка по дате релиза
+        .Take(1)
+        .ToListAsync();
+    }
+
+    public async Task<byte[]> GetCoverFromLastAlbumByMusicianId(int musicianId)
+    {
+        var LastCover = await _context.Albums
+        .Where(x => x.Musicians.Any(x => x.Id == musicianId))
+        .Include(x => x.Musicians)
+        .Include(x => x.Genre)
+        .Include(x => x.Tracks)
+            .ThenInclude(y => y.Musicians)
+        .OrderByDescending(x => x.ReleaseDate)
+        .FirstOrDefaultAsync();
+
+        return LastCover?.Cover;
     }
 }
 
