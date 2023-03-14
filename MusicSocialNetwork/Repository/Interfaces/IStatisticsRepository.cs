@@ -14,6 +14,7 @@ namespace MusicSocialNetwork.Repository.Interfaces
         public Task<IEnumerable<GraphResponse>> GetGraphDataByMusicianListenersCountAsync(int musicianId, DayInterval interval);
         public Task<CountResponse> GetSavesCountTrackByMusician(int trackId);
         public Task<CountResponse> GetSavesCountAllTracksByMusician(int musicianId);
+        public Task<int> GetMusicianMonthlyListeners(int musicianId);
 
     }
 }

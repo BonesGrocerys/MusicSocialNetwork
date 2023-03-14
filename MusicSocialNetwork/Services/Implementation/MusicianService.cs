@@ -11,13 +11,15 @@ namespace MusicSocialNetwork.Services.Implementation
         private readonly IMapper _mapper;
         private readonly IMusicianRepository _musicianRepository;
         private readonly IAlbumRepository _albumRepository;
+        private readonly IStatisticsRepository _statisticsRepository;
 
-        public MusicianService(IMapper mapper, IMusicianRepository musicianRepository, IAlbumRepository albumRepository)
+        public MusicianService(IMapper mapper, IMusicianRepository musicianRepository, IAlbumRepository albumRepository, IStatisticsRepository statisticsRepository)
         {
             
             _mapper = mapper;
             _musicianRepository = musicianRepository;
             _albumRepository = albumRepository;
+            _statisticsRepository = statisticsRepository;
 
         }
         public async Task<OperationResult<MusicianResponse>> GetMusicianByIdAsync(int musicianId)
@@ -25,6 +27,7 @@ namespace MusicSocialNetwork.Services.Implementation
             var musician = await _musicianRepository.GetAsync(musicianId);
             var response = _mapper.Map<MusicianResponse>(musician);
             response.MusicianCover = await _albumRepository.GetCoverFromLastAlbumByMusicianId(musicianId);
+            response.MonthlyListeners = await _statisticsRepository.GetMusicianMonthlyListeners(musicianId);
             
             return new OperationResult<MusicianResponse>(response);
         }

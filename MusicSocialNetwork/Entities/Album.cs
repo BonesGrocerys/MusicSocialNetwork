@@ -18,10 +18,11 @@ public class Album
     public int AuditionsCount { get; set; }
     public Genre? Genre { get; set; }
     public int? GenreId { get; set; }
+    //public Label? Label { get; set; }
+    //public int? LabelId { get; set; }
     public List<Track> Tracks { get; set; }
     public List<Person> Persons { get; set; }
     public List<Musician> Musicians { get; set;}
-    //public string CoverName { get; set; }
     [Column("cover")]
     public Byte[] Cover { get; set; }
 }

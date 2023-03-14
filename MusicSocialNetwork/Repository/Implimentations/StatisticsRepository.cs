@@ -72,6 +72,17 @@ namespace MusicSocialNetwork.Repository.Implimentations
             return result;
         }
 
+        public async Task<int> GetMusicianMonthlyListeners(int musicianId)
+        {
+            var maxDate = DateTime.UtcNow.AddDays(-28);
+            return await _context.ListenPerson.Where(x => x.DateTime >= maxDate &&
+            x.Track.Musicians
+            .Any(x => x.Id == musicianId))
+            .Select(x => new { x.PersonId, x.DateTime })
+            .Distinct()
+            .CountAsync();
+        }
+
         public async Task<IEnumerable<Track>> GetPopularTracksAsync()
         {
             var maxDate = DateTime.UtcNow.AddDays(-8);

@@ -16,6 +16,8 @@ public class Person
     public string Name { get; set; }
     public Role Role { get; set; }
     public int RoleId { get; set; }
+    //public Label? Label { get; set; }
+    //public int? LabelId { get; set; }
 
     public List<Musician> Musicians { get; set; }
     public List<AddedTracks> MyTracks { get; set; }
