@@ -10,7 +10,9 @@ namespace MusicSocialNetwork.Mapping;
         {
         CreateMap<CreatePlaylistRequest, Playlist>();
         CreateMap<Playlist, PlaylistResponse>()
-            .ForMember(dest => dest.Creator, opt => opt.MapFrom(src => src.Person.Name));
+            .ForMember(dest => dest.Creator, opt => opt.MapFrom(src => src.Person.Name))
+            .ForMember(dest => dest.CreatorId, opt => opt.MapFrom(src => src.Person.Id));
+            
     }
     }
 

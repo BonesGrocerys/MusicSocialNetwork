@@ -1,4 +1,5 @@
-﻿using MusicSocialNetwork.Dto.Track;
+﻿using MusicSocialNetwork.Dto.Person;
+using MusicSocialNetwork.Dto.Track;
 
 namespace MusicSocialNetwork.Dto.Playlist
 {
@@ -7,6 +8,7 @@ namespace MusicSocialNetwork.Dto.Playlist
         public int Id { get; set; }
         public string Name { get; set; }
         public string Creator { get; set; }
+        public int CreatorId { get; set; }
         public List<TrackResponse> Tracks { get; set; }
     }
 }

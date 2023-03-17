@@ -250,7 +250,29 @@ public class TracksController : ControllerBase
         return BadRequest(response);
     }
 
-    
-    
+
+
+    [HttpPost("add-track-to-playlist")]
+    public async Task<IActionResult> AddTrackToPlaylist(int trackId, int playlistId)
+    {
+
+        var response = await _playlistService.AddTrackToPlaylist(trackId, playlistId);
+        if (response.Success)
+            return Ok(response);
+
+        return BadRequest(response);
+    }
+
+    [HttpGet("get-track-from-playlistId")]
+    public async Task<IActionResult> GetTracksFromPlaylistId(int playlistId)
+    {
+        var response = await _playlistService.GetTracksFromPlaylistId(playlistId);
+        if (response.Success)
+            return Ok(response);
+
+
+        return BadRequest(response);
+    }
+
 }
 

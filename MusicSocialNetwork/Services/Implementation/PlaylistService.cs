@@ -19,6 +19,14 @@ public class PlaylistService : IPlaylistService
         _mapper = mapper;
        
     }
+
+    public async Task<OperationResult> AddTrackToPlaylist(int trackId, int playlistId)
+    {
+        var playlist = new PlaylistTrack { trackId = trackId, playlistId = playlistId };
+        await _playlistRepository.AddTrackToPlaylist(playlist);
+        return OperationResult.OK;
+    }
+
     public async Task<OperationResult> CreateAsync(CreatePlaylistRequest request)
     {
         if ( request.Name == null)
@@ -42,7 +50,23 @@ public class PlaylistService : IPlaylistService
             return OperationResult<IEnumerable<PlaylistResponse>>.Fail(OperationCode.EntityWasNotFound, "Не найдено ни одного плейлиста");
         }
         var response = _mapper.Map<IEnumerable<PlaylistResponse>>(playlist);
+
+        //foreach (var item in response)
+        //{
+        //    var items = _playlistRepository.GetTracksByPlaylistId(item.Id);
+        //    foreach (var track in items)
+        //    {
+        //        track = _mapper.Map<IEnumerable<TrackResponse>>(items);
+        //    }
+        //}
         return new OperationResult<IEnumerable<PlaylistResponse>>(response);
+    }
+
+    public async Task<OperationResult<IEnumerable<TrackResponse>>> GetTracksFromPlaylistId(int playlistId)
+    {
+        var tracks = await _playlistRepository.GetTracksByPlaylistId(playlistId);
+        var response = _mapper.Map<IEnumerable<TrackResponse>>(tracks);
+        return new OperationResult<IEnumerable<TrackResponse>>(response);
     }
 }
 

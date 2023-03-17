@@ -15,6 +15,12 @@ namespace MusicSocialNetwork.Repository.Implimentations
             _context = context;
         }
 
+        public async Task AddTrackToPlaylist(PlaylistTrack playlistTrack)
+        {
+            await _context.AddAsync(playlistTrack);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<int> CreateAsync(Playlist playlist)
         {
             await _context.AddAsync(playlist);
@@ -31,7 +37,16 @@ namespace MusicSocialNetwork.Repository.Implimentations
         {
             return await _context.Playlists.Where(x => x.PersonId == personId)
                 .Include(x => x.Person).ToListAsync();
-                
+
+
+        }
+
+        public async Task<IEnumerable<Track>> GetTracksByPlaylistId(int playlistId)
+        {
+            return await _context.Tracks.Where(x => x.PlaylistAddedTracks.Any(x => x.playlistId == playlistId))
+                .Include(x => x.Musicians)
+                .Include(x => x.Album)
+                .ToListAsync();
         }
 
         public Task UpdateAsync(Playlist playlist)
