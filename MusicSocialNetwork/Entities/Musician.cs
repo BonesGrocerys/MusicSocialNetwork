@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MusicSocialNetwork.Models;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MusicSocialNetwork.Entities;
@@ -12,6 +13,7 @@ public class Musician
     public string Nickname { get; set; }
     [Column("email")]
     public string Email { get; set; }
+    public MusicianStatus? Status { get; set; }
 
     public  List<Publications> PublicationsList { get; set; }
     public int? PersonId { get; set; }

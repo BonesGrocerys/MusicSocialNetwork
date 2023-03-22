@@ -32,6 +32,9 @@ public class AddedTracksRepository : IAddedTracksRepository
 
     }
 
-    
+    public async Task<bool> TrackIdAdded(int personId, int trackId)
+    {
+        return await _context.AddedTracks.FirstOrDefaultAsync(x => x.PersonId == personId && x.TrackId == trackId) != null;
+    }
 }
 

@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MusicSocialNetwork.Database;
 using MusicSocialNetwork.Entities;
+using MusicSocialNetwork.Models;
 using MusicSocialNetwork.Repository.Interfaces;
-
 
 namespace MusicSocialNetwork.Repository.Implimentations;
 
@@ -28,8 +28,6 @@ public class MusicianRepository : IMusicianRepository
         {
              _context.Musicians.Remove(musician);
         }
-        
-          
     }
 
     public async Task<Musician?> GetAsync(int id)
@@ -37,25 +35,22 @@ public class MusicianRepository : IMusicianRepository
         return await _context.Musicians.FindAsync(id);
     }
 
+    public async Task<IEnumerable<Musician>> GetAllAsync()
+    {
+        return await _context.Musicians.ToListAsync();
+    }
+
     public async Task<Musician?> GetByNicknameAsync(string nickname)
     {
         return await _context.Musicians.FirstOrDefaultAsync(x => x.Nickname == nickname);
     }
 
-    //public async Task<int> GetSubscribersCountAsync(int musicianId)
-    //{
-    //    //return await _context.Subscriptions.Where(s => s.MusicianId == musicianId ).Count();
-    //    throw new NotImplementedException();
-    //}
-
-    public async Task GiveAccess(Musician musician)
+    /// <inheritdoc/>
+    public async Task LinkPersonToMusician(int musicianId, int personId)
     {
-        var updatedMusician = await _context.Musicians.FindAsync(musician.Id);
-        if (updatedMusician is not null)
-        {
-            updatedMusician.PersonId = musician.PersonId;
-            
-        }
+        var musician = await GetAsync(musicianId);
+        musician.PersonId = personId;
+        await _context.SaveChangesAsync();
     }
 
     public async Task UpdateAsync(Musician musician)
@@ -67,8 +62,36 @@ public class MusicianRepository : IMusicianRepository
             updatedMusician.Email = musician.Email;
         }
         await _context.SaveChangesAsync();
+    }
 
-        
+    /// <inheritdoc/>
+    public async Task SubmitApplicationToMusician(int musicianId)
+    {
+        var musician = await GetAsync(musicianId);
+        musician.Status = MusicianStatus.WAITING;
+        await _context.SaveChangesAsync();
+    }
+
+    /// <inheritdoc/>
+    public async Task ApplyApplicationToMusician(int musicianId)
+    {
+        var musician = await GetAsync(musicianId);
+        musician.Status = MusicianStatus.AGREED;
+        await _context.SaveChangesAsync();
+    }
+
+    /// <inheritdoc/>
+    public async Task DisagreeApplicationToMusician(int musicianId)
+    {
+        var musician = await GetAsync(musicianId);
+        musician.Status = null;
+        await _context.SaveChangesAsync();
+    }
+
+    /// <inheritdoc/>
+    public async Task<IEnumerable<Musician>> GetAllWaiting()
+    {
+        return await _context.Musicians.Where(x => x.Status == MusicianStatus.WAITING).ToListAsync();
     }
 }
 

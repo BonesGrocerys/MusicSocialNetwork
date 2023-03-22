@@ -5,6 +5,7 @@ using MusicSocialNetwork.Dto.Album;
 using MusicSocialNetwork.Dto.Playlist;
 using MusicSocialNetwork.Dto.Track;
 using MusicSocialNetwork.Entities;
+using MusicSocialNetwork.Repository.Interfaces;
 using MusicSocialNetwork.Services.Interfaces;
 
 namespace MusicSocialNetwork.Controllers;
@@ -18,12 +19,14 @@ public class TracksController : ControllerBase
     private readonly IStatisticsService _statisticsService;
     private readonly IPlaylistService _playlistService;
     private readonly IMusicianService _musicianService;
-    public TracksController(ITrackService trackService, IStatisticsService statisticsService, IPlaylistService playlistService, IMusicianService musicianService)
+    private readonly IPersonRepository _personRepository;
+    public TracksController(ITrackService trackService, IStatisticsService statisticsService, IPlaylistService playlistService, IMusicianService musicianService, IPersonRepository personRepository)
     {
         _trackService = trackService;
         _statisticsService = statisticsService;
         _playlistService = playlistService;
         _musicianService = musicianService;
+        _personRepository = personRepository;
     }
 
     [HttpGet("get-by-id/{id}")]
@@ -250,12 +253,9 @@ public class TracksController : ControllerBase
         return BadRequest(response);
     }
 
-
-
     [HttpPost("add-track-to-playlist")]
     public async Task<IActionResult> AddTrackToPlaylist(int trackId, int playlistId)
     {
-
         var response = await _playlistService.AddTrackToPlaylist(trackId, playlistId);
         if (response.Success)
             return Ok(response);
@@ -274,5 +274,62 @@ public class TracksController : ControllerBase
         return BadRequest(response);
     }
 
+    [HttpGet("personIsMusician")]
+    public async Task<IActionResult> PersonIsMusician(int personId)
+    {
+        var response = await _personRepository.PersonIsMusician(personId);
+        
+        return Ok(response);
+    }
+
+    [HttpGet("submit-application-to-musician")]
+    public async Task<IActionResult> SubmitApplicationToMusician(int musicianId, int personId)
+    {
+        var response = await _musicianService.SubmitApplicationToMusician(musicianId, personId);
+        if (response.Success)
+            return Ok(response);
+
+        return BadRequest(response);
+    }
+
+    [HttpGet("apply-application-to-musician")]
+    public async Task<IActionResult> ApplyApplicationToMusician(int musicianId)
+    {
+        var response = await _musicianService.ApplyApplicationToMusician(musicianId);
+        if (response.Success)
+            return Ok(response);
+
+        return BadRequest(response);
+    }
+
+    [HttpGet("disagree-application-to-musician")]
+    public async Task<IActionResult> DisagreeApplicationToMusician(int musicianId)
+    {
+        var response = await _musicianService.DisagreeApplicationToMusician(musicianId);
+        if (response.Success)
+            return Ok(response);
+
+        return BadRequest(response);
+    }
+
+    [HttpGet("get-all-musician")]
+    public async Task<IActionResult> GetAllMusician()
+    {
+        var response = await _musicianService.GetAllAsync();
+        if (response.Success)
+            return Ok(response);
+
+        return BadRequest(response);
+    }
+    
+    [HttpGet("get-all-waiting-musician")]
+    public async Task<IActionResult> GetAllWaitingMusician()
+    {
+        var response = await _musicianService.GetAllWaiting();
+        if (response.Success)
+            return Ok(response);
+
+        return BadRequest(response);
+    }
 }
 

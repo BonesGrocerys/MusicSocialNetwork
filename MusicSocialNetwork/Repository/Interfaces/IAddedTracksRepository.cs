@@ -8,5 +8,6 @@ public interface IAddedTracksRepository
     
     public Task DeleteTrackAsync(int personId, int trackId);
 
+    Task<bool> TrackIdAdded(int personId, int trackId);
     }
 

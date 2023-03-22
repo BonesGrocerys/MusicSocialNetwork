@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MusicSocialNetwork.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230310235746_init")]
+    [Migration("20230322064604_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -213,6 +213,9 @@ namespace MusicSocialNetwork.Migrations
                         .HasColumnName("nickname");
 
                     b.Property<int?>("PersonId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("Status")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -549,21 +552,21 @@ namespace MusicSocialNetwork.Migrations
 
             modelBuilder.Entity("MusicSocialNetwork.Entities.PlaylistTrack", b =>
                 {
-                    b.HasOne("MusicSocialNetwork.Entities.Playlist", "playlist")
+                    b.HasOne("MusicSocialNetwork.Entities.Playlist", "Playlist")
                         .WithMany("TrackAddedPlaylist")
                         .HasForeignKey("playlistId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MusicSocialNetwork.Entities.Track", "track")
+                    b.HasOne("MusicSocialNetwork.Entities.Track", "Track")
                         .WithMany("PlaylistAddedTracks")
                         .HasForeignKey("trackId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("playlist");
+                    b.Navigation("Playlist");
 
-                    b.Navigation("track");
+                    b.Navigation("Track");
                 });
 
             modelBuilder.Entity("MusicSocialNetwork.Entities.Publications", b =>

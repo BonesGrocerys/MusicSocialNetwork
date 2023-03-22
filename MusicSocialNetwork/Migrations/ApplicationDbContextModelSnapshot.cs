@@ -213,6 +213,9 @@ namespace MusicSocialNetwork.Migrations
                     b.Property<int?>("PersonId")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("Status")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.HasIndex("PersonId");
@@ -547,21 +550,21 @@ namespace MusicSocialNetwork.Migrations
 
             modelBuilder.Entity("MusicSocialNetwork.Entities.PlaylistTrack", b =>
                 {
-                    b.HasOne("MusicSocialNetwork.Entities.Playlist", "playlist")
+                    b.HasOne("MusicSocialNetwork.Entities.Playlist", "Playlist")
                         .WithMany("TrackAddedPlaylist")
                         .HasForeignKey("playlistId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MusicSocialNetwork.Entities.Track", "track")
+                    b.HasOne("MusicSocialNetwork.Entities.Track", "Track")
                         .WithMany("PlaylistAddedTracks")
                         .HasForeignKey("trackId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("playlist");
+                    b.Navigation("Playlist");
 
-                    b.Navigation("track");
+                    b.Navigation("Track");
                 });
 
             modelBuilder.Entity("MusicSocialNetwork.Entities.Publications", b =>

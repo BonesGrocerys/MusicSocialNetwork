@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MusicSocialNetwork.Common;
 using MusicSocialNetwork.Dto.Musician;
+using MusicSocialNetwork.Entities;
 using MusicSocialNetwork.Repository.Interfaces;
 using MusicSocialNetwork.Services.Interfaces;
 
@@ -22,6 +23,8 @@ namespace MusicSocialNetwork.Services.Implementation
             _statisticsRepository = statisticsRepository;
 
         }
+
+
         public async Task<OperationResult<MusicianResponse>> GetMusicianByIdAsync(int musicianId)
         {
             var musician = await _musicianRepository.GetAsync(musicianId);
@@ -30,6 +33,42 @@ namespace MusicSocialNetwork.Services.Implementation
             response.MonthlyListeners = await _statisticsRepository.GetMusicianMonthlyListeners(musicianId);
             
             return new OperationResult<MusicianResponse>(response);
+        }
+
+        /// <inheritdoc/>
+        public async Task<OperationResult> SubmitApplicationToMusician(int musicianId, int personId)
+        {
+            await _musicianRepository.SubmitApplicationToMusician(musicianId);
+            await _musicianRepository.LinkPersonToMusician(musicianId, personId);
+            return OperationResult.OK;
+        }
+
+        /// <inheritdoc/>
+        public async Task<OperationResult> ApplyApplicationToMusician(int musicianId)
+        {
+            await _musicianRepository.ApplyApplicationToMusician(musicianId);
+            return OperationResult.OK;
+        }
+
+        /// <inheritdoc/>
+        public async Task<OperationResult<IEnumerable<MusicianResponse>>> GetAllAsync()
+        {
+            var musicians = await _musicianRepository.GetAllAsync();
+            var response = _mapper.Map<IEnumerable<MusicianResponse>>(musicians);
+            return new OperationResult<IEnumerable<MusicianResponse>>(response);
+        }
+
+        public async Task<OperationResult> DisagreeApplicationToMusician(int musicianId)
+        {
+            await _musicianRepository.DisagreeApplicationToMusician(musicianId);
+            return OperationResult.OK;
+        }
+
+        public async Task<OperationResult<IEnumerable<MusicianResponse>>> GetAllWaiting()
+        {
+            var musicians = await _musicianRepository.GetAllWaiting();
+            var response = _mapper.Map<IEnumerable<MusicianResponse>>(musicians);
+            return new OperationResult<IEnumerable<MusicianResponse>>(response);
         }
     }
 }

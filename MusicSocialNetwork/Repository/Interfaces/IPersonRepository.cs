@@ -4,11 +4,13 @@ namespace MusicSocialNetwork.Repository.Interfaces;
 
 public interface IPersonRepository
 {
-    public Task<int> CreateAsync(Person person);
-    public Task UpdateAsync(Person person);
-    public Task DeleteAsync(int id);
-    public Task<Musician> GetAllMusicianAsync();
+    Task<int> CreateAsync(Person person);
+    Task UpdateAsync(Person person);
+    Task DeleteAsync(int id);
+    Task<Musician> GetAllMusicianAsync();
 
-    public Task<Person> GetByLogin(string login);
+    Task<Person> GetByLogin(string login);
+
+    Task<bool> PersonIsMusician(int personId);
 }
 

@@ -39,6 +39,12 @@ public class PersonRepository : IPersonRepository
         return await _context.Persons.FirstOrDefaultAsync(x => x.Login == login);
     }
 
+    public async Task<bool> PersonIsMusician(int personId)
+    {
+        var person = await _context.Persons.Include(x => x.Musicians).FirstOrDefaultAsync(x => x.Id == personId);
+        return person.Musicians.Any();
+    }
+
     public Task UpdateAsync(Person person)
     {
         throw new NotImplementedException();
