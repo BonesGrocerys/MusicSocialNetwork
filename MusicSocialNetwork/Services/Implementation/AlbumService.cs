@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MusicSocialNetwork.Common;
 using MusicSocialNetwork.Dto.Album;
+using MusicSocialNetwork.Dto.Track;
 using MusicSocialNetwork.Entities;
 using MusicSocialNetwork.Repository.Interfaces;
 using MusicSocialNetwork.Services.Interfaces;
@@ -93,6 +94,13 @@ namespace MusicSocialNetwork.Services.Implementation
             var album = await _albumRepository.GetLastAlbumByMusicianId(musicianId);
             var response = _mapper.Map<IEnumerable<AlbumResponse>>(album);
             return new OperationResult<IEnumerable<AlbumResponse>>(response);
+        }
+
+        public async Task<OperationResult<IEnumerable<TrackResponse>>> GetTracksFromAlbumId(int albumId)
+        {
+            var tracks = await _albumRepository.GetTracksFromAlbumId(albumId);
+            var response = _mapper.Map<IEnumerable<TrackResponse>>(tracks);
+            return new OperationResult<IEnumerable<TrackResponse>>(response);
         }
     }
 }

@@ -54,6 +54,17 @@ namespace MusicSocialNetwork.Controllers
             return BadRequest(response);
         }
 
+        [HttpGet("get-tracks-from-albumId")]
+        public async Task<IActionResult> GetTracksFromAlbumId(int albumId)
+        {
+            var response = await _albumService.GetTracksFromAlbumId(albumId);
+            if (response.Success)
+                return Ok(response);
+
+
+            return BadRequest(response);
+        }
+
 
     }
 }

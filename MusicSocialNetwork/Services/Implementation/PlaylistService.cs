@@ -50,15 +50,6 @@ public class PlaylistService : IPlaylistService
             return OperationResult<IEnumerable<PlaylistResponse>>.Fail(OperationCode.EntityWasNotFound, "Не найдено ни одного плейлиста");
         }
         var response = _mapper.Map<IEnumerable<PlaylistResponse>>(playlist);
-
-        //foreach (var item in response)
-        //{
-        //    var items = _playlistRepository.GetTracksByPlaylistId(item.Id);
-        //    foreach (var track in items)
-        //    {
-        //        track = _mapper.Map<IEnumerable<TrackResponse>>(items);
-        //    }
-        //}
         return new OperationResult<IEnumerable<PlaylistResponse>>(response);
     }
 

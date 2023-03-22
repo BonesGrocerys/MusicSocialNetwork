@@ -11,6 +11,8 @@ namespace MusicSocialNetwork.Services.Interfaces
        Task<OperationResult<IEnumerable<AlbumResponse>>> GetAllAlbums(string SearchText);
 
        Task<OperationResult<IEnumerable<AlbumResponse>>> GetLastAlbumByMusicianId(int musicianId);
+       Task<OperationResult<IEnumerable<TrackResponse>>> GetTracksFromAlbumId(int albumId);
        
+
     }
 }

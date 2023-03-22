@@ -36,8 +36,9 @@ public class AlbumRepository : IAlbumRepository
             .Where(x => x.Musicians.Any(x => x.Id == musicianId))
             .Include(x => x.Musicians)
             .Include(x => x.Genre)
-            .Include(x => x.Tracks)
-                .ThenInclude( y => y.Musicians)
+            //.Include(x => x.Tracks)
+            .Include(x => x.Musicians)
+                //.ThenInclude( y => y.Musicians)
             .ToListAsync();
     }
 
@@ -88,6 +89,12 @@ public class AlbumRepository : IAlbumRepository
         .FirstOrDefaultAsync();
 
         return LastCover?.Cover;
+    }
+
+    public async Task<IEnumerable<Track>> GetTracksFromAlbumId(int albumId)
+    {
+        return await _context.Tracks.Where(x => x.AlbumId == albumId).Include(x => x.Musicians).ToListAsync();
+        
     }
 }
 
