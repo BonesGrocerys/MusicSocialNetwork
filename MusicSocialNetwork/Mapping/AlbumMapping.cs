@@ -12,8 +12,8 @@ namespace MusicSocialNetwork.Mapping
         public AlbumMapping() 
         {
             CreateMap<Album, AlbumResponse>()
-                .ForMember(dest => dest.GenreTitle, opt => opt.MapFrom(src => src.Genre.Name))
-                .ForMember(x => x.Cover, opt => opt.Ignore());
+                .ForMember(dest => dest.GenreTitle, opt => opt.MapFrom(src => src.Genre.Name));
+                //.ForMember(x => x.Cover, opt => opt.Ignore());
             
             
         }

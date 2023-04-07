@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MusicSocialNetwork.Database;
 using MusicSocialNetwork.Entities;
+using MusicSocialNetwork.Models;
 using MusicSocialNetwork.Repository.Interfaces;
 
 namespace MusicSocialNetwork.Repository.Implimentations;
@@ -42,7 +43,9 @@ public class PersonRepository : IPersonRepository
     public async Task<bool> PersonIsMusician(int personId)
     {
         var person = await _context.Persons.Include(x => x.Musicians).FirstOrDefaultAsync(x => x.Id == personId);
-        return person.Musicians.Any();
+        
+        return person.Musicians.Any(x => x.Status == MusicianStatus.AGREED);
+
     }
 
     public Task UpdateAsync(Person person)

@@ -37,21 +37,6 @@ namespace MusicSocialNetwork.Migrations
                     b.ToTable("AlbumMusician");
                 });
 
-            modelBuilder.Entity("AlbumPerson", b =>
-                {
-                    b.Property<int>("AddedAlbumsId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("PersonsId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("AddedAlbumsId", "PersonsId");
-
-                    b.HasIndex("PersonsId");
-
-                    b.ToTable("AlbumPerson");
-                });
-
             modelBuilder.Entity("MusicianTrack", b =>
                 {
                     b.Property<int>("MusiciansId")
@@ -65,6 +50,29 @@ namespace MusicSocialNetwork.Migrations
                     b.HasIndex("TracksId");
 
                     b.ToTable("MusicianTrack");
+                });
+
+            modelBuilder.Entity("MusicSocialNetwork.Entities.AddedAlbums", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AlbumId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("PersonId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AlbumId");
+
+                    b.HasIndex("PersonId");
+
+                    b.ToTable("AddedAlbums");
                 });
 
             modelBuilder.Entity("MusicSocialNetwork.Entities.AddedPlaylists", b =>
@@ -423,21 +431,6 @@ namespace MusicSocialNetwork.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("AlbumPerson", b =>
-                {
-                    b.HasOne("MusicSocialNetwork.Entities.Album", null)
-                        .WithMany()
-                        .HasForeignKey("AddedAlbumsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MusicSocialNetwork.Entities.Person", null)
-                        .WithMany()
-                        .HasForeignKey("PersonsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("MusicianTrack", b =>
                 {
                     b.HasOne("MusicSocialNetwork.Entities.Musician", null)
@@ -451,6 +444,25 @@ namespace MusicSocialNetwork.Migrations
                         .HasForeignKey("TracksId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("MusicSocialNetwork.Entities.AddedAlbums", b =>
+                {
+                    b.HasOne("MusicSocialNetwork.Entities.Album", "Album")
+                        .WithMany("AddedAlbums")
+                        .HasForeignKey("AlbumId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MusicSocialNetwork.Entities.Person", "Person")
+                        .WithMany("MyAlbums")
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Album");
+
+                    b.Navigation("Person");
                 });
 
             modelBuilder.Entity("MusicSocialNetwork.Entities.AddedPlaylists", b =>
@@ -610,6 +622,8 @@ namespace MusicSocialNetwork.Migrations
 
             modelBuilder.Entity("MusicSocialNetwork.Entities.Album", b =>
                 {
+                    b.Navigation("AddedAlbums");
+
                     b.Navigation("Tracks");
                 });
 
@@ -630,6 +644,8 @@ namespace MusicSocialNetwork.Migrations
                     b.Navigation("ListenPerson");
 
                     b.Navigation("Musicians");
+
+                    b.Navigation("MyAlbums");
 
                     b.Navigation("MyPlaylists");
 

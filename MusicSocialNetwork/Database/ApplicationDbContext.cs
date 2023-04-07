@@ -29,6 +29,7 @@ namespace MusicSocialNetwork.Database
 
         public DbSet<ListenPerson> ListenPerson { get; set; }
         public DbSet<PlaylistTrack> PlaylistTrack { get; set; }
+        public DbSet<AddedAlbums> AddedAlbums { get; set; }
 
         //public DbSet<MusicianAlbum> MusicianAlbum { get; set; }
         //public DbSet<MusicianTracks> MusicianTracks { get; set; }

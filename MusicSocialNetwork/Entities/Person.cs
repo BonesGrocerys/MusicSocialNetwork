@@ -23,7 +23,7 @@ public class Person
     public List<AddedTracks> MyTracks { get; set; }
     public List<Subscriptions> SubscribeMusician { get; set; }
     public List<AddedPlaylists> MyPlaylists { get; set; }
-    public List<Album> AddedAlbums { get; set; }
+    public List<AddedAlbums> MyAlbums { get; set; }
     public List<ListenPerson> ListenPerson { get; set; }
     public List<Playlist> Playlists { get; set; }
 }

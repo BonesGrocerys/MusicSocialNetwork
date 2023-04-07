@@ -12,7 +12,10 @@ namespace MusicSocialNetwork.Services.Interfaces
 
        Task<OperationResult<IEnumerable<AlbumResponse>>> GetLastAlbumByMusicianId(int musicianId);
        Task<OperationResult<IEnumerable<TrackResponse>>> GetTracksFromAlbumId(int albumId);
-       
+       Task<OperationResult> AddAlbumToPerson(int albumId, int personId);
+       Task<OperationResult<IEnumerable<AlbumResponse>>> GetAllAddedAlbumsByPersonId(int personId);
+        
+
 
     }
 }

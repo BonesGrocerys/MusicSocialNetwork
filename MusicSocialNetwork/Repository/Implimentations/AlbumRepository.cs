@@ -93,8 +93,23 @@ public class AlbumRepository : IAlbumRepository
 
     public async Task<IEnumerable<Track>> GetTracksFromAlbumId(int albumId)
     {
-        return await _context.Tracks.Where(x => x.AlbumId == albumId).Include(x => x.Musicians).ToListAsync();
-        
+        return await _context.Tracks.Where(x => x.AlbumId == albumId).Include(x => x.Musicians).ToListAsync();   
+    }
+
+    public async Task AddAlbumToPerson(AddedAlbums addedAlbums)
+    {
+        await _context.AddAsync(addedAlbums);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<IEnumerable<Album>> GetAllAddedAlbumsByPersonId(int personId)
+    {
+        return await _context.Albums.Where(x => x.AddedAlbums.Any(x => x.PersonId == personId)).ToListAsync();
+    }
+
+    public Task DeleteAddedAlbumFromPerson(int albumId, int personId)
+    {
+        throw new NotImplementedException();
     }
 }
 

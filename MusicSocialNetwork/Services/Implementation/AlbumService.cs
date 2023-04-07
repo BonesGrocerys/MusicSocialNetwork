@@ -1,15 +1,18 @@
 ﻿using AutoMapper;
 using MusicSocialNetwork.Common;
+using MusicSocialNetwork.Database;
 using MusicSocialNetwork.Dto.Album;
 using MusicSocialNetwork.Dto.Track;
 using MusicSocialNetwork.Entities;
 using MusicSocialNetwork.Repository.Interfaces;
 using MusicSocialNetwork.Services.Interfaces;
 
+
 namespace MusicSocialNetwork.Services.Implementation
 {
     public class AlbumService: IAlbumService
     {
+        
 
         private readonly ITrackRepository _trackRepository;
 
@@ -27,6 +30,13 @@ namespace MusicSocialNetwork.Services.Implementation
             _addedTracksRepository = addedTracksRepository;
             _musicianRepository = musicianRepository;
             _statisticsRepository = statisticsRepository;
+        }
+
+        public async Task<OperationResult> AddAlbumToPerson(int albumId, int personId)
+        {
+            var addAlbum = new AddedAlbums { AlbumId = albumId, PersonId = personId };
+            await _albumRepository.AddAlbumToPerson(addAlbum);
+            return new OperationResult(OperationCode.Ok, $"Альбом добавлен");
         }
 
         public async Task<OperationResult> CreateAlbumAsync(AlbumCreateReqeust request)
@@ -61,6 +71,13 @@ namespace MusicSocialNetwork.Services.Implementation
             album.Musicians = musicians;
             await _albumRepository.CreateAsync(album);
             return new OperationResult(OperationCode.Ok, $"Альбом успешно создан");
+        }
+
+        public async Task<OperationResult<IEnumerable<AlbumResponse>>> GetAllAddedAlbumsByPersonId(int personId)
+        {
+            var album = await _albumRepository.GetAllAddedAlbumsByPersonId(personId);
+            var response = _mapper.Map<IEnumerable<AlbumResponse>>(album);
+            return new OperationResult<IEnumerable<AlbumResponse>>(response);
         }
 
         public async Task<OperationResult<IEnumerable<AlbumResponse>>> GetAllAlbums(string SearchText)

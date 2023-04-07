@@ -65,6 +65,20 @@ namespace MusicSocialNetwork.Controllers
             return BadRequest(response);
         }
 
+        [HttpPost("add-album-to-person")]
+        public async Task<IActionResult> AddAlbumToPerson(int albumId, int personId)
+        {
+            var response = await _albumService.AddAlbumToPerson(albumId, personId);
+            return Ok(response);
+        }
 
+        [HttpGet("get-all-added-albums-by-personId")]
+        public async Task<IActionResult> GetAllAddedAlbumsToPersonId(int personId)
+        {
+            var response = await _albumService.GetAllAddedAlbumsByPersonId(personId);
+            if (response.Success)
+                return Ok(response);
+            return BadRequest(response);
+        }
     }
 }

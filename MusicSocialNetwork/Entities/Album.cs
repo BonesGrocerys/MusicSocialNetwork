@@ -21,7 +21,7 @@ public class Album
     //public Label? Label { get; set; }
     //public int? LabelId { get; set; }
     public List<Track> Tracks { get; set; }
-    public List<Person> Persons { get; set; }
+    public List<AddedAlbums> AddedAlbums { get; set; }
     public List<Musician> Musicians { get; set;}
     [Column("cover")]
     public Byte[] Cover { get; set; }

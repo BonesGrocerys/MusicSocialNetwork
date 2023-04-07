@@ -58,7 +58,6 @@ public class MusicianRepository : IMusicianRepository
         var  updatedMusician = await _context.Musicians.FindAsync(musician.Id);
         if (updatedMusician is not null)
         {
-            updatedMusician.Nickname = musician.Nickname;
             updatedMusician.Email = musician.Email;
         }
         await _context.SaveChangesAsync();
