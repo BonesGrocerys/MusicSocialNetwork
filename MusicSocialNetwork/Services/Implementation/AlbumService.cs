@@ -73,6 +73,12 @@ namespace MusicSocialNetwork.Services.Implementation
             return new OperationResult(OperationCode.Ok, $"Альбом успешно создан");
         }
 
+        public async Task<OperationResult> DeleteAddedAlbumFromPerson(int albumId, int personId)
+        {
+            await _albumRepository.DeleteAddedAlbumFromPerson(albumId, personId);
+            return OperationResult.OK;
+        }
+
         public async Task<OperationResult<IEnumerable<AlbumResponse>>> GetAllAddedAlbumsByPersonId(int personId)
         {
             var album = await _albumRepository.GetAllAddedAlbumsByPersonId(personId);

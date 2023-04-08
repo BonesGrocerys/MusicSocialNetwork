@@ -15,6 +15,12 @@ namespace MusicSocialNetwork.Repository.Implimentations
             _context = context;
         }
 
+        public async Task AddPlaylistToPerson(AddedPlaylists addedPlaylists)
+        {
+            await _context.AddAsync(addedPlaylists);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task AddTrackToPlaylist(PlaylistTrack playlistTrack)
         {
             await _context.AddAsync(playlistTrack);
@@ -28,9 +34,24 @@ namespace MusicSocialNetwork.Repository.Implimentations
             return playlist.Id;
         }
 
+        public async Task DeleteAddedPlaylistFromPerson(int playlistId, int personId)
+        {
+            var playlist = await _context.AddedPlaylists.Where(x => x.PlaylistId == playlistId && x.PersonId == personId).ToListAsync();
+            if (playlist != null)
+            {
+                 _context.RemoveRange(playlist);
+            }
+            await _context.SaveChangesAsync();
+        }
+
         public Task DeleteAsync(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<Playlist>> GetAllAddedPlaylistsByPersonAsync(int personId)
+        {
+            return await _context.Playlists.Where(x => x.AddedPlaylists.Any(x => x.PersonId == personId)).ToListAsync();
         }
 
         public async Task<IEnumerable<Playlist>> GetPlaylistsByPersonAsync(int personId)

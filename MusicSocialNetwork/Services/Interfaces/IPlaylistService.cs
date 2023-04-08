@@ -10,7 +10,8 @@ namespace MusicSocialNetwork.Services.Interfaces;
     Task<OperationResult<IEnumerable<PlaylistResponse>>> GetPlaylistsByPersonAsync(int personId);
     Task<OperationResult> AddTrackToPlaylist(int trackId, int playlistId);
     Task<OperationResult<IEnumerable<TrackResponse>>> GetTracksFromPlaylistId(int playlistId);
-
-
+    Task<OperationResult> AddPlaylistToPerson(int playlistId, int personId);
+    Task<OperationResult<IEnumerable<PlaylistResponse>>> GetAllAddedPlaylistsByPersonAsync(int personId);
+    Task<OperationResult> DeleteAddedPlaylistFromPerson(int playlistId, int personId);
 }
 

@@ -263,7 +263,7 @@ public class TracksController : ControllerBase
         return BadRequest(response);
     }
 
-    [HttpGet("get-track-from-playlistId")]
+    [HttpGet("get-tracks-from-playlistId")]
     public async Task<IActionResult> GetTracksFromPlaylistId(int playlistId)
     {
         var response = await _playlistService.GetTracksFromPlaylistId(playlistId);
@@ -330,6 +330,37 @@ public class TracksController : ControllerBase
             return Ok(response);
 
         return BadRequest(response);
+    }
+
+    [HttpPost("add-playlist-to-person")]
+    public async Task<IActionResult> AddPlaylistToPerson(int playlistId, int personId)
+    {
+        var response = await _playlistService.AddPlaylistToPerson(playlistId, personId);
+        if (response.Success)
+            return Ok(response);
+
+        return BadRequest(response);
+    }
+
+    [HttpGet("get-all-added-playlists-by-personId")]
+    public async Task<IActionResult> GetAllAddedPlaylistsByPersonAsync(int personId)
+    {
+        var response = await _playlistService.GetAllAddedPlaylistsByPersonAsync(personId);
+        if (response.Success)
+            return Ok(response);
+
+
+        return BadRequest(response);
+    }
+
+    [HttpDelete("delete-added-playlist-from-person")]
+    public async Task<ActionResult<OperatingSystem>> DeleteAddedPlaylistFromPerson(int playlistId, int personId)
+    {
+        var result = await _playlistService.DeleteAddedPlaylistFromPerson(playlistId, personId);
+        if (result.Success)
+            return Ok(result);
+
+        return BadRequest(result);
     }
 }
 

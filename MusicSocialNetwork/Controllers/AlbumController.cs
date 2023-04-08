@@ -80,5 +80,15 @@ namespace MusicSocialNetwork.Controllers
                 return Ok(response);
             return BadRequest(response);
         }
+
+        [HttpDelete("delete-album-from-person")]
+        public async Task<ActionResult<OperatingSystem>> DeleteAlbumFromPerson(int albumId, int personId)
+        {
+            var result = await _albumService.DeleteAddedAlbumFromPerson(albumId, personId);
+            if (result.Success)
+                return Ok(result);
+
+            return BadRequest(result);
+        }
     }
 }

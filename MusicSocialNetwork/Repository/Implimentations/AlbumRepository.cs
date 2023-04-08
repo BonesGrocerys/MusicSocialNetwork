@@ -104,12 +104,17 @@ public class AlbumRepository : IAlbumRepository
 
     public async Task<IEnumerable<Album>> GetAllAddedAlbumsByPersonId(int personId)
     {
-        return await _context.Albums.Where(x => x.AddedAlbums.Any(x => x.PersonId == personId)).ToListAsync();
+        return await _context.Albums.Where(x => x.AddedAlbums.Any(x => x.PersonId == personId)).Include(x => x.Musicians).ToListAsync();
     }
 
-    public Task DeleteAddedAlbumFromPerson(int albumId, int personId)
+    public async Task DeleteAddedAlbumFromPerson(int albumId, int personId)
     {
-        throw new NotImplementedException();
+        var album = await _context.AddedAlbums.Where(x => x.AlbumId == albumId && x.PersonId == personId).ToListAsync();
+        if (album != null)
+        {
+            _context.AddedAlbums.RemoveRange(album);
+        }
+        await _context.SaveChangesAsync();
     }
 }
 

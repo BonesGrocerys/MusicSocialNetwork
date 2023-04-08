@@ -20,6 +20,13 @@ public class PlaylistService : IPlaylistService
        
     }
 
+    public async Task<OperationResult> AddPlaylistToPerson(int playlistId, int personId)
+    {
+        var playlist = new AddedPlaylists { PlaylistId = playlistId, PersonId = personId };
+        await _playlistRepository.AddPlaylistToPerson(playlist);
+        return OperationResult.OK;
+    }
+
     public async Task<OperationResult> AddTrackToPlaylist(int trackId, int playlistId)
     {
         var playlist = new PlaylistTrack { trackId = trackId, playlistId = playlistId };
@@ -40,6 +47,19 @@ public class PlaylistService : IPlaylistService
         
 
         return new OperationResult(OperationCode.Ok, $"Плейлист успешно создан");
+    }
+
+    public async Task<OperationResult> DeleteAddedPlaylistFromPerson(int playlistId, int personId)
+    {
+        await _playlistRepository.DeleteAddedPlaylistFromPerson(playlistId, personId);
+        return OperationResult.OK;
+    }
+
+    public async Task<OperationResult<IEnumerable<PlaylistResponse>>> GetAllAddedPlaylistsByPersonAsync(int personId)
+    {
+        var playlist = await _playlistRepository.GetAllAddedPlaylistsByPersonAsync(personId);
+        var response = _mapper.Map<IEnumerable<PlaylistResponse>>(playlist);
+        return new OperationResult<IEnumerable<PlaylistResponse>>(response);
     }
 
     public async Task<OperationResult<IEnumerable<PlaylistResponse>>> GetPlaylistsByPersonAsync(int personId)
