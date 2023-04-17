@@ -39,7 +39,7 @@ namespace MusicSocialNetwork.Services.Implementation
             return new OperationResult(OperationCode.Ok, $"Альбом добавлен");
         }
 
-        public async Task<int> CreateAlbumAsync(AlbumCreateReqeust request)
+        public async Task<OperationResult<int>> CreateAlbumAsync(AlbumCreateReqeust request)
         {
             var album = _mapper.Map<Album>(request);
             List<Musician> musicians = new List<Musician>();
@@ -66,12 +66,12 @@ namespace MusicSocialNetwork.Services.Implementation
                     var data = memoryStream.ToArray();
                     album.Cover = data;
                 } 
-            } 
+            }
             //else return new OperationResult(OperationCode.Error, $"Необходимо загрузить обложку");
 
             album.Musicians = musicians;
             var albumId = await _albumRepository.CreateAsync(album);
-            return albumId;
+            return new OperationResult<int>(albumId);
         }
 
         public async Task<OperationResult> DeleteAddedAlbumFromPerson(int albumId, int personId)
