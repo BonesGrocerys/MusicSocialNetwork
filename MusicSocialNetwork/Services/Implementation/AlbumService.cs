@@ -39,7 +39,7 @@ namespace MusicSocialNetwork.Services.Implementation
             return new OperationResult(OperationCode.Ok, $"Альбом добавлен");
         }
 
-        public async Task<OperationResult> CreateAlbumAsync(AlbumCreateReqeust request)
+        public async Task<int> CreateAlbumAsync(AlbumCreateReqeust request)
         {
             var album = _mapper.Map<Album>(request);
             List<Musician> musicians = new List<Musician>();
@@ -66,11 +66,12 @@ namespace MusicSocialNetwork.Services.Implementation
                     var data = memoryStream.ToArray();
                     album.Cover = data;
                 } 
-            } else return new OperationResult(OperationCode.Error, $"Необходимо загрузить обложку");
+            } 
+            //else return new OperationResult(OperationCode.Error, $"Необходимо загрузить обложку");
 
             album.Musicians = musicians;
-            await _albumRepository.CreateAsync(album);
-            return new OperationResult(OperationCode.Ok, $"Альбом успешно создан");
+            var albumId = await _albumRepository.CreateAsync(album);
+            return albumId;
         }
 
         public async Task<OperationResult> DeleteAddedAlbumFromPerson(int albumId, int personId)
@@ -97,16 +98,15 @@ namespace MusicSocialNetwork.Services.Implementation
         {
             var album = await _albumRepository.GetAllAlbumByMusicianIdAsync(musicianId);
             var response = _mapper.Map<IEnumerable<AlbumResponse>>(album);
-            
-
+          
             foreach ( var albumResponse in response )
             {
                 foreach ( var item in albumResponse.Tracks)
                 {
                     item.AuditionsCount = await _statisticsRepository.GetAuditionsTrackCountAsync(item.Id);
-                    //var savesCount =  _statisticsRepository.GetSavesCountTrackByMusician(item.Id); 
+                    item.SavesCount = await _statisticsRepository.GetSavesCountTrackByMusicianForAlbum(item.Id);
                 }
-                
+                albumResponse.SavesCount = albumResponse.Tracks.Sum(x => x.SavesCount);
                 albumResponse.AuditionsCount = albumResponse.Tracks.Sum(x => x.AuditionsCount);
             }
             return new OperationResult<IEnumerable<AlbumResponse>>(response);

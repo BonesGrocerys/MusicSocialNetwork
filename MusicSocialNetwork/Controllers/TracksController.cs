@@ -156,71 +156,6 @@ public class TracksController : ControllerBase
         return BadRequest(response);
     }
 
-    [HttpPost("get-graph-musician-count-listen/{musicianId}")]
-    public async Task<IActionResult> GetGraphDataByMusicianListenCountAsync(int musicianId, DayInterval interval)
-    {
-        var response = await _statisticsService.GetGraphDataByMusicianListenCountAsync(musicianId, interval);
-        if (response.Success)
-            return Ok(response);
-
-
-        return BadRequest(response);
-    }
-
-    [HttpPost("get-graph-musician-count-listeners/{musicianId}")]
-    public async Task<IActionResult> GetGraphDataByMusicianListenersCountAsync(int musicianId, DayInterval interval)
-    {
-        var response = await _statisticsService.GetGraphDataByMusicianListenersCountAsync(musicianId, interval);
-        if (response.Success)
-            return Ok(response);
-
-
-        return BadRequest(response);
-    }
-
-    [HttpGet("get-saves-count-track-by-musician")]
-    public async Task<IActionResult> GetSavesCountTrackByMusician(int trackId)
-    {
-        var response = await _statisticsService.GetSavesCountTrackByMusician(trackId);
-        if (response.Success)
-            return Ok(response);
-
-
-        return BadRequest(response);
-    }
-
-    [HttpGet("get-saves-count-all-tracks-by-musician")]
-    public async Task<IActionResult> GetSavesCountAllTracksByMusician(int musicianId)
-    {
-        var response = await _statisticsService.GetSavesCountAllTracksByMusician(musicianId);
-        if (response.Success)
-            return Ok(response);
-
-
-        return BadRequest(response);
-    }
-
-    [HttpGet("get-popular-tracks")]
-    public async Task<IActionResult> GetPopularTracks()
-    {
-        var response = await _statisticsService.GetPopularTracksAsync();
-        if (response.Success)
-            return Ok(response);
-
-
-        return BadRequest(response);
-    }
-
-    [HttpGet("get-popular-tracks-by-genre")]
-    public async Task<IActionResult> GetPopularTracksByGenre(int genreId)
-    {
-        var response = await _statisticsService.GetPopularTracksByGenreAsync(genreId);
-        if (response.Success)
-            return Ok(response);
-
-
-        return BadRequest(response);
-    }
 
     [HttpPost("create-playlist")]
     public async Task<IActionResult> CreatePlaylist([FromForm] CreatePlaylistRequest request)
@@ -242,16 +177,7 @@ public class TracksController : ControllerBase
         return BadRequest(response);
     }
 
-    [HttpGet("get-musician-by-id")]
-    public async Task<IActionResult> GetMusicianByIdAsync(int musicianId)
-    {
-        var response = await _musicianService.GetMusicianByIdAsync(musicianId);
-        if (response.Success)
-            return Ok(response);
 
-
-        return BadRequest(response);
-    }
 
     [HttpPost("add-track-to-playlist")]
     public async Task<IActionResult> AddTrackToPlaylist(int trackId, int playlistId)
@@ -274,63 +200,7 @@ public class TracksController : ControllerBase
         return BadRequest(response);
     }
 
-    [HttpGet("personIsMusician")]
-    public async Task<IActionResult> PersonIsMusician(int personId)
-    {
-        var response = await _personRepository.PersonIsMusician(personId);
-        
-        return Ok(response);
-    }
-
-    [HttpGet("submit-application-to-musician")]
-    public async Task<IActionResult> SubmitApplicationToMusician(int musicianId, int personId)
-    {
-        var response = await _musicianService.SubmitApplicationToMusician(musicianId, personId);
-        if (response.Success)
-            return Ok(response);
-
-        return BadRequest(response);
-    }
-
-    [HttpGet("apply-application-to-musician")]
-    public async Task<IActionResult> ApplyApplicationToMusician(int musicianId)
-    {
-        var response = await _musicianService.ApplyApplicationToMusician(musicianId);
-        if (response.Success)
-            return Ok(response);
-
-        return BadRequest(response);
-    }
-
-    [HttpGet("disagree-application-to-musician")]
-    public async Task<IActionResult> DisagreeApplicationToMusician(int musicianId)
-    {
-        var response = await _musicianService.DisagreeApplicationToMusician(musicianId);
-        if (response.Success)
-            return Ok(response);
-
-        return BadRequest(response);
-    }
-
-    [HttpGet("get-all-musician")]
-    public async Task<IActionResult> GetAllMusician()
-    {
-        var response = await _musicianService.GetAllAsync();
-        if (response.Success)
-            return Ok(response);
-
-        return BadRequest(response);
-    }
     
-    [HttpGet("get-all-waiting-musician")]
-    public async Task<IActionResult> GetAllWaitingMusician()
-    {
-        var response = await _musicianService.GetAllWaiting();
-        if (response.Success)
-            return Ok(response);
-
-        return BadRequest(response);
-    }
 
     [HttpPost("add-playlist-to-person")]
     public async Task<IActionResult> AddPlaylistToPerson(int playlistId, int personId)

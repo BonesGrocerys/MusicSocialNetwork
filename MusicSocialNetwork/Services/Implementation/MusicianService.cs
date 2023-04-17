@@ -29,6 +29,7 @@ namespace MusicSocialNetwork.Services.Implementation
         {
             var musician = await _musicianRepository.GetAsync(musicianId);
             var response = _mapper.Map<MusicianResponse>(musician);
+            
             response.MusicianCover = await _albumRepository.GetCoverFromLastAlbumByMusicianId(musicianId);
             response.MonthlyListeners = await _statisticsRepository.GetMusicianMonthlyListeners(musicianId);
             
@@ -51,10 +52,14 @@ namespace MusicSocialNetwork.Services.Implementation
         }
 
         /// <inheritdoc/>
-        public async Task<OperationResult<IEnumerable<MusicianResponse>>> GetAllAsync()
+        public async Task<OperationResult<IEnumerable<MusicianResponse>>> GetAllAsync(string SearchText)
         {
-            var musicians = await _musicianRepository.GetAllAsync();
+            var musicians = await _musicianRepository.GetAllAsync(SearchText);
             var response = _mapper.Map<IEnumerable<MusicianResponse>>(musicians);
+            foreach (var musician in response)
+            {
+                musician.MusicianCover = await _albumRepository.GetCoverFromLastAlbumByMusicianId(musician.Id);
+            }
             return new OperationResult<IEnumerable<MusicianResponse>>(response);
         }
 
@@ -68,6 +73,10 @@ namespace MusicSocialNetwork.Services.Implementation
         {
             var musicians = await _musicianRepository.GetAllWaiting();
             var response = _mapper.Map<IEnumerable<MusicianResponse>>(musicians);
+            foreach (var musician in response)
+            {
+                musician.MusicianCover = await _albumRepository.GetCoverFromLastAlbumByMusicianId(musician.Id);
+            }
             return new OperationResult<IEnumerable<MusicianResponse>>(response);
         }
     }

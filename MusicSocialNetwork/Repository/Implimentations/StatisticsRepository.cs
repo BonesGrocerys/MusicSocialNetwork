@@ -134,5 +134,10 @@ namespace MusicSocialNetwork.Repository.Implimentations
             var count = await _context.AddedTracks.CountAsync(x => x.TrackId == trackId);
             return new CountResponse { Count = count };
         }
+
+        public async Task<int> GetSavesCountTrackByMusicianForAlbum(int trackId)
+        {
+            return await _context.AddedTracks.CountAsync(x => x.TrackId == trackId);
+        }
     }
 }

@@ -7,7 +7,7 @@ namespace MusicSocialNetwork.Services.Interfaces;
 public interface IMusicianService
 {
     Task<OperationResult<MusicianResponse>> GetMusicianByIdAsync(int musicianId);
-    Task<OperationResult<IEnumerable<MusicianResponse>>> GetAllAsync();
+    Task<OperationResult<IEnumerable<MusicianResponse>>> GetAllAsync(string SearchText);
 
     /// <summary>
     /// Отправить заявку на музыканта

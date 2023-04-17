@@ -35,9 +35,15 @@ public class MusicianRepository : IMusicianRepository
         return await _context.Musicians.FindAsync(id);
     }
 
-    public async Task<IEnumerable<Musician>> GetAllAsync()
+    public async Task<IEnumerable<Musician>> GetAllAsync(string SearchText)
     {
-        return await _context.Musicians.ToListAsync();
+        var query = _context.Musicians.AsQueryable();
+        if (SearchText != null)
+        {
+            query = query.Where(x => x.Nickname.ToLower().Contains(SearchText.ToLower()));
+        }
+
+        return await query.ToListAsync();
     }
 
     public async Task<Musician?> GetByNicknameAsync(string nickname)

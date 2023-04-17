@@ -36,7 +36,7 @@ public class AlbumRepository : IAlbumRepository
             .Where(x => x.Musicians.Any(x => x.Id == musicianId))
             .Include(x => x.Musicians)
             .Include(x => x.Genre)
-            //.Include(x => x.Tracks)
+            .Include(x => x.Tracks)
             .Include(x => x.Musicians)
                 //.ThenInclude( y => y.Musicians)
             .ToListAsync();

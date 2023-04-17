@@ -5,7 +5,7 @@ namespace MusicSocialNetwork.Repository.Interfaces;
 public interface IMusicianRepository
 {
     public Task<Musician> GetAsync(int id);
-    public Task<IEnumerable<Musician>> GetAllAsync();
+    public Task<IEnumerable<Musician>> GetAllAsync(string SearchText);
     public Task<Musician> GetByNicknameAsync(string nickname);
     public Task<int> CreateAsync(Musician musician);
     public Task UpdateAsync(Musician musician);
