@@ -57,7 +57,7 @@ namespace MusicSocialNetwork.Services.Implementation
             var createdId = await _trackRepository.CreateAsync(track);
 
             var stream = tracksFiles.OpenReadStream();
-            using var fileStream = File.Create($"C:\\Users\\Глеб\\Desktop\\Tracks\\{createdId}.mp3");
+            using var fileStream = File.Create($"C:\\Users\\shpackyous\\Desktop\\Tracks\\{createdId}.mp3");
             stream.Seek(0, SeekOrigin.Begin);
             stream.CopyTo(fileStream);
 
@@ -103,7 +103,7 @@ namespace MusicSocialNetwork.Services.Implementation
 
         public async  Task<Stream> GetTrackFileAsync(int id)
         {
-            var path = $"C:\\Users\\Глеб\\Desktop\\Tracks\\{id}.mp3";
+            var path = $"C:\\Users\\shpackyous\\Desktop\\Tracks\\{id}.mp3";
             var stream = File.OpenRead(path);
             return stream;
         }
@@ -174,6 +174,12 @@ namespace MusicSocialNetwork.Services.Implementation
             var tracks = await _trackRepository.GetTrackGenreAsync(genreId);  
             var response = _mapper.Map<IEnumerable<TrackResponse>>(tracks); 
             return new OperationResult<IEnumerable<TrackResponse>>(response);
+        }
+
+        public async Task<OperationResult<bool>> TrackIsAdded(int trackId, int personId)
+        {
+            var track = await _trackRepository.TrackIsAdded(trackId, personId);
+            return new OperationResult<bool>(track);
         }
     }
 }

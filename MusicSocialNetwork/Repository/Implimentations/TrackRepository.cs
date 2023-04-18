@@ -113,6 +113,11 @@ public class TrackRepository : ITrackRepository
         return;
     }
 
+    public async Task<bool> TrackIsAdded(int trackId, int personId)
+    {
+        var track = await _context.AddedTracks.FirstOrDefaultAsync(x => x.TrackId == trackId && x.PersonId == personId);
+        return track != null;
+    }
 
     public Task UpdateAsync(Track track)
     {

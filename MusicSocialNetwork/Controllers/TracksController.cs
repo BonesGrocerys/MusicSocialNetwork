@@ -20,13 +20,15 @@ public class TracksController : ControllerBase
     private readonly IPlaylistService _playlistService;
     private readonly IMusicianService _musicianService;
     private readonly IPersonRepository _personRepository;
-    public TracksController(ITrackService trackService, IStatisticsService statisticsService, IPlaylistService playlistService, IMusicianService musicianService, IPersonRepository personRepository)
+    private readonly ITrackRepository _trackRepository;
+    public TracksController(ITrackService trackService, IStatisticsService statisticsService, IPlaylistService playlistService, IMusicianService musicianService, IPersonRepository personRepository, ITrackRepository trackRepository)
     {
         _trackService = trackService;
         _statisticsService = statisticsService;
         _playlistService = playlistService;
         _musicianService = musicianService;
         _personRepository = personRepository;
+        _trackRepository = trackRepository;
     }
 
     [HttpGet("get-by-id/{id}")]
@@ -231,6 +233,14 @@ public class TracksController : ControllerBase
             return Ok(result);
 
         return BadRequest(result);
+    }
+
+    [HttpGet("trackIsAdded")]
+    public async Task<IActionResult> TrackIdAdded(int trackId, int personId)
+    {
+        var response = await _trackService.TrackIsAdded(trackId, personId);
+
+        return Ok(response);
     }
 }
 

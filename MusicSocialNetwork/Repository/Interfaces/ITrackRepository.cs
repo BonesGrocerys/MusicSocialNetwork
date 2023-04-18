@@ -15,5 +15,6 @@ public interface ITrackRepository
     public Task<IEnumerable<Track>> GetAllTracksToMusician(int musicianId);
     public Task<IEnumerable<Track>> GetRandomTrackAsync();
     public Task<IEnumerable<Track>> GetTrackGenreAsync(int genreId);
+    public Task<bool> TrackIsAdded(int trackId, int personId);
 }
 
