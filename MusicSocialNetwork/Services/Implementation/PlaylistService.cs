@@ -40,7 +40,20 @@ public class PlaylistService : IPlaylistService
         {
             return new OperationResult(OperationCode.Error, $"Необходимо указать имя плейлиста");
         }
+        
         var playlist = _mapper.Map<Playlist>(request);
+        if (request.PlaylistImage != null)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                request.PlaylistImage.CopyTo(memoryStream);
+                var data = memoryStream.ToArray();
+                playlist.PlaylistImage = data;
+            }
+        } else
+        {
+            return new OperationResult(OperationCode.Error, $"Необходимо загрузить обложку");
+        }
         playlist.PersonId = request.PersonId;
         await _playlistRepository.CreateAsync(playlist);
 
