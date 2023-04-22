@@ -9,6 +9,7 @@ namespace MusicSocialNetwork.Dto.Playlist
         public string Name { get; set; }
         public string Creator { get; set; }
         public int CreatorId { get; set; }
+        public Byte[] PlaylistImage { get; set; }
         public List<TrackResponse> Tracks { get; set; }
     }
 }

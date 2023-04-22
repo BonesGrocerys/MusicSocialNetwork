@@ -13,7 +13,6 @@ public class Playlist
     public List<PlaylistTrack> TrackAddedPlaylist { get; set; }
     public Person? Person { get; set; }
     public int? PersonId { get; set; }
-    [Column("playlist_image")]
     public Byte[] PlaylistImage { get; set; }
 }
 

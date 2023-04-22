@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MusicSocialNetwork.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230420220722_init2")]
-    partial class init2
+    [Migration("20230421151604_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -278,8 +278,7 @@ namespace MusicSocialNetwork.Migrations
                         .HasColumnType("integer");
 
                     b.Property<byte[]>("PlaylistImage")
-                        .HasColumnType("bytea")
-                        .HasColumnName("playlist_image");
+                        .HasColumnType("bytea");
 
                     b.HasKey("Id");
 

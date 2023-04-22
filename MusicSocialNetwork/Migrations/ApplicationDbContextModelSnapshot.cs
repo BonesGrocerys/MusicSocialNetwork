@@ -276,8 +276,7 @@ namespace MusicSocialNetwork.Migrations
                         .HasColumnType("integer");
 
                     b.Property<byte[]>("PlaylistImage")
-                        .HasColumnType("bytea")
-                        .HasColumnName("playlist_image");
+                        .HasColumnType("bytea");
 
                     b.HasKey("Id");
 

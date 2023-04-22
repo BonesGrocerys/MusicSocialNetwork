@@ -90,7 +90,7 @@ namespace MusicSocialNetwork.Repository.Implimentations
             var popularTracks = await _context.ListenPerson
                 .Where(lp => lp.DateTime >= maxDate)
                 .Include(x => x.Track)
-                //.ThenInclude(x => x.Album)
+                .ThenInclude(x => x.Album)
                 .ThenInclude(x => x.Musicians)
                 .GroupBy(lp => lp.TrackId)
                 .OrderByDescending(group => group.Count())

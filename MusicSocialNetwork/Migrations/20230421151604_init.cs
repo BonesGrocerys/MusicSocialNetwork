@@ -156,7 +156,8 @@ namespace MusicSocialNetwork.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: true),
-                    PersonId = table.Column<int>(type: "integer", nullable: true)
+                    PersonId = table.Column<int>(type: "integer", nullable: true),
+                    PlaylistImage = table.Column<byte[]>(type: "bytea", nullable: true)
                 },
                 constraints: table =>
                 {
