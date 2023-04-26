@@ -98,5 +98,11 @@ namespace MusicSocialNetwork.Services.Implementation
             }
             return new OperationResult<IEnumerable<MusicianResponse>>(response);
         }
+
+        public async Task<OperationResult> PersonIsSubscribedToMusician(int personId, int musicianId)
+        {
+            var musician = await _musicianRepository.PersonIsSubscribedToMusician(personId, musicianId);
+            return new OperationResult<bool>(musician);
+        }
     }
 }

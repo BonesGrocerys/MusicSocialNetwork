@@ -109,5 +109,11 @@ public class MusicianRepository : IMusicianRepository
     {
         return await _context.Musicians.Include(x => x.Subscribers.Where(x => x.PersonId== personId)).ToListAsync();
     }
+
+    public async Task<bool> PersonIsSubscribedToMusician(int personId, int musicianId)
+    {
+        var musician = await _context.Subscriptions.FirstOrDefaultAsync(x => x.PersonId== personId && x.MusicianId == musicianId);
+        return musician != null;
+    }
 }
 

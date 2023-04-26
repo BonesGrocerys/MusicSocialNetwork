@@ -31,5 +31,6 @@ public interface IMusicianService
     Task<OperationResult> DisagreeApplicationToMusician(int musicianId);
     Task<OperationResult> SubscribeToMusician(int musicianId, int personId);
     Task<OperationResult<IEnumerable<MusicianResponse>>> GetSubscribedMusician(int personId);
+    Task<OperationResult> PersonIsSubscribedToMusician(int personId, int musicianId);
 }
 

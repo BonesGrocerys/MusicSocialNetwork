@@ -109,5 +109,15 @@ namespace MusicSocialNetwork.Controllers
 
             return BadRequest(response);
         }
+
+        [HttpGet("person-is-subscribed-to-musician")]
+        public async Task<IActionResult> PersonIsSubscribedToMusician(int personId, int musicianId)
+        {
+            var response = await _musicianService.PersonIsSubscribedToMusician(personId, musicianId);
+            if (response.Success)
+                return Ok(response);
+
+            return BadRequest(response);
+        }
     }
 }

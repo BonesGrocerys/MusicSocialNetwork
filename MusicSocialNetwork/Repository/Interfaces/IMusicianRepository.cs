@@ -41,5 +41,6 @@ public interface IMusicianRepository
     Task LinkPersonToMusician(int musicianId, int personId);
     public Task SubscribeToMusician(Subscriptions subscriptions);
     public Task<IEnumerable<Musician>> GetSubscribedMusician(int personId);
+    public Task<bool> PersonIsSubscribedToMusician(int personId, int musicianId);
 }
 
