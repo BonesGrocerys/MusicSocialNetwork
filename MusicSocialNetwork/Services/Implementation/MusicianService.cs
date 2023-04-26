@@ -2,6 +2,7 @@
 using MusicSocialNetwork.Common;
 using MusicSocialNetwork.Dto.Musician;
 using MusicSocialNetwork.Entities;
+using MusicSocialNetwork.Repository.Implimentations;
 using MusicSocialNetwork.Repository.Interfaces;
 using MusicSocialNetwork.Services.Interfaces;
 
@@ -72,6 +73,24 @@ namespace MusicSocialNetwork.Services.Implementation
         public async Task<OperationResult<IEnumerable<MusicianResponse>>> GetAllWaiting()
         {
             var musicians = await _musicianRepository.GetAllWaiting();
+            var response = _mapper.Map<IEnumerable<MusicianResponse>>(musicians);
+            foreach (var musician in response)
+            {
+                musician.MusicianCover = await _albumRepository.GetCoverFromLastAlbumByMusicianId(musician.Id);
+            }
+            return new OperationResult<IEnumerable<MusicianResponse>>(response);
+        }
+
+        public async Task<OperationResult> SubscribeToMusician(int musicianId, int personId)
+        {
+            var subscribe = new Subscriptions { MusicianId = musicianId, PersonId = personId };
+            await _musicianRepository.SubscribeToMusician(subscribe);
+            return OperationResult.OK;
+        }
+
+        public async Task<OperationResult<IEnumerable<MusicianResponse>>> GetSubscribedMusician(int personId)
+        {
+            var musicians = await _musicianRepository.GetSubscribedMusician(personId);
             var response = _mapper.Map<IEnumerable<MusicianResponse>>(musicians);
             foreach (var musician in response)
             {

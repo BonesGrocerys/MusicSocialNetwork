@@ -90,5 +90,24 @@ namespace MusicSocialNetwork.Controllers
             return BadRequest(response);
         }
 
+        [HttpPost("subscribe-to-musician")]
+        public async Task<IActionResult> SubscribeToMusician(int musicianId, int personId)
+        {
+            var response = await _musicianService.SubscribeToMusician(musicianId, personId);
+            if (response.Success)
+                return Ok(response);
+
+            return BadRequest(response);
+        }
+
+        [HttpGet("get-all-subscribed-musician")]
+        public async Task<IActionResult> GetAllSubscribedMusicians(int personId)
+        {
+            var response = await _musicianService.GetSubscribedMusician(personId);
+            if (response.Success)
+                return Ok(response);
+
+            return BadRequest(response);
+        }
     }
 }

@@ -13,5 +13,10 @@ namespace MusicSocialNetwork.Services.Interfaces;
     Task<OperationResult> AddPlaylistToPerson(int playlistId, int personId);
     Task<OperationResult<IEnumerable<PlaylistResponse>>> GetAllAddedPlaylistsByPersonAsync(int personId);
     Task<OperationResult> DeleteAddedPlaylistFromPerson(int playlistId, int personId);
+    Task<OperationResult> UpdatePlaylistName(PlaylistUpdateNameRequest playlistDto);
+    Task<OperationResult> UpdatePlaylistImage(PlaylistUpdateImageRequest playlistDto);
+    Task<OperationResult> DeletePlaylistAsync(int playlistId);
+    Task<OperationResult> DeleteTrackFromPlaylistAsync(int playlistId, int trackId);
+    Task<OperationResult> PlaylistBelongsToUser(int playlistId, int personId);
 }
 

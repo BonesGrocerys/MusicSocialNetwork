@@ -81,6 +81,27 @@ namespace MusicSocialNetwork.Controllers
             return BadRequest(response);
         }
 
+
+        [HttpPut("update-playlist-name")]
+        public async Task<ActionResult<OperatingSystem>> UpdatePlaylistName([FromForm] PlaylistUpdateNameRequest playlistDto)
+        {
+            var result = await _playlistService.UpdatePlaylistName(playlistDto);
+            if (result.Success)
+                return Ok(result);
+
+            return BadRequest(result);
+        }
+
+        [HttpPut("update-playlist-image")]
+        public async Task<ActionResult<OperatingSystem>> UpdatePlaylistImage([FromForm]PlaylistUpdateImageRequest playlistDto)
+        {
+            var result = await _playlistService.UpdatePlaylistImage(playlistDto);
+            if (result.Success)
+                return Ok(result);
+
+            return BadRequest(result);
+        }
+
         [HttpDelete("delete-added-playlist-from-person")]
         public async Task<ActionResult<OperatingSystem>> DeleteAddedPlaylistFromPerson(int playlistId, int personId)
         {
@@ -91,5 +112,34 @@ namespace MusicSocialNetwork.Controllers
             return BadRequest(result);
         }
 
+        [HttpDelete("delete-playlist")]
+        public async Task<ActionResult<OperatingSystem>> DeletePlaylist(int playlistId)
+        {
+            var result = await _playlistService.DeletePlaylistAsync(playlistId);
+            if (result.Success)
+                return Ok(result);
+
+            return BadRequest(result);
+        }
+
+        [HttpDelete("delete-track-from-playlist")]
+        public async Task<ActionResult<OperatingSystem>> DeleteTrackFromPlaylist(int playlistId, int trackId)
+        {
+            var result = await _playlistService.DeleteTrackFromPlaylistAsync(playlistId, trackId);
+            if (result.Success)
+                return Ok(result);
+
+            return BadRequest(result);
+        }
+        
+        [HttpGet("playlist-belongs-to-user")]
+        public async Task<ActionResult<OperatingSystem>> PlaylistBelongsToUser(int playlistId, int personId)
+        {
+            var result = await _playlistService.PlaylistBelongsToUser(playlistId, personId);
+            if (result.Success)
+                return Ok(result);
+
+            return BadRequest(result);
+        }
     }
 }

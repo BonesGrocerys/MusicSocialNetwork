@@ -39,5 +39,7 @@ public interface IMusicianRepository
     /// <param name="personId"></param>
     /// <returns></returns>
     Task LinkPersonToMusician(int musicianId, int personId);
+    public Task SubscribeToMusician(Subscriptions subscriptions);
+    public Task<IEnumerable<Musician>> GetSubscribedMusician(int personId);
 }
 

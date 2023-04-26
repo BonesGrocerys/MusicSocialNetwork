@@ -98,5 +98,16 @@ public class MusicianRepository : IMusicianRepository
     {
         return await _context.Musicians.Where(x => x.Status == MusicianStatus.WAITING).ToListAsync();
     }
+
+    public async Task SubscribeToMusician(Subscriptions subscriptions)
+    {
+        await _context.AddAsync(subscriptions);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<IEnumerable<Musician>> GetSubscribedMusician(int personId)
+    {
+        return await _context.Musicians.Include(x => x.Subscribers.Where(x => x.PersonId== personId)).ToListAsync();
+    }
 }
 

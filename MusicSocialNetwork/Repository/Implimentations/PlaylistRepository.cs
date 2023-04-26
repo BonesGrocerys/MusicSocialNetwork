@@ -44,9 +44,24 @@ namespace MusicSocialNetwork.Repository.Implimentations
             await _context.SaveChangesAsync();
         }
 
-        public Task DeleteAsync(int id)
+        public async Task DeletePlaylistAsync(int id)
         {
-            throw new NotImplementedException();
+            var playlist = await _context.Playlists.Where(x => x.Id == id).ToListAsync();
+            if (playlist != null)
+            {
+                _context.RemoveRange(playlist);
+            }
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteTrackFromPlaylistAsync(int playlistId, int trackId)
+        {
+            var playlist = await _context.PlaylistTrack.Where(x => x.playlistId == playlistId && x.trackId == trackId).ToListAsync();
+            if (playlist != null)
+            {
+                _context.RemoveRange(playlist);
+            }
+            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Playlist>> GetAllAddedPlaylistsByPersonAsync(int personId)
@@ -57,9 +72,7 @@ namespace MusicSocialNetwork.Repository.Implimentations
         public async Task<IEnumerable<Playlist>> GetPlaylistsByPersonAsync(int personId)
         {
             return await _context.Playlists.Where(x => x.PersonId == personId)
-                .Include(x => x.Person).ToListAsync();
-
-
+                .Include(x => x.Person).OrderByDescending(x => x.Id).ToListAsync();
         }
 
         public async Task<IEnumerable<Track>> GetTracksByPlaylistId(int playlistId)
@@ -70,9 +83,34 @@ namespace MusicSocialNetwork.Repository.Implimentations
                 .ToListAsync();
         }
 
-        public Task UpdateAsync(Playlist playlist)
+        public async Task<bool> PlaylistBelongsToUser(int playlistId, int personId)
         {
-            throw new NotImplementedException();
+            var playlist = await _context.Playlists.FirstOrDefaultAsync(x => x.Id == playlistId && x.PersonId == personId);
+            return playlist != null;
+        }
+
+        public async Task<bool> UpdatePlaylistImage(Playlist playlist)
+        {
+            var updatedPlaylist = _context.Playlists.FirstOrDefault(x => x.Id == playlist.Id);
+            if (playlist == null)
+            {
+                return false;
+            }
+            updatedPlaylist.PlaylistImage = playlist.PlaylistImage;
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> UpdatePlaylistName(Playlist playlist)
+        {
+            var updatedPlaylist =  _context.Playlists.FirstOrDefault(x => x.Id == playlist.Id);
+            if (playlist == null)
+            {
+                return false;
+            }
+            updatedPlaylist.Name = playlist.Name;
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

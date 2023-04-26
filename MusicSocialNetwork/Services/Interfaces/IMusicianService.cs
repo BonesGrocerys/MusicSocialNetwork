@@ -28,7 +28,8 @@ public interface IMusicianService
     /// </summary>
     /// <returns></returns>
     Task<OperationResult<IEnumerable<MusicianResponse>>> GetAllWaiting();
-
     Task<OperationResult> DisagreeApplicationToMusician(int musicianId);
+    Task<OperationResult> SubscribeToMusician(int musicianId, int personId);
+    Task<OperationResult<IEnumerable<MusicianResponse>>> GetSubscribedMusician(int personId);
 }
 
