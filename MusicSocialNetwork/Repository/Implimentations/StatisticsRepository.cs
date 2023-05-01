@@ -18,6 +18,12 @@ namespace MusicSocialNetwork.Repository.Implimentations
             _context = context;
         }
 
+        public async Task<int> GetAllAuditionsCountByMusicianId(int musicianId)
+        {
+            return await _context.ListenPerson.Where(x => x.Track.Musicians
+            .Any(x => x.Id == musicianId)).CountAsync();
+        }
+
         public async Task<int> GetAuditionsTrackCountAsync(int id)
         {
             return await _context.ListenPerson.CountAsync(x => x.TrackId == id);

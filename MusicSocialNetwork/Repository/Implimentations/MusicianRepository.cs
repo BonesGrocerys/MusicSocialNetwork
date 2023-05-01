@@ -3,6 +3,7 @@ using MusicSocialNetwork.Database;
 using MusicSocialNetwork.Entities;
 using MusicSocialNetwork.Models;
 using MusicSocialNetwork.Repository.Interfaces;
+using System.Security.Cryptography.Xml;
 
 namespace MusicSocialNetwork.Repository.Implimentations;
 
@@ -56,6 +57,12 @@ public class MusicianRepository : IMusicianRepository
     {
         var musician = await GetAsync(musicianId);
         musician.PersonId = personId;
+        var person = await _context.Persons.FirstOrDefaultAsync(x => x.Id == personId);
+        if (person != null)
+        {
+            person.RoleId = 3;
+        }
+
         await _context.SaveChangesAsync();
     }
 
@@ -114,6 +121,11 @@ public class MusicianRepository : IMusicianRepository
     {
         var musician = await _context.Subscriptions.FirstOrDefaultAsync(x => x.PersonId== personId && x.MusicianId == musicianId);
         return musician != null;
+    }
+
+    public async Task<IEnumerable<Musician>> GetMusicianByPersonId(int personId)
+    {
+        return await _context.Musicians.Where(x => x.PersonId ==personId).Include(x => x.Albums).ToListAsync();
     }
 }
 

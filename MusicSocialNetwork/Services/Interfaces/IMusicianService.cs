@@ -32,5 +32,6 @@ public interface IMusicianService
     Task<OperationResult> SubscribeToMusician(int musicianId, int personId);
     Task<OperationResult<IEnumerable<MusicianResponse>>> GetSubscribedMusician(int personId);
     Task<OperationResult> PersonIsSubscribedToMusician(int personId, int musicianId);
+    Task<OperationResult<IEnumerable<MusicianResponse>>> GetMusicianByPersonId(int personId);
 }
 

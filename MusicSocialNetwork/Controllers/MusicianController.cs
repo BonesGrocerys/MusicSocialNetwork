@@ -119,5 +119,15 @@ namespace MusicSocialNetwork.Controllers
 
             return BadRequest(response);
         }
+
+        [HttpGet("get-musicians-by-person-id")]
+        public async Task<IActionResult> GetMusicianByPersonId(int personId)
+        {
+            var response = await _musicianService.GetMusicianByPersonId(personId);
+            if (response.Success)
+                return Ok(response);
+
+            return BadRequest(response);
+        }
     }
 }

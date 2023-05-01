@@ -84,8 +84,15 @@ namespace MusicSocialNetwork.Controllers
             var response = await _statisticsService.GetPopularTracksByGenreAsync(genreId);
             if (response.Success)
                 return Ok(response);
+            return BadRequest(response);
+        }
 
-
+        [HttpGet("get-all-auditions-count-by-musicianId")]
+        public async Task<IActionResult> GetAllAuditionsCountByMusicianId(int musicianId)
+        {
+            var response = await _statisticsService.GetAllAuditionsCountByMusicianId(musicianId);
+            if (response.Success)
+                return Ok(response);
             return BadRequest(response);
         }
     }

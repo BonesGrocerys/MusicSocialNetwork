@@ -30,6 +30,12 @@ namespace MusicSocialNetwork.Services.Implementation
             _statisticsRepository = statisticsRepository;
         }
 
+        public async Task<OperationResult<int>> GetAllAuditionsCountByMusicianId(int musicianId)
+        {
+            var count = await _statisticsRepository.GetAllAuditionsCountByMusicianId(musicianId);
+            return new OperationResult<int>(count);
+        }
+
         public async Task<OperationResult<IEnumerable<GraphResponse>>> GetGraphDataByMusicianListenCountAsync(int musicianId, DayInterval interval)
         {
             var graph = await _statisticsRepository.GetGraphDataByMusicianListenCountAsync(musicianId, interval);

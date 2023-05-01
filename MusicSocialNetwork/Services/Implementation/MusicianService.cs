@@ -104,5 +104,16 @@ namespace MusicSocialNetwork.Services.Implementation
             var musician = await _musicianRepository.PersonIsSubscribedToMusician(personId, musicianId);
             return new OperationResult<bool>(musician);
         }
+
+        public async Task<OperationResult<IEnumerable<MusicianResponse>>> GetMusicianByPersonId(int personId)
+        {
+            var musicians = await _musicianRepository.GetMusicianByPersonId(personId);
+            var response = _mapper.Map<IEnumerable<MusicianResponse>>(musicians);
+            foreach (var musician in response)
+            {
+                musician.MusicianCover = await _albumRepository.GetCoverFromLastAlbumByMusicianId(musician.Id);
+            }
+            return new OperationResult<IEnumerable<MusicianResponse>>(response);
+        }
     }
 }
