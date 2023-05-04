@@ -141,7 +141,7 @@ namespace MusicSocialNetwork.Services.Implementation
                 return new OperationResult(OperationCode.Error, $"Необходимо добавить треки к альбому");
             }
             await _albumRepository.PublishAlbum(albumId);
-            return OperationResult.OK;
+            return new OperationResult(OperationCode.Ok, $"Альбом успешно опубликован"); ;
         }
     }
 }

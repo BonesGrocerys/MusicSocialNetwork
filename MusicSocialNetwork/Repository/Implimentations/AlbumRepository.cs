@@ -124,6 +124,7 @@ public class AlbumRepository : IAlbumRepository
             if ( album!= null )
         {
             album.Status = "success";
+            await _context.SaveChangesAsync();
         }
             return true;
     }

@@ -24,7 +24,10 @@ namespace MusicSocialNetwork.Controllers
         public async Task<IActionResult> Create([FromForm]AlbumCreateReqeust request)
         {
             var response = await _albumService.CreateAlbumAsync(request);
+            if (response.Success) 
             return Ok(response);
+
+            return BadRequest(response);
         }
 
         [HttpGet("get-albums-to-musician/{musicianId}")]

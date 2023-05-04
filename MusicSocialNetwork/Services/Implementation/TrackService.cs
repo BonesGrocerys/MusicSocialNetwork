@@ -56,10 +56,15 @@ namespace MusicSocialNetwork.Services.Implementation
             var tracksFiles = request.TrackFiles;
             var createdId = await _trackRepository.CreateAsync(track);
 
+            if (tracksFiles == null || tracksFiles.Length == 0)
+            {
+                 return new OperationResult(OperationCode.Error, $"Необходимо загрузить файл в формате mp3");
+            }
             var stream = tracksFiles.OpenReadStream();
             using var fileStream = File.Create($"C:\\Users\\shpackyous\\Desktop\\Tracks\\{createdId}.mp3");
             stream.Seek(0, SeekOrigin.Begin);
             stream.CopyTo(fileStream);
+            
 
             return new OperationResult(OperationCode.Ok, $"Трек успешно создан");
         }
