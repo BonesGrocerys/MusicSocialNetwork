@@ -17,6 +17,8 @@ namespace MusicSocialNetwork.Repository.Interfaces
         public Task<CountResponse> GetSavesCountAllTracksByMusician(int musicianId);
         public Task<int> GetMusicianMonthlyListeners(int musicianId);
         public Task<int> GetAllAuditionsCountByMusicianId(int musicianId);
+        public Task<int> GetTotalListenCountByMusicianAsync(int musicianId, DayInterval interval);
+        public Task<int> GetTotalListenersCountByMusicianAsync(int musicianId, DayInterval interval);
 
     }
 }

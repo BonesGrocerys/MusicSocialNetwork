@@ -145,5 +145,31 @@ namespace MusicSocialNetwork.Repository.Implimentations
         {
             return await _context.AddedTracks.CountAsync(x => x.TrackId == trackId);
         }
+
+        public async Task<int> GetTotalListenCountByMusicianAsync(int musicianId, DayInterval interval)
+        {
+            var intervalDate = interval.GetDate();
+            var totalListenCount = await _context.ListenPerson
+                .Where(x => x.Track.Musicians.Any(x => x.Id == musicianId))
+                .Where(x => x.DateTime.Date >= intervalDate.StartDate && x.DateTime.Date < intervalDate.EndDate)
+                .CountAsync();
+
+            return totalListenCount;
+        }
+
+        public async Task<int> GetTotalListenersCountByMusicianAsync(int musicianId, DayInterval interval)
+        {
+            var startDate = interval.StartDate.Date;
+            var endDate = interval.EndDate.Date.AddDays(1);
+
+            var totalListenersCount = await _context.ListenPerson
+                .Where(x => x.Track.Musicians.Any(x => x.Id == musicianId))
+                .Where(x => x.DateTime >= startDate && x.DateTime < endDate)
+                .Select(x => x.PersonId)
+                .Distinct()
+                .CountAsync();
+
+            return totalListenersCount;
+        }
     }
 }

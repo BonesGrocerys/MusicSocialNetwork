@@ -15,5 +15,7 @@ namespace MusicSocialNetwork.Services.Interfaces;
        public Task<OperationResult<IEnumerable<TrackResponse>>> GetPopularTracksAsync();
        public Task<OperationResult<IEnumerable<TrackResponse>>> GetPopularTracksByGenreAsync(int genreId);
        public Task<OperationResult<int>> GetAllAuditionsCountByMusicianId(int musicianId);
+       public Task<OperationResult<int>> GetTotalListenCountByMusicianAsync(int musicianId, DayInterval dayInterval);
+       public Task<OperationResult<int>> GetTotalListenersCountByMusicianAsync(int musicianId, DayInterval dayInterval);
 }
 

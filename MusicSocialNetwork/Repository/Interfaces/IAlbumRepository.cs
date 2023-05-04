@@ -16,5 +16,8 @@ namespace MusicSocialNetwork.Repository.Interfaces;
     public Task AddAlbumToPerson(AddedAlbums addedAlbums);
     public Task<IEnumerable<Album>> GetAllAddedAlbumsByPersonId(int personId);
     public Task DeleteAddedAlbumFromPerson (int albumId,int personId);
+    public Task<bool> PublishAlbum(int albumId);
+    public Task<IEnumerable<Album>> GetNoPublishedAlbumsByMusician(int musicianId);
+
 }
 

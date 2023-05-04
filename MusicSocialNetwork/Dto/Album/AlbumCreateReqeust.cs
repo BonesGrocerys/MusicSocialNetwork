@@ -6,7 +6,7 @@ namespace MusicSocialNetwork.Dto.Album
     {
         public string AlbumTitle { get; set; }
 
-        public string Status { get; set; }
+        //public string Status { get; set; }
         public List<string> Nicknames { get; set; }
         public int? GenreId { get; set; }
         public IFormFile Cover { get; set; }

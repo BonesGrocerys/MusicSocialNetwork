@@ -88,6 +88,18 @@ namespace MusicSocialNetwork.Services.Implementation
             var graph = await _statisticsRepository.GetSavesCountTrackByMusician(trackId);
             //var response = _mapper.Map<CountResponse>(graph);
             return new OperationResult<CountResponse>(graph);
-        }  
+        }
+
+        public async Task<OperationResult<int>> GetTotalListenCountByMusicianAsync(int musicianId, DayInterval dayInterval)
+        {
+            var count = await _statisticsRepository.GetTotalListenCountByMusicianAsync(musicianId, dayInterval);
+            return new OperationResult<int>(count);
+        }
+
+        public async Task<OperationResult<int>> GetTotalListenersCountByMusicianAsync(int musicianId, DayInterval dayInterval)
+        {
+            var count = await _statisticsRepository.GetTotalListenersCountByMusicianAsync(musicianId, dayInterval);
+            return new OperationResult<int>(count);
+        }
     }
 }

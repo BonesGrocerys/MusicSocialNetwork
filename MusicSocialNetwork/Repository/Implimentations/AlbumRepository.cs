@@ -17,8 +17,9 @@ public class AlbumRepository : IAlbumRepository
 
     public async Task<int> CreateAsync(Album album)
     {
-
+        
         album.ReleaseDate = DateOnly.FromDateTime(DateTime.UtcNow);
+        album.Status =  "waiting";
         await _context.AddAsync(album);
         await _context.SaveChangesAsync();
         return album.Id;
@@ -32,8 +33,8 @@ public class AlbumRepository : IAlbumRepository
 
     public async Task<IEnumerable<Album>> GetAllAlbumByMusicianIdAsync(int musicianId)
     {
-        return await _context.Albums
-            .Where(x => x.Musicians.Any(x => x.Id == musicianId))
+        return await _context.Albums.Where(x => x.Status == "success")
+            .Where( x => x.Musicians.Any(x => x.Id == musicianId))
             .Include(x => x.Musicians)
             .Include(x => x.Genre)
             .Include(x => x.Tracks)
@@ -44,7 +45,7 @@ public class AlbumRepository : IAlbumRepository
 
     public async Task<IEnumerable<Album>> GetAllAlbumAsync(string searchText)
     {
-        var query = _context.Albums
+        var query = _context.Albums.Where(x => x.Status == "success")
             .Include(x => x.Musicians)
             .Include(x => x.Genre)
             .Include(x => x.Tracks)
@@ -66,7 +67,7 @@ public class AlbumRepository : IAlbumRepository
 
     public async Task<IEnumerable<Album>> GetLastAlbumByMusicianId(int musicianId)
     {
-        return await _context.Albums
+        return await _context.Albums.Where(x => x.Status == "success")
         .Where(x => x.Musicians.Any(x => x.Id == musicianId))
         .Include(x => x.Musicians)
         .Include(x => x.Genre)
@@ -79,7 +80,7 @@ public class AlbumRepository : IAlbumRepository
 
     public async Task<byte[]> GetCoverFromLastAlbumByMusicianId(int musicianId)
     {
-        var LastCover = await _context.Albums
+        var LastCover = await _context.Albums.Where(x => x.Status == "success")
         .Where(x => x.Musicians.Any(x => x.Id == musicianId))
         .Include(x => x.Musicians)
         .Include(x => x.Genre)
@@ -115,6 +116,28 @@ public class AlbumRepository : IAlbumRepository
             _context.AddedAlbums.RemoveRange(album);
         }
         await _context.SaveChangesAsync();
+    }
+
+    public async Task<bool> PublishAlbum(int albumId)
+    {
+        var album = await _context.Albums.Where(x => x.Id == albumId).FirstOrDefaultAsync();
+            if ( album!= null )
+        {
+            album.Status = "success";
+        }
+            return true;
+    }
+
+    public async Task<IEnumerable<Album>> GetNoPublishedAlbumsByMusician(int musicianId)
+    {
+        return await _context.Albums.Where(x => x.Status == "waiting")
+            .Where(x => x.Musicians.Any(x => x.Id == musicianId))
+            .Include(x => x.Musicians)
+            .Include(x => x.Genre)
+            .Include(x => x.Tracks)
+            .Include(x => x.Musicians)
+            //.ThenInclude( y => y.Musicians)
+            .ToListAsync();
     }
 }
 

@@ -95,5 +95,22 @@ namespace MusicSocialNetwork.Controllers
                 return Ok(response);
             return BadRequest(response);
         }
+        [HttpPost("get-all-listen-count-by-dayInterval-from-musicianId")]
+        public async Task<IActionResult> GetTotalListenCountByMusicianAsync(int musicianId, DayInterval dayInterval)
+        {
+            var response = await _statisticsService.GetTotalListenCountByMusicianAsync(musicianId, dayInterval);
+            if (response.Success)
+                return Ok(response);
+            return BadRequest(response);
+        }
+
+        [HttpPost("get-all-listeners-count-by-dayInterval-from-musicianId")]
+        public async Task<IActionResult> GetTotalListenersCountByMusicianAsync(int musicianId, DayInterval dayInterval)
+        {
+            var response = await _statisticsService.GetTotalListenersCountByMusicianAsync(musicianId, dayInterval);
+            if (response.Success)
+                return Ok(response);
+            return BadRequest(response);
+        }
     }
 }

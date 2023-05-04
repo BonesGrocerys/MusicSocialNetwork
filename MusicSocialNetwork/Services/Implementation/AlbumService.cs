@@ -119,11 +119,29 @@ namespace MusicSocialNetwork.Services.Implementation
             return new OperationResult<IEnumerable<AlbumResponse>>(response);
         }
 
+        public async Task<OperationResult<IEnumerable<AlbumResponse>>> GetNoPublishedAlbumsByMusician(int musicianId)
+        {
+            var album = await _albumRepository.GetNoPublishedAlbumsByMusician(musicianId);
+            var response = _mapper.Map<IEnumerable<AlbumResponse>>(album);
+            return new OperationResult<IEnumerable<AlbumResponse>>(response);
+        }
+
         public async Task<OperationResult<IEnumerable<TrackResponse>>> GetTracksFromAlbumId(int albumId)
         {
             var tracks = await _albumRepository.GetTracksFromAlbumId(albumId);
             var response = _mapper.Map<IEnumerable<TrackResponse>>(tracks);
             return new OperationResult<IEnumerable<TrackResponse>>(response);
+        }
+
+        public async Task<OperationResult> PublishAlbum(int albumId)
+        {
+            var tracks = await _albumRepository.GetTracksFromAlbumId(albumId);
+            if (!tracks.Any())
+            {
+                return new OperationResult(OperationCode.Error, $"Необходимо добавить треки к альбому");
+            }
+            await _albumRepository.PublishAlbum(albumId);
+            return OperationResult.OK;
         }
     }
 }

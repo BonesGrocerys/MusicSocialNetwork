@@ -90,5 +90,21 @@ namespace MusicSocialNetwork.Controllers
 
             return BadRequest(result);
         }
+
+        [HttpPut("publish-album")]
+        public async Task<IActionResult> PublishAlbum(int albumId)
+        {
+            var response = await _albumService.PublishAlbum(albumId);
+            return Ok(response);
+        }
+
+        [HttpGet("get-no-published-albums")]
+        public async Task<IActionResult> GetAllNoPublishedAlbumsByMusician(int musicianId)
+        {
+            var response = await _albumService.GetNoPublishedAlbumsByMusician(musicianId);
+            if (response.Success)
+                return Ok(response);
+            return BadRequest(response);
+        }
     }
 }
