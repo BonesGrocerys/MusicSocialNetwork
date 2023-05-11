@@ -109,5 +109,23 @@ namespace MusicSocialNetwork.Controllers
                 return Ok(response);
             return BadRequest(response);
         }
+
+        [HttpDelete("delete-album")]
+        public async Task<ActionResult<OperatingSystem>> DeleteAlbum(int albumId)
+        {
+            var result = await _albumService.DeleteAlbum(albumId);
+            if (result.Success)
+                return Ok(result);
+
+            return BadRequest(result);
+        }
+
+        [HttpGet("AlbumIsAdded")]
+        public async Task<IActionResult> AlbumIdAdded(int albumId, int personId)
+        {
+            var response = await _albumService.AlbumIsAdded(albumId, personId);
+
+            return Ok(response);
+        }
     }
 }

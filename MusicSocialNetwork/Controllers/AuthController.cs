@@ -36,5 +36,15 @@ namespace MusicSocialNetwork.Controllers
 
             return BadRequest(response);
         }
+
+        [HttpGet("get-by-login")]
+        public async Task<ActionResult<OperationResult<AuthResponse>>> GetByLogin(string login)
+        {
+            var response = await _authService.GetPersonByLogin(login);
+
+            if (response.Success) return Ok(response);
+
+            return BadRequest(response);
+        }
     }
 }

@@ -167,5 +167,15 @@ public class TracksController : ControllerBase
 
         return Ok(response);
     }
+
+    [HttpDelete("delete-track")]
+    public async Task<ActionResult<OperatingSystem>> DeleteTrack(int trackId)
+    {
+        var result = await _trackService.DeleteTrack(trackId);
+        if (result.Success)
+            return Ok(result);
+
+        return BadRequest(result);
+    }
 }
 

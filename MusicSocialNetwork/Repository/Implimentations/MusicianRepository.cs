@@ -114,7 +114,11 @@ public class MusicianRepository : IMusicianRepository
 
     public async Task<IEnumerable<Musician>> GetSubscribedMusician(int personId)
     {
-        return await _context.Musicians.Include(x => x.Subscribers.Where(x => x.PersonId== personId)).ToListAsync();
+        return await _context.Musicians
+    .Where(m => m.Subscribers.Any(s => s.PersonId == personId))
+    .Include(m => m.Subscribers)
+    .ToListAsync();
+
     }
 
     public async Task<bool> PersonIsSubscribedToMusician(int personId, int musicianId)
@@ -125,7 +129,18 @@ public class MusicianRepository : IMusicianRepository
 
     public async Task<IEnumerable<Musician>> GetMusicianByPersonId(int personId)
     {
-        return await _context.Musicians.Where(x => x.PersonId ==personId).Include(x => x.Albums).ToListAsync();
+        return await _context.Musicians.Where(x => x.PersonId ==personId && x.Status == MusicianStatus.AGREED).Include(x => x.Albums).ToListAsync();
+    }
+
+    public async Task UnsubscribeAsync(int personId, int musicianId)
+    {
+        var subscribe = await _context.Subscriptions
+            .FirstOrDefaultAsync(x => x.PersonId == personId && x.MusicianId == musicianId);
+        if ( subscribe != null)
+        {
+            _context.Subscriptions.RemoveRange(subscribe);
+        }
+        await _context.SaveChangesAsync();
     }
 }
 

@@ -39,6 +39,12 @@ namespace MusicSocialNetwork.Services.Implementation
             return new OperationResult(OperationCode.Ok, $"Альбом добавлен");
         }
 
+        public async Task<OperationResult<bool>> AlbumIsAdded(int albumId, int personId)
+        {
+            var album = await _albumRepository.AlbumIsAdded(albumId, personId);
+            return new OperationResult<bool>(album);
+        }
+
         public async Task<OperationResult<int>> CreateAlbumAsync(AlbumCreateReqeust request)
         {
             var album = _mapper.Map<Album>(request);
@@ -77,6 +83,12 @@ namespace MusicSocialNetwork.Services.Implementation
         public async Task<OperationResult> DeleteAddedAlbumFromPerson(int albumId, int personId)
         {
             await _albumRepository.DeleteAddedAlbumFromPerson(albumId, personId);
+            return OperationResult.OK;
+        }
+
+        public async Task<OperationResult> DeleteAlbum(int albumId)
+        {
+            await _albumRepository.DeleteAsync(albumId);
             return OperationResult.OK;
         }
 

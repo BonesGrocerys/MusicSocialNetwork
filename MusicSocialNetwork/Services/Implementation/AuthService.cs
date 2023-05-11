@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using MusicSocialNetwork.Common;
 using MusicSocialNetwork.Dto.Auth;
+using MusicSocialNetwork.Dto.Musician;
 using MusicSocialNetwork.Dto.Person;
 using MusicSocialNetwork.Entities;
 using MusicSocialNetwork.Repository.Interfaces;
@@ -122,6 +123,13 @@ public class AuthService : IAuthService
         var token = (JwtSecurityToken)handler.ReadToken(jwt);
 
         return token;
+    }
+
+    public async Task<OperationResult<PersonResponse>> GetPersonByLogin(string login)
+    {
+        var person = await _personRepository.GetByLogin(login);
+        var response = _mapper.Map<PersonResponse>(person);
+        return new OperationResult<PersonResponse>(response);
     }
 }
 

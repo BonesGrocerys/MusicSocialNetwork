@@ -25,9 +25,14 @@ public class AlbumRepository : IAlbumRepository
         return album.Id;
     }
 
-    public Task DeleteAsync(int id)
+    public async Task DeleteAsync(int id)
     {
-        throw new NotImplementedException();
+        var album = await _context.Albums.Where(x => x.Id == id).ToListAsync();
+        if (album != null)
+        {
+            _context.RemoveRange(album);
+        }
+        await _context.SaveChangesAsync();
     }
 
 
@@ -94,7 +99,9 @@ public class AlbumRepository : IAlbumRepository
 
     public async Task<IEnumerable<Track>> GetTracksFromAlbumId(int albumId)
     {
-        return await _context.Tracks.Where(x => x.AlbumId == albumId).Include(x => x.Musicians).ToListAsync();   
+        return await _context.Tracks.Where(x => x.AlbumId == albumId)
+            .Include(x => x.Musicians).ThenInclude(x => x.Albums)
+            .ToListAsync();   
     }
 
     public async Task AddAlbumToPerson(AddedAlbums addedAlbums)
@@ -139,6 +146,12 @@ public class AlbumRepository : IAlbumRepository
             .Include(x => x.Musicians)
             //.ThenInclude( y => y.Musicians)
             .ToListAsync();
+    }
+
+    public async Task<bool> AlbumIsAdded(int albumId, int personId)
+    {
+        var album = await _context.AddedAlbums.FirstOrDefaultAsync(x => x.AlbumId == albumId && x.PersonId == personId);
+        return album != null;
     }
 }
 

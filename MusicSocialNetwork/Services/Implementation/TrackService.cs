@@ -186,5 +186,11 @@ namespace MusicSocialNetwork.Services.Implementation
             var track = await _trackRepository.TrackIsAdded(trackId, personId);
             return new OperationResult<bool>(track);
         }
+
+        public async Task<OperationResult> DeleteTrack(int trackId)
+        {
+            await _trackRepository.DeleteAsync(trackId);
+            return OperationResult.OK;
+        }
     }
 }

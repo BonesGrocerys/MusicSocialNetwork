@@ -22,9 +22,14 @@ public class TrackRepository : ITrackRepository
         return track.Id;
     }
 
-    public Task DeleteAsync(int id)
+    public async Task DeleteAsync(int id)
     {
-        throw new NotImplementedException();
+        var track = await _context.Tracks.Where(x => x.Id == id).ToListAsync();
+        if (track != null)
+        {
+            _context.RemoveRange(track);
+        }
+        await _context.SaveChangesAsync();
     }
 
     public async Task<IEnumerable<Track>> GetAddedTracksPerson(int personId)
@@ -33,6 +38,7 @@ public class TrackRepository : ITrackRepository
             .Include(x => x.Musicians)
             .Where(x => x.PersonAddedTracks
             .Any(y => y.PersonId == personId))
+            .Where(x => x.Album.Status == "success")
             .Include(x => x.Album)
             .OrderBy(x => x.PersonAddedTracks
             .Where(y => y.PersonId == personId)
@@ -42,7 +48,7 @@ public class TrackRepository : ITrackRepository
 
     public async Task<IEnumerable<Track>> GetAllTracksAsync(string searchText)
     {
-       var query = _context.Tracks.Include(x => x.Musicians).Include(x => x.Album).AsQueryable();
+       var query = _context.Tracks.Include(x => x.Musicians).Where(x => x.Album.Status == "success").Include(x => x.Album).AsQueryable();
         if (searchText != null)
         {
             query = query.Where(x => x.Title.ToLower().Contains(searchText.ToLower()) ||
@@ -57,6 +63,7 @@ public class TrackRepository : ITrackRepository
         return await _context.Tracks
             .Where(x => x.Musicians
             .Any(x => x.Id == musicianId))
+            .Where(x => x.Album.Status == "success")
             .Include(x => x.Album)
             .Include(x => x.Musicians)
             .ToListAsync();
@@ -89,6 +96,7 @@ public class TrackRepository : ITrackRepository
         return await _context.Tracks
             .Where(t => t.Musicians
             .Any(x => x.Id == musicanId))
+            .Where(x => x.Album.Status == "success")
             .Include(x => x.Album)
             .Include(x => x.Musicians)
             .ToListAsync();
@@ -100,6 +108,7 @@ public class TrackRepository : ITrackRepository
     {
         return await _context.Tracks
             .Where(e => e.Album.GenreId == genreId)
+            .Where(x => x.Album.Status == "success")
             .Include(x => x.Album)
             .Include(x => x.Musicians)
             .ToListAsync();
@@ -123,7 +132,4 @@ public class TrackRepository : ITrackRepository
     {
         throw new NotImplementedException();
     }
-
-
-
 }

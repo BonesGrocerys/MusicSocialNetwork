@@ -25,7 +25,7 @@ namespace MusicSocialNetwork.Controllers
         [HttpGet("personIsMusician")]
         public async Task<IActionResult> PersonIsMusician(int personId)
         {
-            var response = await _personRepository.PersonIsMusician(personId);
+            var response = await _musicianService.PersonIsMusician(personId);
 
             return Ok(response);
         }
@@ -94,6 +94,16 @@ namespace MusicSocialNetwork.Controllers
         public async Task<IActionResult> SubscribeToMusician(int musicianId, int personId)
         {
             var response = await _musicianService.SubscribeToMusician(musicianId, personId);
+            if (response.Success)
+                return Ok(response);
+
+            return BadRequest(response);
+        }
+
+        [HttpDelete("unsubscribe")]
+        public async Task<IActionResult> Unsubscribe(int personId, int musicianId)
+        {
+            var response = await _musicianService.Unsubscribe(personId, musicianId);
             if (response.Success)
                 return Ok(response);
 

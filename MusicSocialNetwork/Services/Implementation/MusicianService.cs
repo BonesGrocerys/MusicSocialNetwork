@@ -14,15 +14,16 @@ namespace MusicSocialNetwork.Services.Implementation
         private readonly IMusicianRepository _musicianRepository;
         private readonly IAlbumRepository _albumRepository;
         private readonly IStatisticsRepository _statisticsRepository;
+        private readonly IPersonRepository _personRepository;
 
-        public MusicianService(IMapper mapper, IMusicianRepository musicianRepository, IAlbumRepository albumRepository, IStatisticsRepository statisticsRepository)
+        public MusicianService(IMapper mapper, IMusicianRepository musicianRepository, IAlbumRepository albumRepository, IStatisticsRepository statisticsRepository, IPersonRepository personRepository)
         {
             
             _mapper = mapper;
             _musicianRepository = musicianRepository;
             _albumRepository = albumRepository;
             _statisticsRepository = statisticsRepository;
-
+            _personRepository = personRepository;
         }
 
 
@@ -40,6 +41,12 @@ namespace MusicSocialNetwork.Services.Implementation
         /// <inheritdoc/>
         public async Task<OperationResult> SubmitApplicationToMusician(int musicianId, int personId)
         {
+            var musician = await _musicianRepository.GetAsync(musicianId);
+            if ( musician.Status != null)
+            {
+                return new OperationResult(OperationCode.Error, $"На данного пользователя уже подана заявка");
+            }
+
             await _musicianRepository.SubmitApplicationToMusician(musicianId);
             await _musicianRepository.LinkPersonToMusician(musicianId, personId);
             return OperationResult.OK;
@@ -114,6 +121,18 @@ namespace MusicSocialNetwork.Services.Implementation
                 musician.MusicianCover = await _albumRepository.GetCoverFromLastAlbumByMusicianId(musician.Id);
             }
             return new OperationResult<IEnumerable<MusicianResponse>>(response);
+        }
+
+        public async Task<OperationResult<bool>> PersonIsMusician(int personId)
+        {
+            var musician = await _personRepository.PersonIsMusician(personId);
+            return new OperationResult<bool>(musician);
+        }
+
+        public async Task<OperationResult> Unsubscribe(int personId, int musicianId)
+        {
+            await _musicianRepository.UnsubscribeAsync(personId, musicianId);
+            return OperationResult.OK;
         }
     }
 }

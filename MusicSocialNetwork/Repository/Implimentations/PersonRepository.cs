@@ -42,10 +42,17 @@ public class PersonRepository : IPersonRepository
 
     public async Task<bool> PersonIsMusician(int personId)
     {
-        var person = await _context.Persons.Include(x => x.Musicians).FirstOrDefaultAsync(x => x.Id == personId);
-        
-        return person.Musicians.Any(x => x.Status == MusicianStatus.AGREED);
+        var person = await _context.Persons
+        .Include(x => x.Musicians.Where(x => x.Status == MusicianStatus.AGREED))
+        .FirstOrDefaultAsync(x => x.Id == personId);
 
+        if (person != null)
+        {
+            var hasAgreedMusician = person.Musicians.Any(x => x.Status == MusicianStatus.AGREED);
+            return hasAgreedMusician;
+        }
+
+        return false;
     }
 
     public Task UpdateAsync(Person person)

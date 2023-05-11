@@ -43,5 +43,6 @@ public interface IMusicianRepository
     public Task<IEnumerable<Musician>> GetSubscribedMusician(int personId);
     public Task<bool> PersonIsSubscribedToMusician(int personId, int musicianId);
     public Task<IEnumerable<Musician>> GetMusicianByPersonId(int personId);
+    public Task UnsubscribeAsync(int personId, int musicianId);
 }
 
