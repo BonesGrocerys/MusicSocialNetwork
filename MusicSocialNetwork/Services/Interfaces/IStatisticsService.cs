@@ -17,5 +17,6 @@ namespace MusicSocialNetwork.Services.Interfaces;
        public Task<OperationResult<int>> GetAllAuditionsCountByMusicianId(int musicianId);
        public Task<OperationResult<int>> GetTotalListenCountByMusicianAsync(int musicianId, DayInterval dayInterval);
        public Task<OperationResult<int>> GetTotalListenersCountByMusicianAsync(int musicianId, DayInterval dayInterval);
+       public Task<OperationResult<double>> GetMoney(int musicianId, DayInterval interval);
 }
 

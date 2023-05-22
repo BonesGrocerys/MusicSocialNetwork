@@ -69,6 +69,17 @@ namespace MusicSocialNetwork.Repository.Implimentations
             return await _context.Playlists.Where(x => x.AddedPlaylists.Any(x => x.PersonId == personId)).ToListAsync();
         }
 
+        public async Task<IEnumerable<Playlist>> GetAllPlaylistAsync(string searchText)
+        {
+            var query = _context.Playlists.Include(x => x.Person).AsQueryable();
+            if (searchText != null)
+            {
+                query = query.Where(x => x.Name.ToLower().Contains(searchText.ToLower()));
+            }
+
+            return await query.ToListAsync();
+        }
+
         public async Task<IEnumerable<Playlist>> GetPlaylistsByPersonAsync(int personId)
         {
             return await _context.Playlists.Where(x => x.PersonId == personId)

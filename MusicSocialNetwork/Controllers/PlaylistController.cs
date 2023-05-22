@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MusicSocialNetwork.Dto.Playlist;
+using MusicSocialNetwork.Services.Implementation;
 using MusicSocialNetwork.Services.Interfaces;
 
 namespace MusicSocialNetwork.Controllers
@@ -140,6 +141,14 @@ namespace MusicSocialNetwork.Controllers
                 return Ok(result);
 
             return BadRequest(result);
+        }
+
+        [HttpGet("get-all-playlist")]
+        public async Task<IActionResult> GetAllPlaylist(string SearchText)
+        {
+            var resp = await _playlistService.GetAllPlaylist(SearchText);
+
+            return Ok(resp);
         }
     }
 }

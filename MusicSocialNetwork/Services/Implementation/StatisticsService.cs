@@ -48,6 +48,12 @@ namespace MusicSocialNetwork.Services.Implementation
             return new OperationResult<IEnumerable<GraphResponse>>(graph);
         }
 
+        public async Task<OperationResult<double>> GetMoney(int musicianId, DayInterval interval)
+        {
+            var count = await _statisticsRepository.GetMoney(musicianId, interval);
+            return new OperationResult<double>(count);
+        }
+
         public async Task<OperationResult<IEnumerable<TrackResponse>>> GetPopularTracksAsync()
         {
             var popularTracks = await _statisticsRepository.GetPopularTracksAsync();

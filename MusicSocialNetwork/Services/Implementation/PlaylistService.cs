@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MusicSocialNetwork.Common;
+using MusicSocialNetwork.Dto.Album;
 using MusicSocialNetwork.Dto.Playlist;
 using MusicSocialNetwork.Dto.Track;
 using MusicSocialNetwork.Entities;
@@ -80,6 +81,13 @@ public class PlaylistService : IPlaylistService
     public async Task<OperationResult<IEnumerable<PlaylistResponse>>> GetAllAddedPlaylistsByPersonAsync(int personId)
     {
         var playlist = await _playlistRepository.GetAllAddedPlaylistsByPersonAsync(personId);
+        var response = _mapper.Map<IEnumerable<PlaylistResponse>>(playlist);
+        return new OperationResult<IEnumerable<PlaylistResponse>>(response);
+    }
+
+    public async Task<OperationResult<IEnumerable<PlaylistResponse>>> GetAllPlaylist(string SearchText)
+    {
+        var playlist = await _playlistRepository.GetAllPlaylistAsync(SearchText);
         var response = _mapper.Map<IEnumerable<PlaylistResponse>>(playlist);
         return new OperationResult<IEnumerable<PlaylistResponse>>(response);
     }

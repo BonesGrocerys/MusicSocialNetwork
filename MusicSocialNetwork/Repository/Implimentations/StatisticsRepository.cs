@@ -78,6 +78,17 @@ namespace MusicSocialNetwork.Repository.Implimentations
             return result;
         }
 
+        public async Task<double> GetMoney(int musicianId, DayInterval interval)
+        {
+            var intervalDate = interval.GetDate();
+            var totalListenCount = await _context.ListenPerson
+                .Where(x => x.Track.Musicians.Any(x => x.Id == musicianId))
+                .Where(x => x.DateTime.Date >= intervalDate.StartDate && x.DateTime.Date < intervalDate.EndDate)
+                .CountAsync();
+
+            return totalListenCount * 0.00529;
+        }
+
         public async Task<int> GetMusicianMonthlyListeners(int musicianId)
         {
             var maxDate = DateTime.UtcNow.AddDays(-28);

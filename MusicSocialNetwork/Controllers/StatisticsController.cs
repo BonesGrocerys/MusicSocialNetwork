@@ -112,5 +112,15 @@ namespace MusicSocialNetwork.Controllers
                 return Ok(response);
             return BadRequest(response);
         }
+        [HttpPost("get-money")]
+        public async Task<IActionResult> GetMoney(int musicianId, DayInterval dayInterval)
+        {
+            var response = await _statisticsService.GetMoney(musicianId, dayInterval);
+            if (response.Success)
+                return Ok(response);
+
+
+            return BadRequest(response);
+        }
     }
 }

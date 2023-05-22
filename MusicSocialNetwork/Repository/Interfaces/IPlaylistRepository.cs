@@ -14,5 +14,6 @@ public interface IPlaylistRepository
     public Task<bool> UpdatePlaylistName(Playlist playlist);
     public Task<bool> UpdatePlaylistImage(Playlist playlist);
     public Task<bool> PlaylistBelongsToUser(int playlistId, int personId);
+    public Task<IEnumerable<Playlist>> GetAllPlaylistAsync(string searchText);
 }
 

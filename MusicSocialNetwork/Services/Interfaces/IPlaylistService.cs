@@ -1,4 +1,5 @@
 ﻿using MusicSocialNetwork.Common;
+using MusicSocialNetwork.Dto.Album;
 using MusicSocialNetwork.Dto.Playlist;
 using MusicSocialNetwork.Dto.Track;
 
@@ -18,5 +19,6 @@ namespace MusicSocialNetwork.Services.Interfaces;
     Task<OperationResult> DeletePlaylistAsync(int playlistId);
     Task<OperationResult> DeleteTrackFromPlaylistAsync(int playlistId, int trackId);
     Task<OperationResult> PlaylistBelongsToUser(int playlistId, int personId);
+    Task<OperationResult<IEnumerable<PlaylistResponse>>> GetAllPlaylist(string SearchText);
 }
 
