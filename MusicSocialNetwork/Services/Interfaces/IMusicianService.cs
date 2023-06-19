@@ -35,5 +35,6 @@ public interface IMusicianService
     Task<OperationResult<IEnumerable<MusicianResponse>>> GetMusicianByPersonId(int personId);
     Task<OperationResult<bool>> PersonIsMusician(int personId);
     Task<OperationResult> Unsubscribe(int personId, int musicianId);
+    Task<OperationResult> DeleteMusician(int musicianId);
 }
 

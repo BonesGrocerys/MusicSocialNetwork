@@ -34,8 +34,9 @@ namespace MusicSocialNetwork.Controllers
         public async Task<IActionResult> GetAllAlbumsToMusician(int musicianId)
         {
             var resp = await _albumService.GetAllAlbumsToMusician(musicianId);
-
-            return Ok(resp);
+            if (resp.Success)
+                return Ok(resp);
+            return BadRequest(resp);
         }
 
         [HttpGet("get-all-albums")]
@@ -124,6 +125,14 @@ namespace MusicSocialNetwork.Controllers
         public async Task<IActionResult> AlbumIdAdded(int albumId, int personId)
         {
             var response = await _albumService.AlbumIsAdded(albumId, personId);
+
+            return Ok(response);
+        }
+
+        [HttpGet("get-all-genres")]
+        public async Task<IActionResult> GetAllGenres()
+        {
+            var response = await _albumService.GetAllGenres();
 
             return Ok(response);
         }

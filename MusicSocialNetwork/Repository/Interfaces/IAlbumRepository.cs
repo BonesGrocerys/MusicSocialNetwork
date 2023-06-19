@@ -18,5 +18,6 @@ namespace MusicSocialNetwork.Repository.Interfaces;
     public Task<bool> PublishAlbum(int albumId);
     public Task<IEnumerable<Album>> GetNoPublishedAlbumsByMusician(int musicianId);
     public Task<bool> AlbumIsAdded(int albumId, int personId);
+    public Task<IEnumerable<Genre>> GetAllGenres();
 }
 

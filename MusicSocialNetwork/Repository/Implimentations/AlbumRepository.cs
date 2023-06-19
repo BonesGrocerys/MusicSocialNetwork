@@ -153,5 +153,10 @@ public class AlbumRepository : IAlbumRepository
         var album = await _context.AddedAlbums.FirstOrDefaultAsync(x => x.AlbumId == albumId && x.PersonId == personId);
         return album != null;
     }
+
+    public async Task<IEnumerable<Genre>> GetAllGenres()
+    {
+        return await _context.Genres.ToListAsync();
+    }
 }
 

@@ -1,6 +1,8 @@
 ﻿using MusicSocialNetwork.Common;
 using MusicSocialNetwork.Dto.Album;
+using MusicSocialNetwork.Dto.Genre;
 using MusicSocialNetwork.Dto.Track;
+using MusicSocialNetwork.Entities;
 
 namespace MusicSocialNetwork.Services.Interfaces
 {
@@ -18,5 +20,6 @@ namespace MusicSocialNetwork.Services.Interfaces
        Task<OperationResult> PublishAlbum(int albumId);
        Task<OperationResult<IEnumerable<AlbumResponse>>> GetNoPublishedAlbumsByMusician(int musicianId);
        Task<OperationResult<bool>> AlbumIsAdded(int albumId, int personId);
+       Task<OperationResult<IEnumerable<GenreResponse>>> GetAllGenres();
     }
 }

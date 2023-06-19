@@ -97,6 +97,7 @@ public class MusicianRepository : IMusicianRepository
     {
         var musician = await GetAsync(musicianId);
         musician.Status = null;
+        musician.PersonId = null;
         await _context.SaveChangesAsync();
     }
 
@@ -139,6 +140,16 @@ public class MusicianRepository : IMusicianRepository
         if ( subscribe != null)
         {
             _context.Subscriptions.RemoveRange(subscribe);
+        }
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task DeleteMusician(int musicianId)
+    {
+        var musician = await _context.Musicians.FirstOrDefaultAsync(x => x.Id== musicianId);
+        if (musician != null)
+        {
+            _context.Musicians.RemoveRange(musician);
         }
         await _context.SaveChangesAsync();
     }

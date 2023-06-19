@@ -134,5 +134,11 @@ namespace MusicSocialNetwork.Services.Implementation
             await _musicianRepository.UnsubscribeAsync(personId, musicianId);
             return OperationResult.OK;
         }
+
+        public async Task<OperationResult> DeleteMusician(int musicianId)
+        {
+            await _musicianRepository.DeleteMusician(musicianId);
+            return OperationResult.OK;
+        }
     }
 }

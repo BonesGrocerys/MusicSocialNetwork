@@ -139,5 +139,15 @@ namespace MusicSocialNetwork.Controllers
 
             return BadRequest(response);
         }
+
+        [HttpDelete("delete-musician")]
+        public async Task<IActionResult> DeleteMusician(int musicianId)
+        {
+            var response = await _musicianService.DeleteMusician(musicianId);
+            if (response.Success)
+                return Ok(response);
+
+            return BadRequest(response);
+        }
     }
 }

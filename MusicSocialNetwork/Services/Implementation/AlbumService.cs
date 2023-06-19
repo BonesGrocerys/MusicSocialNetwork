@@ -2,6 +2,7 @@
 using MusicSocialNetwork.Common;
 using MusicSocialNetwork.Database;
 using MusicSocialNetwork.Dto.Album;
+using MusicSocialNetwork.Dto.Genre;
 using MusicSocialNetwork.Dto.Track;
 using MusicSocialNetwork.Entities;
 using MusicSocialNetwork.Repository.Interfaces;
@@ -122,6 +123,13 @@ namespace MusicSocialNetwork.Services.Implementation
                 albumResponse.AuditionsCount = albumResponse.Tracks.Sum(x => x.AuditionsCount);
             }
             return new OperationResult<IEnumerable<AlbumResponse>>(response);
+        }
+
+        public async Task<OperationResult<IEnumerable<GenreResponse>>> GetAllGenres()
+        {
+            var genres = await _albumRepository.GetAllGenres();
+            var response = _mapper.Map<IEnumerable<GenreResponse>>(genres);
+            return new OperationResult<IEnumerable<GenreResponse>>(response);
         }
 
         public async Task<OperationResult<IEnumerable<AlbumResponse>>> GetLastAlbumByMusicianId(int musicianId)
